@@ -940,9 +940,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"handyv2@workspace:.":
+"handy@workspace:.":
   version: 0.0.0-use.local
-  resolution: "handyv2@workspace:."
+  resolution: "handy@workspace:."
   dependencies:
     "@sveltejs/adapter-auto": "npm:^1.0.0"
     "@sveltejs/adapter-static": "npm:^1.0.0"
