@@ -23,7 +23,7 @@ void loop()
   if (IS_OK(lidar.waitPoint()))
   {
     float distance = lidar.getCurrentPoint().distance; // distance value in mm unit
-    float angle = lidar.getCurrentPoint().angle;       // anglue value in degree
+    float angle = lidar.getCurrentPoint().angle;       // angle value in degree
     bool startBit = lidar.getCurrentPoint().startBit;  // whether this point is belong to a new scan
     byte quality = lidar.getCurrentPoint().quality;    // quality of the current measurement
     if ((angle >= min_angle) && (angle <= max_angle) && (distance > 0))
