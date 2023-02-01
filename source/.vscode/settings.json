@@ -1,0 +1,10 @@
+{
+	"files.associations": {
+		"*.ct": "html",
+		"*.tmpl": "html",
+		"*.bolt": "html",
+		"*.meta": "json",
+		"*.scene": "json",
+		"arduino.h": "c"
+	}
+}
