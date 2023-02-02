@@ -1,8 +1,14 @@
 #include "RPLidar.h"
 #include <Arduino.h>
 
-class OpponentDetection
+class Lidarx
 {
+	typedef struct Point
+	{
+		int angle;
+		int distance;
+	};
+
 private:
 	int MotorPin = 26;
 	int MotorSpeed = 150;
@@ -30,17 +36,18 @@ public:
 		this->lidar.begin(serial);
 	}
 
-	RPLidarMeasurement GetLidarPoint()
+	Point GetLidarPoint()
 	{
-		RPLidarMeasurement Point;
+		Point point;
 		if (IS_OK(lidar.waitPoint()))
 		{
-			Point = lidar.getCurrentPoint();
+			point.angle = lidar.getCurrentPoint().angle;
+			point.distance = lidar.getCurrentPoint().distance;
 		}
 		else
 		{
 			LidarReconnect();
 		}
-		return Point;
+		return point;
 	}
 };
