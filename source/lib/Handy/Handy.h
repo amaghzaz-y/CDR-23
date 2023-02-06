@@ -7,6 +7,11 @@
 #include <uri/UriBraces.h>
 class Handy
 {
+public:
+	Handy();
+	void setup(void);
+	void listen();
+
 private:
 	WebServer server;
 	// Access Point Settings
@@ -31,9 +36,4 @@ private:
 	void InitRoutes();
 	void Flow_Controller();
 	void Steps_Controller();
-
-public:
-	Handy();
-	void setup(void);
-	void listen();
 };

@@ -1,6 +1,6 @@
 #include <Arduino.h>
-#include <Handy.h>
-#include <Lidarx.h>
+#include "Handy.h"
+#include "Lidarx.h"
 #define LIDAR_MOTOR_PIN 13
 #define LIDAR_MOTOR_SPEED 120
 Handy handy;
@@ -14,5 +14,5 @@ void setup()
 void loop()
 {
 	handy.listen();
-	lidar.Scan();
+	Lidarx::Point *point = lidar.Scan();
 }
