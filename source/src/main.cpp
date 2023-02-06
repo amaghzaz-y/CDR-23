@@ -14,5 +14,5 @@ void setup()
 void loop()
 {
 	handy.listen();
-	lidar.GetLidarPoint();
+	lidar.Scan();
 }

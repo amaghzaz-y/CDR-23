@@ -26,6 +26,14 @@ private:
 			delay(500);
 		}
 	}
+	bool isDetected(Point point, int angle, int radius, int range_min, int range_max)
+	{
+		int max_angle = angle + (radius / 2);
+		int min_angle = angle + (radius / 2);
+		if (point.angle > min_angle && point.angle < max_angle && point.distance > range_min && point.distance < range_max)
+			return true;
+		return false;
+	}
 
 public:
 	void begin(int motor_pin, int motor_speed, HardwareSerial serial)
@@ -36,7 +44,7 @@ public:
 		this->lidar.begin(serial);
 	}
 
-	Point GetLidarPoint()
+	Point Scan()
 	{
 		Point point;
 		if (IS_OK(lidar.waitPoint()))
@@ -50,8 +58,12 @@ public:
 		}
 		return point;
 	}
-	bool isDetected(int angle, int radius, int range_min, int range_max)
+	Point Detect(int angle, int radius, int range_min, int range_max)
 	{
-		
+		Point point = Scan();
+		if (isDetected(point, angle, radius, range_min, range_max))
+			return point;
+		else
+			return Point{0, 0};
 	}
 };
