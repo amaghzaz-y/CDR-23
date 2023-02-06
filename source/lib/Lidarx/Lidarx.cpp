@@ -50,4 +50,8 @@ public:
 		}
 		return point;
 	}
+	bool isDetected(int angle, int radius, int range_min, int range_max)
+	{
+		
+	}
 };
