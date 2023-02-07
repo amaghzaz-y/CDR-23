@@ -1,14 +1,14 @@
 #include "RPLidar.h"
 #include <Arduino.h>
 
+typedef struct LiDARPoint
+{
+	int angle;
+	int distance;
+};
+
 class Lidarx
 {
-	typedef struct Point
-	{
-		int angle;
-		int distance;
-	};
-
 private:
 	int MotorPin = 26;
 	int MotorSpeed = 150;
@@ -26,7 +26,7 @@ private:
 			delay(500);
 		}
 	}
-	bool isDetected(Point point, int angle, int radius, int range_min, int range_max)
+	bool isDetected(LiDARPoint point, int angle, int radius, int range_min, int range_max)
 	{
 		int max_angle = angle + (radius / 2);
 		int min_angle = angle + (radius / 2);
@@ -44,9 +44,9 @@ public:
 		this->lidar.begin(serial);
 	}
 
-	Point Scan()
+	LiDARPoint Scan()
 	{
-		Point point;
+		LiDARPoint point;
 		if (IS_OK(lidar.waitPoint()))
 		{
 			point.angle = lidar.getCurrentPoint().angle;
@@ -58,12 +58,12 @@ public:
 		}
 		return point;
 	}
-	Point Detect(int angle, int radius, int range_min, int range_max)
+	LiDARPoint Detect(int angle, int radius, int range_min, int range_max)
 	{
-		Point point = Scan();
+		LiDARPoint point = Scan();
 		if (isDetected(point, angle, radius, range_min, range_max))
 			return point;
 		else
-			return Point{0, 0};
+			return LiDARPoint{0, 0};
 	}
 };

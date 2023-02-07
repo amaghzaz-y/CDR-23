@@ -5,6 +5,8 @@
 		"*.bolt": "html",
 		"*.meta": "json",
 		"*.scene": "json",
-		"arduino.h": "c"
+		"arduino.h": "c",
+		"cmath": "cpp",
+		"iterator": "cpp"
 	}
 }

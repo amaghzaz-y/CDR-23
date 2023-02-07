@@ -1,0 +1,13 @@
+To calculate the x and y coordinates from an angle and a distance, you can use the 
+trigonometric functions of sine and cosine.
+If the angle is in radians, the x coordinate can be calculated as "distance * cos(angle)"
+and the y coordinate as "distance * sin(angle)". If the angle is in degrees,
+it should be converted to radians first by multiplying it by (π/180).
+
+The distance between the origin (0,0) and a point P(x,y) in a 2D plane can be calculated using the Pythagorean theorem:
+d = sqrt(x^2 + y^2)
+The angle between the positive x-axis and the line connecting the origin and point P(x,y) can be calculated using the 
+arctangent function:
+θ = atan2(y, x)
+Note that the atan2 function returns the angle in radians, and it correctly handles the signs of x and y to give the 
+correct quadrant of the angle.

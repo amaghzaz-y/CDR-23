@@ -10,9 +10,10 @@ void setup()
 	lidar.begin(LIDAR_MOTOR_PIN, LIDAR_MOTOR_SPEED, Serial2);
 	handy.setup();
 }
+LiDARPoint point = {3, 4};
 
 void loop()
 {
 	handy.listen();
-	Lidarx::Point *point = lidar.Scan();
+	LiDARPoint point = lidar.Scan();
 }
