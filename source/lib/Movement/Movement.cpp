@@ -12,8 +12,8 @@ public:
 	};
 	typedef struct Vec2
 	{
-		int angle;
-		int distance;
+		int angle;	  // in radians
+		int distance; // in steps
 	};
 	typedef struct Steps
 	{
@@ -63,6 +63,14 @@ public:
 	{
 		return CurrentPOS;
 	}
+	float degToRad(float degrees)
+	{
+		return degrees * DEG_TO_RAD;
+	}
+	float CmToSteps(float steps)
+	{
+		return (steps * 4000) / 18.8496;
+	}
 
 private:
 	Point CurrentPOS;
@@ -91,8 +99,8 @@ private:
 		float angle_2 = vec.angle + degToRad(30);
 		float angle_3 = vec.angle + degToRad(150);
 		float steps_1 = vec.distance * sin(angle_1);
-		float steps_2 = vec.angle * sin(angle_2);
-		float steps_3 = vec.angle * sin(angle_3);
+		float steps_2 = vec.distance * sin(angle_2);
+		float steps_3 = vec.distance * sin(angle_3);
 		Steps steps = {steps_1, steps_2, steps_3};
 		return steps;
 	}
@@ -111,9 +119,11 @@ private:
 		Vec2 vec = {angle, distance};
 		return vec;
 	}
-	float degToRad(float degrees)
+	Steps RotateTo(float angle) // in degrees
 	{
-		float rad = degrees * DEG_TO_RAD;
-		return rad;
+		int full_rot = 4000;				// steps to achieve full rotation eq to 360deg
+		float rot = angle * full_rot / 360; // rotation in steps per single motor
+		Steps steps = {rot, rot, rot};
+		return steps;
 	}
 };
