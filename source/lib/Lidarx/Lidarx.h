@@ -1,7 +1,7 @@
 #pragma once
 #include "RPLidar.h"
 #include <Arduino.h>
-typedef struct LiDARPoint
+struct LiDARPoint
 {
 	int angle;
 	int distance;
