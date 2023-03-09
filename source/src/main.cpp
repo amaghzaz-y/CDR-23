@@ -7,10 +7,11 @@
 #include <math.h>
 #include <RPLidar.h>
 
-const int LIDAR_MOTOR_PIN = 13;
+const int LIDAR_MOTOR_PIN = 15;
 const int LIDAR_MOTOR_SPEED = 120;
 const char *AP_SSID = "HandyMan";
 const char *AP_PWD = "HANDSOME";
+bool lidarConnected = false;
 const int PIN_Dir_Motor_1 = 33;
 const int PIN_Stp_Motor_1 = 25;
 const int PIN_Dir_Motor_2 = 26;
@@ -19,32 +20,39 @@ const int PIN_Dir_Motor_3 = 12;
 const int PIN_Stp_Motor_3 = 14;
 const int PIN_Enable = 13;
 int MAX_SPEED = 3000;
-int MAX_ACCEL = 100;
+int MAX_ACCEL = 30;
 RPLidar lidar;
 UriBraces FLOW_URI = UriBraces("/flow/{}/{}/{}");
 UriBraces STEPS_URI = UriBraces("/steps/{}/{}/{}");
+UriBraces LIDAR_URI = UriBraces("/lidar");
 WebServer server;
 MultiStepper Motors;
 AccelStepper Motor_1(1, PIN_Stp_Motor_1, PIN_Dir_Motor_1);
 AccelStepper Motor_2(1, PIN_Stp_Motor_2, PIN_Dir_Motor_2);
 AccelStepper Motor_3(1, PIN_Stp_Motor_3, PIN_Dir_Motor_3);
+void test(char *msg, int value)
+{
+	Serial.print(msg);
+	Serial.print(" : ");
+	Serial.println(value);
+}
 struct Point
 {
-	int x;
-	int y;
+	float x;
+	float y;
 };
 Point CurrentPOS;
 struct Vec2
 {
-	int angle;	  // in radians
-	int distance; // in cm
+	float angle;	// in radians
+	float distance; // in cm
 };
 
 struct Steps
 {
-	int M1;
-	int M2;
-	int M3;
+	float M1;
+	float M2;
+	float M3;
 };
 void setCurrentPOS(Point point)
 {
@@ -59,9 +67,9 @@ void position_reset()
 }
 void Execute_movement(Steps steps)
 {
-	long newPOS[3] = {(int)steps.M1,
-					  (int)steps.M2,
-					  (int)steps.M3};
+	long newPOS[3] = {long(steps.M1),
+					  long(steps.M2),
+					  long(steps.M3)};
 	position_reset();
 	Motors.moveTo(newPOS);
 	while (Motor_1.distanceToGo() != 0 || Motor_2.distanceToGo() != 0 || Motor_3.distanceToGo() != 0)
@@ -92,9 +100,9 @@ void Flow_Controller()
 void Steps_Controller()
 {
 	server.send(200);
-	int motor_1_steps = server.pathArg(0).toFloat();
-	int motor_2_steps = server.pathArg(1).toFloat();
-	int motor_3_steps = server.pathArg(2).toFloat();
+	float motor_1_steps = server.pathArg(0).toFloat();
+	float motor_2_steps = server.pathArg(1).toFloat();
+	float motor_3_steps = server.pathArg(2).toFloat();
 	// long steps[3] = {motor_1_steps, motor_2_steps, motor_3_steps};
 	Steps steps = {motor_1_steps, motor_2_steps, motor_3_steps};
 	Execute_movement(steps);
@@ -104,7 +112,17 @@ void Steps_Controller()
 	// Motors.moveTo(steps);
 	// Motors.runSpeedToPosition();
 }
-
+void Lidar_Controller()
+{
+	if (lidarConnected)
+	{
+		server.send(200, "text/plain", "ping");
+	}
+	else
+	{
+		server.send(200, "text/plain", "pong");
+	}
+}
 void routes(void)
 {
 	server.on("/", []
@@ -116,6 +134,9 @@ void routes(void)
 			  { Flow_Controller; });
 	server.on(STEPS_URI, []
 			  { Steps_Controller; });
+	server.on(LIDAR_URI, [] {
+
+	});
 	server.onNotFound([]
 					  { server.send(200, "text/plain", "not found"); });
 }
@@ -161,21 +182,22 @@ float cmToSteps(float steps)
 Steps StepsFromVec(Vec2 vec)
 {
 	vec.distance = cmToSteps(vec.distance);
+	vec.angle = degToRad(vec.angle);
 	float angle_1 = vec.angle - degToRad(90);
 	float angle_2 = vec.angle + degToRad(30);
 	float angle_3 = vec.angle + degToRad(150);
-	int steps_1 = vec.distance * sin(angle_1);
-	int steps_2 = vec.distance * sin(angle_2);
-	int steps_3 = vec.distance * sin(angle_3);
+	float steps_1 = vec.distance * sin(angle_1);
+	float steps_2 = vec.distance * sin(angle_2);
+	float steps_3 = vec.distance * sin(angle_3);
 	Steps steps = {steps_1, steps_2, steps_3};
 	return steps;
 }
 
 Point XYfromVec(Vec2 vec)
 {
-	float x = vec.distance * cos(vec.angle);
-	float y = vec.distance * sin(vec.angle);
-	Point point = {(int)x, (int)y};
+	float x = float(vec.distance) * cos(vec.angle);
+	float y = float(vec.distance) * sin(vec.angle);
+	Point point = {x, y};
 	return point;
 }
 
@@ -183,14 +205,14 @@ Vec2 VecFromXY(Point point)
 {
 	float distance = sqrt(pow(point.x, 2) + pow(point.y, 2));
 	float angle = atan2(point.y, point.x);
-	Vec2 vec = {(int)angle, (int)distance};
+	Vec2 vec = {angle, distance};
 	return vec;
 }
 
 Steps RotateTo(float angle) // in degrees
 {
-	int full_rot = 4000;			  // steps to achieve full rotation eq to 360deg
-	int rot = angle * full_rot / 360; // rotation in steps per single motor
+	int full_rot = 4000;				// steps to achieve full rotation eq to 360deg
+	float rot = angle * full_rot / 360; // rotation in steps per single motor
 	Steps steps = {rot, rot, rot};
 	return steps;
 }
@@ -215,84 +237,98 @@ void LidarReconnect()
 	}
 }
 
-bool isDetected(LiDARPoint point, int angle, int radius, int range_min, int range_max)
+bool LIDAR_InRadius(LiDARPoint point, int angle, int radius, int max_range)
 {
 	int max_angle = angle + (radius / 2);
-	int min_angle = angle + (radius / 2);
-	if (point.angle > min_angle && point.angle < max_angle && point.distance > range_min && point.distance < range_max)
+	int min_angle = angle - (radius / 2);
+	if ((point.angle > min_angle) && (point.angle < max_angle) && (point.distance < max_range))
 		return true;
 	return false;
 }
 
-void lidar_setup()
+void LIDAR_Setup()
 {
 	lidar.begin(Serial2);
 }
 
-LiDARPoint Scan()
+LiDARPoint LIDAR_Scan()
 {
-	LiDARPoint point;
+	LiDARPoint point = {0, 0};
 	if (IS_OK(lidar.waitPoint()))
 	{
 		point.angle = lidar.getCurrentPoint().angle;
 		point.distance = lidar.getCurrentPoint().distance;
+		lidarConnected = true;
 	}
 	else
 	{
+		lidarConnected = false;
 		LidarReconnect();
 	}
 	return point;
 }
 
-LiDARPoint Detect(int angle, int radius, int range_min, int range_max)
+LiDARPoint LIDAR_Detect(int angle, int radius, int range_min, int range_max)
 {
-	LiDARPoint point = Scan();
-	if (isDetected(point, angle, radius, range_min, range_max))
+	LiDARPoint point = LIDAR_Scan();
+	if (LIDAR_InRadius(point, angle, radius, range_max))
 		return point;
 	else
 		return LiDARPoint{0, 0};
 }
-bool isLiDARPointNull(LiDARPoint v)
+bool LIDAR_isPointNull(LiDARPoint v)
 {
 	if (v.angle != 0 || v.distance != 0)
 		return false;
 	return true;
 }
-void Execute_Movement_Lidar(Steps steps)
+void Execute_Movement_Lidar(Steps steps, int angle)
 {
-	long newPOS[3] = {(int)steps.M1,
-					  (int)steps.M2,
-					  (int)steps.M3};
+	long newPOS[3] = {long(steps.M1),
+					  long(steps.M2),
+					  long(steps.M3)};
 	position_reset();
 	Motors.moveTo(newPOS);
 	while (Motor_1.distanceToGo() != 0 || Motor_2.distanceToGo() != 0 || Motor_3.distanceToGo() != 0)
 	{
-		LiDARPoint point = Detect(360, 0, 0, 500);
-		if (!isLiDARPointNull(point))
+		LiDARPoint point = LIDAR_Detect(angle, 90, 0, 300);
+		if (LIDAR_isPointNull(point))
 		{
 			Motors.run();
 		}
 	}
 }
-Vec2 vecs[] = {(30, 25), (180, 25), (270, 25)};
+Vec2 vecs[] = {{0, 20}, {120, 20}, {240, 20}};
 void simple_strat()
 {
-	for (int i = 0; i < 2; i++)
+	int i = 0;
+	for (i; i < 3; i++)
 	{
+		test("iteration", i);
 		Vec2 vec = vecs[i];
+		test("angle", vec.angle);
+		test("distance", vec.distance);
+		// Serial.println();
 		Steps steps = StepsFromVec(vec);
-		Execute_Movement_Lidar(steps);
+		// Execute_Movement_Lidar(steps, vec.angle);
+		// Serial.println()
+		Execute_movement(steps);
 	}
 }
+
 void setup()
 {
+	Serial.begin(115200);
 	// handy_setup();
-	lidar_setup();
+	// LIDAR_Setup();
 	movement_setup();
 }
 
 void loop()
 {
+	// Serial.println("starting");
+	// test("start", 0);
+	// goPolar(0, 10);
 	simple_strat();
-	// handy_listen();
+	delay(1000);
 }
