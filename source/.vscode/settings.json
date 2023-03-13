@@ -9,7 +9,15 @@
 		"cmath": "cpp",
 		"iterator": "cpp",
 		"new": "cpp",
-		"type_traits": "cpp"
+		"type_traits": "cpp",
+		"array": "cpp",
+		"deque": "cpp",
+		"string": "cpp",
+		"unordered_map": "cpp",
+		"unordered_set": "cpp",
+		"vector": "cpp",
+		"string_view": "cpp",
+		"initializer_list": "cpp"
 	},
 	"cmake.sourceDirectory": "${workspaceFolder}/.pio/libdeps/upesy_wroom/Unity"
 }

@@ -1,8 +1,6 @@
 #include <Lidar.h>
-#include <RPLidar.h>
-#include <Types.h>
-const int LIDAR_MOTOR_PIN = 15;
-const int LIDAR_MOTOR_SPEED = 120;
+
+RPLidar lidar;
 
 void Lidar::setup()
 {
