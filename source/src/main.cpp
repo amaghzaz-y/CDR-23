@@ -67,6 +67,9 @@ void position_reset()
 }
 void Execute_movement(Steps steps)
 {
+	Motor_1.stop();
+	Motor_2.stop();
+	Motor_3.stop();
 	long newPOS[3] = {long(steps.M1),
 					  long(steps.M2),
 					  long(steps.M3)};
@@ -304,10 +307,10 @@ void simple_strat()
 	int i = 0;
 	for (i; i < 3; i++)
 	{
-		test("iteration", i);
+		// test("iteration", i);
 		Vec2 vec = vecs[i];
-		test("angle", vec.angle);
-		test("distance", vec.distance);
+		// test("angle", vec.angle);
+		// test("distance", vec.distance);
 		// Serial.println();
 		Steps steps = StepsFromVec(vec);
 		// Execute_Movement_Lidar(steps, vec.angle);
