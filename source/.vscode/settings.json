@@ -7,7 +7,9 @@
 		"*.scene": "json",
 		"arduino.h": "c",
 		"cmath": "cpp",
-		"iterator": "cpp"
+		"iterator": "cpp",
+		"new": "cpp",
+		"type_traits": "cpp"
 	},
 	"cmake.sourceDirectory": "${workspaceFolder}/.pio/libdeps/upesy_wroom/Unity"
 }
