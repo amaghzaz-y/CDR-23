@@ -21,7 +21,7 @@ void Lidar::reconnect()
 	}
 }
 
-bool Lidar::InRadius(PolarVec point, int angle, int radius, int max_range)
+bool Lidar::inRadius(PolarVec point, int angle, int radius, int max_range)
 {
 	int max_angle = angle + (radius / 2);
 	int min_angle = angle - (radius / 2);
@@ -45,16 +45,16 @@ PolarVec Lidar::scan()
 	return point;
 }
 
-PolarVec Lidar::detect(int angle, int radius, int range_min, int range_max)
+PolarVec Lidar::Detect(int angle, int radius, int range_max)
 {
 	PolarVec point = scan();
-	if (Lidar::InRadius(point, angle, radius, range_max))
+	if (Lidar::inRadius(point, angle, radius, range_max))
 		return point;
 	PolarVec emptyVec(0, 0);
 	return emptyVec;
 }
 
-bool isPointNull(PolarVec v)
+bool Lidar::isPointNull(PolarVec v)
 {
 	if (v.angle != 0 || v.distance != 0)
 		return false;

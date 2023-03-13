@@ -9,6 +9,9 @@ Steps::Steps(long m1, long m2, long m3)
 
 long *Steps::Positions()
 {
-	long pos[3] = {M1, M2, M3};
+	long *pos = new long[3];
+	pos[0] = M1;
+	pos[1] = M2;
+	pos[2] = M3;
 	return pos;
 }
