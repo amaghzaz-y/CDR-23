@@ -1,9 +1,8 @@
 #pragma once
 
-#include <Types.h>
-#include <AccelStepper.h>
-#include <MultiStepper.h>
-
+#include <stepper/AccelStepper.h>
+#include <stepper/MultiStepper.h>
+#include <types/Steps.h>
 #define PIN_DIR_M1 33
 #define PIN_DIR_M2 26
 #define PIN_DIR_M3 12
@@ -18,7 +17,8 @@ class Movement
 {
 public:
 	void Setup();
-	void Execute(Steps steps);
+	void MoveRelative(Steps steps);
+	void MoveAbsolute(Steps steps);
 
 private:
 	void positionReset();

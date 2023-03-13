@@ -1,10 +1,8 @@
 #pragma once
 #include <RPLidar.h>
-#include <Types.h>
-
+#include <types/PolarVec.h>
 #define LIDAR_MOTOR_PIN 15
 #define LIDAR_MOTOR_SPEED 120
-
 
 class Lidar
 {

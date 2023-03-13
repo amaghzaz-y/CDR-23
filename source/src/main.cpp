@@ -1,14 +1,10 @@
 #include <Arduino.h>
 #include <WiFi.h>
 #include <WebServer.h>
-#include <AccelStepper.h>
-#include <MultiStepper.h>
 #include <uri/UriBraces.h>
 #include <math.h>
-#include <Types.h>
-#include <Lidar.h>
-#include <Movement.h>
-
+#include <core/Lidar.h>
+#include <core/Movement.h>
 const char *AP_SSID = "HandyMan";
 const char *AP_PWD = "HANDSOME";
 bool lidarConnected = false;
@@ -103,46 +99,6 @@ void test(char *msg, int value)
 // 	server.handleClient();
 // };
 
-// float degToRad(float degrees)
-// {
-// 	return degrees * DEG_TO_RAD;
-// }
-
-// float cmToSteps(float steps)
-// {
-// 	return (steps * 4000) / 18.8496;
-// }
-
-// Steps StepsFromVec(Vec2 vec)
-// {
-// 	vec.distance = cmToSteps(vec.distance);
-// 	vec.angle = degToRad(vec.angle);
-// 	float angle_1 = vec.angle - degToRad(90);
-// 	float angle_2 = vec.angle + degToRad(30);
-// 	float angle_3 = vec.angle + degToRad(150);
-// 	float steps_1 = vec.distance * sin(angle_1);
-// 	float steps_2 = vec.distance * sin(angle_2);
-// 	float steps_3 = vec.distance * sin(angle_3);
-// 	Steps steps = {steps_1, steps_2, steps_3};
-// 	return steps;
-// }
-
-// Point XYfromVec(Vec2 vec)
-// {
-// 	float x = float(vec.distance) * cos(vec.angle);
-// 	float y = float(vec.distance) * sin(vec.angle);
-// 	Point point = {x, y};
-// 	return point;
-// }
-
-// Vec2 VecFromXY(Point point)
-// {
-// 	float distance = sqrt(pow(point.x, 2) + pow(point.y, 2));
-// 	float angle = atan2(point.y, point.x);
-// 	Vec2 vec = {angle, distance};
-// 	return vec;
-// }
-
 // Steps RotateTo(float angle) // in degrees
 // {
 // 	int full_rot = 4000;				// steps to achieve full rotation eq to 360deg
@@ -167,23 +123,23 @@ void test(char *msg, int value)
 // 		}
 // 	}
 // }
-Vec2 vecs[] = {{0, 20}, {120, 20}, {240, 20}};
-void simple_strat()
-{
-	int i = 0;
-	for (i; i < 3; i++)
-	{
-		// test("iteration", i);
-		// Vec2 vec = vecs[i];
-		// test("angle", vec.angle);
-		// test("distance", vec.distance);
-		// Serial.println();
-		// Steps steps = StepsFromVec(vec);
-		// Execute_Movement_Lidar(steps, vec.angle);
-		// Serial.println()
-		// Execute_movement(steps);
-	}
-}
+// Polar vecs[] = {{0, 20}, {120, 20}, {240, 20}};
+// void simple_strat()
+// {
+// 	int i = 0;
+// 	for (i; i < 3; i++)
+// 	{
+// 		// test("iteration", i);
+// 		// Vec2 vec = vecs[i];
+// 		// test("angle", vec.angle);
+// 		// test("distance", vec.distance);
+// 		// Serial.println();
+// 		// Steps steps = StepsFromVec(vec);
+// 		// Execute_Movement_Lidar(steps, vec.angle);
+// 		// Serial.println()
+// 		// Execute_movement(steps);
+// 	}
+// }
 
 void setup()
 {
@@ -198,6 +154,6 @@ void loop()
 	// Serial.println("starting");
 	// test("start", 0);
 	// goPolar(0, 10);
-	simple_strat();
+	// simple_strat();
 	delay(1000);
 }
