@@ -16,10 +16,6 @@
 class Movement
 {
 public:
-	Stepper M1;
-	Stepper M2;
-	Stepper M3;
-	StepControl controller;
 	Movement();
 	void Setup();
 	void MoveRelative(Steps steps);
@@ -27,6 +23,13 @@ public:
 	void Run(Steps steps);
 
 private:
+	Stepper M1;
+	Stepper M2;
+	Stepper M3;
+	StepControl controller;
+	int M1_POS;
+	int M2_POS;
+	int M3_POS;
 	bool atTarget;
 	void doStepAsync(Steps steps);
 };

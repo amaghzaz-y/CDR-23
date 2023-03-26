@@ -15,7 +15,7 @@ public:
     return timerField.getStepFrequency();
   }
 
-  void emergencyStop() { timerField.stepTimerStop(); }
+  void stopTimer() { timerField.stepTimerStop(); }
 
   virtual ~MotorControlBase();
   bool isOk() const { return OK; }
