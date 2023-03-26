@@ -1,152 +1,36 @@
 #include <Arduino.h>
-#include <WiFi.h>
-#include <WebServer.h>
-#include <uri/UriBraces.h>
-#include <math.h>
-#include <core/Lidar.h>
 #include <core/Movement.h>
-const char *AP_SSID = "HandyMan";
-const char *AP_PWD = "HANDSOME";
-bool lidarConnected = false;
-UriBraces FLOW_URI = UriBraces("/flow/{}/{}/{}");
-UriBraces STEPS_URI = UriBraces("/steps/{}/{}/{}");
-UriBraces LIDAR_URI = UriBraces("/lidar");
-WebServer server;
-
-void test(char *msg, int value)
-{
-	Serial.print(msg);
-	Serial.print(" : ");
-	Serial.println(value);
-}
-
-// void Flow_Controller()
+#include <types/PolarVec.h>
+// void test(char *msg, int value)
 // {
-// 	server.send(200);
-// 	int speed = server.pathArg(0).toInt();
-// 	int max_speed = server.pathArg(1).toInt();
-// 	int accel = server.pathArg(2).toInt();
-// 	// set speed
-// 	Motor_1.setSpeed(speed);
-// 	Motor_2.setSpeed(speed);
-// 	Motor_3.setSpeed(speed);
-// 	// set max
-// 	Motor_1.setMaxSpeed(max_speed);
-// 	Motor_2.setMaxSpeed(max_speed);
-// 	Motor_3.setMaxSpeed(max_speed);
-// 	// set acceleration
-// 	Motor_1.setAcceleration(accel);
-// 	Motor_2.setAcceleration(accel);
-// 	Motor_3.setAcceleration(accel);
+// 	Serial.print(msg);
+// 	Serial.print(" : ");
+// 	Serial.println(value);
 // }
 
-// void Steps_Controller()
-// {
-// 	server.send(200);
-// 	float motor_1_steps = server.pathArg(0).toFloat();
-// 	float motor_2_steps = server.pathArg(1).toFloat();
-// 	float motor_3_steps = server.pathArg(2).toFloat();
-// 	// long steps[3] = {motor_1_steps, motor_2_steps, motor_3_steps};
-// 	Steps steps = {motor_1_steps, motor_2_steps, motor_3_steps};
-// 	Execute_movement(steps);
-// 	// Motor_1.setCurrentPosition(0);
-// 	// Motor_2.setCurrentPosition(0);
-// 	// Motor_3.setCurrentPosition(0);
-// 	// Motors.moveTo(steps);
-// 	// Motors.runSpeedToPosition();
-// }
-// void Lidar_Controller()
-// {
-// 	if (lidarConnected)
-// 	{
-// 		server.send(200, "text/plain", "ping");
-// 	}
-// 	else
-// 	{
-// 		server.send(200, "text/plain", "pong");
-// 	}
-// }
-// void routes(void)
-// {
-// 	server.on("/", []
-// 			  { server.send(200,"text/plain","ESP32");
-//               Serial2.println(server.client().localIP()); });
-// 	server.on("/ping", []
-// 			  { server.send(200, "text/plain", "{\"message\":\"pong\"}"); });
-// 	server.on(FLOW_URI, []
-// 			  { Flow_Controller; });
-// 	server.on(STEPS_URI, []
-// 			  { Steps_Controller; });
-// 	server.on(LIDAR_URI, [] {
+// Movement movement;
 
-// 	});
-// 	server.onNotFound([]
-// 					  { server.send(200, "text/plain", "not found"); });
-// }
-
-// void handy_setup(void)
-// {
-// 	Serial.begin(115200);
-// 	WiFi.mode(WIFI_MODE_AP);
-// 	WiFi.softAP(AP_SSID, AP_PWD, 1, 0, 2);
-// 	server.enableCORS();
-// 	routes();
-// 	server.begin(80);
-// }
-
-// void handy_listen()
-// {
-// 	server.handleClient();
-// };
-
-// Steps RotateTo(float angle) // in degrees
-// {
-// 	int full_rot = 4000;				// steps to achieve full rotation eq to 360deg
-// 	float rot = angle * full_rot / 360; // rotation in steps per single motor
-// 	Steps steps = {rot, rot, rot};
-// 	return steps;
-// }
-
-// void Execute_Movement_Lidar(Steps steps, int angle)
-// {
-// 	long newPOS[3] = {long(steps.M1),
-// 					  long(steps.M2),
-// 					  long(steps.M3)};
-// 	position_reset();
-// 	Motors.moveTo(newPOS);
-// 	while (Motor_1.distanceToGo() != 0 || Motor_2.distanceToGo() != 0 || Motor_3.distanceToGo() != 0)
-// 	{
-// 		LiDARPoint point = LIDAR_Detect(angle, 90, 0, 300);
-// 		if (LIDAR_isPointNull(point))
-// 		{
-// 			Motors.run();
-// 		}
-// 	}
-// }
-// Polar vecs[] = {{0, 20}, {120, 20}, {240, 20}};
+// PolarVec vecs[] = {PolarVec(0, 20), PolarVec(120, 20), PolarVec(240, 20)};
 // void simple_strat()
 // {
+// 	test("start", 0);
 // 	int i = 0;
 // 	for (i; i < 3; i++)
 // 	{
-// 		// test("iteration", i);
-// 		// Vec2 vec = vecs[i];
-// 		// test("angle", vec.angle);
-// 		// test("distance", vec.distance);
-// 		// Serial.println();
-// 		// Steps steps = StepsFromVec(vec);
-// 		// Execute_Movement_Lidar(steps, vec.angle);
-// 		// Serial.println()
-// 		// Execute_movement(steps);
+// 		test("iteration", i);
+// 		test("vecs", vecs[i].ToSteps().Positions()[0]);
+// 		test("maxspeed m1", movement.M1.maxSpeed());
+// 		test("maxspeed m2", movement.M2.maxSpeed());
+// 		test("accel", movement.M1.acceleration());
+// 		Serial.println();
+// 		movement.Run(vecs[i].ToSteps());
 // 	}
 // }
 
 void setup()
 {
 	Serial.begin(115200);
-	// handy_setup();
-	// LIDAR_Setup();
-	// movement_setup();
+	// movement.Setup();
 }
 
 void loop()

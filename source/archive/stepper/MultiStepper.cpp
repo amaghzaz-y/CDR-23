@@ -42,8 +42,8 @@ void MultiStepper::moveTo(long absolute[])
 		{
 			long thisDistance = absolute[i] - _steppers[i]->currentPosition();
 			float thisSpeed = thisDistance / longestTime;
-			_steppers[i]->moveTo(absolute[i]); // New target position (resets speed)
-			_steppers[i]->setSpeed(thisSpeed); // New speed
+			_steppers[i]->moveTo(absolute[i]);	  // New target position (resets speed)
+			_steppers[i]->setMaxSpeed(thisSpeed); // New speed
 		}
 	}
 }
@@ -68,7 +68,7 @@ boolean MultiStepper::run()
 	else
 	{
 	    // Need to call this to clear _stepInterval, _speed and _n 
-	    otherwise future calls will fail.
+	    // otherwise future calls will fail.
 		_steppers[i]->setCurrentPosition(_steppers[i]->currentPosition());
 	}
 #endif
