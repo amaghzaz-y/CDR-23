@@ -19,22 +19,26 @@ void simple_strat()
 	for (i; i < 3; i++)
 	{
 		log("iteration", i);
-		log("vecs", vecs[i].ToSteps().Positions()[0]);
 		Serial.println();
-		movement.Run(vecs[i].ToSteps());
+		movement.setTargetRelative(vecs[i].ToSteps());
+		while (!movement.hasArrived())
+		{
+			movement.run();
+		}
 	}
 }
 
 void setup()
 {
 	Serial.begin(115200);
-	movement.Setup();
+	movement.setup();
 }
 
 void loop()
 {
-	Serial.println("starting");
-	log("start", 0);
+	// Serial.println("starting");
+	// log("start", 0);
 	simple_strat();
-	delay(1000);
+
+	log("finished movement", movement.hasArrived());
 }

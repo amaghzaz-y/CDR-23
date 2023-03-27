@@ -78,7 +78,7 @@ template <typename t>
 MotorControlBase<t>::~MotorControlBase()
 {
   if (OK)
-    emergencyStop();
+    stopTimer();
 }
 
 template <typename t>
