@@ -10,8 +10,8 @@
 #define PIN_STP_M2 27
 #define PIN_STP_M3 14
 #define PIN_ENABLE 13
-#define MAX_SPEED 10000
-#define MAX_ACCEL 1000
+#define MAX_SPEED 1000000
+#define MAX_ACCEL 100000
 
 class Movement
 {

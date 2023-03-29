@@ -23,11 +23,6 @@ void Movement::setup()
 
 void Movement::doStepAsync(Steps steps)
 {
-	if (!atTarget)
-	{
-		controller.moveAsync(M1, M2, M3);
-	}
-
 	long pos[] = {M1.getPosition(), M2.getPosition(), M3.getPosition()};
 
 	if (!isTargetSet)
@@ -64,6 +59,16 @@ void Movement::doStepAsync(Steps steps)
 	{
 		controller.stopTimer();
 		atTarget = true;
+	}
+
+	if (!atTarget)
+	{
+		int i = 0;
+		while (i < 1000000)
+		{
+			controller.moveAsync(M1, M2, M3);
+			i++;
+		}
 	}
 }
 

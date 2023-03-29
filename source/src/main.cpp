@@ -11,7 +11,7 @@ void log(char *msg, int value)
 
 Movement movement;
 
-PolarVec vecs[] = {PolarVec(0, 20), PolarVec(120, 20), PolarVec(240, 20)};
+PolarVec vecs[] = {PolarVec(0, 10), PolarVec(120, 10), PolarVec(240, 10)};
 void simple_strat()
 {
 	log("start", 0);
@@ -39,6 +39,5 @@ void loop()
 	// Serial.println("starting");
 	// log("start", 0);
 	simple_strat();
-
 	log("finished movement", movement.hasArrived());
 }
