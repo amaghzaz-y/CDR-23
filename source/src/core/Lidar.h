@@ -7,12 +7,24 @@
 class Lidar
 {
 public:
+	RPLidar lidar;
 	void setup();
-	PolarVec Detect(int angle, int radius, int range_max);
+	void detect();
+	bool hasDetected();
+	void setAngle(float _angle);
+	void setRadius(float _radius);
+	void setMaxRange(float _range);
+	void Task(void *params);
+	void startService();
 
 private:
-	bool inRadius(PolarVec point, int angle, int radius, int max_range);
+	float angle;
+	float radius;
+	float maxRange;
+	bool opponentDetected;
+	bool inRadius(PolarVec point);
 	void reconnect();
 	PolarVec scan();
 	bool isPointNull(PolarVec v);
+	TaskHandle_t xHandle;
 };

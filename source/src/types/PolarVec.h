@@ -1,3 +1,4 @@
+#pragma once
 #include <types/Steps.h>
 #include <types/Point2D.h>
 #include <math.h>

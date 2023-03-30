@@ -1,10 +1,9 @@
 #include <core/Lidar.h>
 
-RPLidar lidar;
-
 void Lidar::setup()
 {
 	lidar.begin(Serial2);
+	opponentDetected = false;
 }
 
 void Lidar::reconnect()
@@ -21,11 +20,11 @@ void Lidar::reconnect()
 	}
 }
 
-bool Lidar::inRadius(PolarVec point, int angle, int radius, int max_range)
+bool Lidar::inRadius(PolarVec point)
 {
 	int max_angle = angle + (radius / 2);
 	int min_angle = angle - (radius / 2);
-	if ((point.angle > min_angle) && (point.angle < max_angle) && (point.distance < max_range))
+	if ((point.angle > min_angle) && (point.angle < max_angle) && (point.distance < maxRange) && (point.distance != 0.0f))
 		return true;
 	return false;
 }
@@ -45,13 +44,17 @@ PolarVec Lidar::scan()
 	return point;
 }
 
-PolarVec Lidar::Detect(int angle, int radius, int range_max)
+void Lidar::detect()
 {
 	PolarVec point = scan();
-	if (Lidar::inRadius(point, angle, radius, range_max))
-		return point;
-	PolarVec emptyVec(0, 0);
-	return emptyVec;
+	if (Lidar::inRadius(point))
+		opponentDetected = true;
+	opponentDetected = false;
+}
+
+bool Lidar::hasDetected()
+{
+	return opponentDetected;
 }
 
 bool Lidar::isPointNull(PolarVec v)
@@ -59,4 +62,33 @@ bool Lidar::isPointNull(PolarVec v)
 	if (v.angle != 0 || v.distance != 0)
 		return false;
 	return true;
+}
+
+void Lidar::Task(void *params)
+{
+	for (;;)
+	{
+		// detect();
+		// Serial.println(opponentDetected);
+		PolarVec vec = scan();
+		Serial.print("Distance : ");
+		Serial.print(vec.distance);
+		Serial.print("  -  angle : ");
+		Serial.println(vec.angle);
+	}
+}
+
+void Lidar::setAngle(float _angle)
+{
+	angle = _angle;
+}
+
+void Lidar::setRadius(float _radius)
+{
+	radius = _radius;
+}
+
+void Lidar::setMaxRange(float range)
+{
+	maxRange = range;
 }
