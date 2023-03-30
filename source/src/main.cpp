@@ -11,19 +11,33 @@ void log(char *msg, int value)
 
 Movement movement;
 
-PolarVec vecs[] = {PolarVec(0, 10), PolarVec(120, 10), PolarVec(240, 10)};
+PolarVec vecs[] = {PolarVec(0, 100), PolarVec(120, 100), PolarVec(240, 100)};
+
 void simple_strat()
 {
 	log("start", 0);
 	int i = 0;
 	for (i; i < 3; i++)
-	{
+	{ 
 		log("iteration", i);
 		Serial.println();
 		movement.setTargetRelative(vecs[i].ToSteps());
+		movement.run();
+
 		while (!movement.hasArrived())
 		{
-			movement.run();
+			Serial.print(movement.M1.getCurrentPositionInSteps());
+			Serial.print(" - ");
+			Serial.print(movement.M2.getCurrentPositionInSteps());
+			Serial.print(" - ");
+			Serial.print(movement.M3.getCurrentPositionInSteps());
+			Serial.print("       ||  ");
+			Serial.print(movement.M1.motionComplete());
+			Serial.print(" - ");
+			Serial.print(movement.M2.motionComplete());
+			Serial.print(" - ");
+			Serial.println(movement.M3.motionComplete());
+			delay(1000);
 		}
 	}
 }
