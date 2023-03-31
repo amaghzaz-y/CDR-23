@@ -8,10 +8,11 @@ void log(char *msg, int value)
 	Serial.print(" : ");
 	Serial.println(value);
 }
+Lidar lidar;
 
 Movement movement;
 
-PolarVec vecs[] = {PolarVec(0, 10), PolarVec(120, 10), PolarVec(240, 10)};
+PolarVec vecs[] = {PolarVec(0, 30), PolarVec(120, 30), PolarVec(240, 30)};
 
 void simple_strat()
 {
@@ -36,11 +37,14 @@ void simple_strat()
 			// Serial.print(" - ");
 			// Serial.println(movement.M3.motionComplete());
 			// delay(500);
+			if (lidar.hasDetected())
+			{
+				movement.stop();
+			}
 			movement.run();
 		}
 	}
 }
-Lidar lidar;
 
 void LidarTask(void *pvParameters)
 {
@@ -50,10 +54,10 @@ void LidarTask(void *pvParameters)
 void setup()
 {
 	Serial.begin(9600);
-	// movement.setup();
+	movement.setup();
 	lidar.setup();
-	lidar.setAngle(0);
-	lidar.setRadius(180);
+	lidar.setAngle(180);
+	lidar.setRadius(360);
 	lidar.setMaxRange(300);
 	xTaskCreatePinnedToCore(
 		LidarTask,	 /* Function to implement the task */
@@ -69,8 +73,8 @@ void loop()
 {
 	// Serial.print("detected ->     ");
 	// Serial.println(lidar.hasDetected());
-	// Serial.println("starting");
-	// log("start", 0);
-	// simple_strat();
-	// log("finished movement", movement.hasArrived());
+	Serial.println("starting");
+	log("start", 0);
+	simple_strat();
+	log("finished movement", movement.hasArrived());
 }

@@ -22,11 +22,16 @@ void Lidar::reconnect()
 
 bool Lidar::inRadius(PolarVec point)
 {
-	int max_angle = angle + (radius / 2);
-	int min_angle = angle - (radius / 2);
-	if ((point.angle > min_angle) && (point.angle < max_angle) && (point.distance < maxRange) && (point.distance != 0.0f))
+	float max_angle = angle + (radius / 2);
+	float min_angle = angle - (radius / 2);
+	if ((point.angle >= min_angle) && (point.angle <= max_angle) && (point.distance <= maxRange) && (point.distance != 0.0f))
+	{
 		return true;
-	return false;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 PolarVec Lidar::scan()
@@ -48,8 +53,13 @@ void Lidar::detect()
 {
 	PolarVec point = scan();
 	if (Lidar::inRadius(point))
+	{
 		opponentDetected = true;
-	opponentDetected = false;
+	}
+	else
+	{
+		opponentDetected = false;
+	}
 }
 
 bool Lidar::hasDetected()
@@ -68,13 +78,11 @@ void Lidar::Task(void *params)
 {
 	for (;;)
 	{
-		// detect();
-		// Serial.println(opponentDetected);
-		PolarVec vec = scan();
-		Serial.print("Distance : ");
-		Serial.print(vec.distance);
-		Serial.print("  -  angle : ");
-		Serial.println(vec.angle);
+		detect();
+		if (hasDetected())
+		{
+			Serial.println("YEET !!");
+		}
 	}
 }
 

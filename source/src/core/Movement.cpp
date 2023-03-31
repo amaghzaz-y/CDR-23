@@ -219,3 +219,11 @@ void Movement::run()
 	A2.run();
 	A3.run();
 }
+
+void Movement::stop()
+{
+	A1.stop();
+	A2.stop();
+	A3.stop();
+	delay(5000);
+}

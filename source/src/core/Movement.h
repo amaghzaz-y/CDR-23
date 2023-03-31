@@ -31,6 +31,7 @@ public:
 	void run();
 	bool hasArrived();
 	void moveTo(Steps steps);
+	void stop();
 
 private:
 	Steps target;
