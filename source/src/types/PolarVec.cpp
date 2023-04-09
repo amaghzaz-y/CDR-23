@@ -7,7 +7,7 @@ PolarVec::PolarVec(float a, float d)
 
 Steps PolarVec::ToSteps()
 {
-	float d = cmToSteps(distance);
+	float d = mmToSteps(distance);
 	float a = degToRad(angle);
 	float a1 = a - degToRad(90);
 	float a2 = a + degToRad(30);
@@ -21,7 +21,7 @@ Steps PolarVec::ToSteps()
 
 Steps PolarVec::ToStepsCos()
 {
-	float d = cmToSteps(distance);
+	float d = mmToSteps(distance);
 	float a = degToRad(angle);
 	float s1 = d * cos(a - M_PI / 3);
 	float s2 = d * cos(a);
@@ -34,7 +34,7 @@ Steps PolarVec::ToStepsCos()
 }
 Steps PolarVec::ToStepsCosSin()
 {
-	float d = cmToSteps(distance);
+	float d = mmToSteps(distance);
 	float a = degToRad(angle);
 	float s1 = d * (sqrt(3) / 2 * cos(a) + 0.5 * sin(a));
 	float s2 = d * sin(a);

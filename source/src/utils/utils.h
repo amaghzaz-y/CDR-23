@@ -10,5 +10,6 @@ public:
 	Vec2(float a, float b);
 };
 
-float cmToSteps(float steps);
+float cmToSteps(float distance);
 float degToRad(float degrees);
+float mmToSteps(float distance);

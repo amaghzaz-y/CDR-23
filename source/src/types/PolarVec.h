@@ -8,8 +8,8 @@
 class PolarVec
 {
 private:
-	float angle;
-	float distance;
+	float angle;	// in degrees;
+	float distance; // in mm
 
 public:
 	PolarVec(float angle, float distance);
