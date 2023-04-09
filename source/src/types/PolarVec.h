@@ -12,6 +12,7 @@ private:
 	float distance; // in mm
 
 public:
+	// 1.angle 2.distance
 	PolarVec(float angle, float distance);
 	Steps ToSteps();
 	Steps ToStepsCos();

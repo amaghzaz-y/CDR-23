@@ -1,7 +1,7 @@
 #pragma once
 
 #include <types/Steps.h>
-#include <stepper/ESP_FlexyStepper.h>
+// #include <stepper/ESP_FlexyStepper.h>
 #include <stepper/AccelStepper.h>
 
 #define PIN_DIR_M1 33
@@ -17,29 +17,25 @@ class Movement
 {
 public:
 	Movement();
-	ESP_FlexyStepper M1;
-	ESP_FlexyStepper M2;
-	ESP_FlexyStepper M3;
-
-	AccelStepper A1;
-	AccelStepper A2;
-	AccelStepper A3;
-
 	void setup();
 	void setTargetRelative(Steps steps);
 	void setTargetAbsolute(Steps steps);
 	void run();
+	void runSync();
 	bool hasArrived();
 	void moveTo(Steps steps);
 	void stop();
 
 private:
+	// ESP_FlexyStepper M1;
+	// ESP_FlexyStepper M2;
+	// ESP_FlexyStepper M3;
+	AccelStepper A1;
+	AccelStepper A2;
+	AccelStepper A3;
 	Steps target;
 	int M1_POS;
 	int M2_POS;
 	int M3_POS;
-	bool atTarget;
-	bool isTargetSet;
-	bool reachedTarget[3];
 	// void doStepAsync(Steps steps);
 };
