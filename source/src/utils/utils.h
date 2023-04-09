@@ -2,9 +2,11 @@
 
 class Vec2
 {
-public:
+private:
 	float A;
 	float B;
+
+public:
 	Vec2(float a, float b);
 };
 

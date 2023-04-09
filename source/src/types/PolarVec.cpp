@@ -15,7 +15,34 @@ Steps PolarVec::ToSteps()
 	float s1 = d * sin(a1);
 	float s2 = d * sin(a2);
 	float s3 = d * sin(a3);
-	Steps steps(s1, s2, s3);
+	Steps steps(s1, -s2, s3);
+	return steps;
+}
+
+Steps PolarVec::ToStepsCos()
+{
+	float d = cmToSteps(distance);
+	float a = degToRad(angle);
+	float s1 = d * cos(a - M_PI / 3);
+	float s2 = d * cos(a);
+	float s3 = d * cos(a + M_PI / 3);
+	Serial.println(s1);
+	Serial.println(s2);
+	Serial.println(s3);
+	Steps steps(s1, -s2, s3);
+	return steps;
+}
+Steps PolarVec::ToStepsCosSin()
+{
+	float d = cmToSteps(distance);
+	float a = degToRad(angle);
+	float s1 = d * (sqrt(3) / 2 * cos(a) + 0.5 * sin(a));
+	float s2 = d * sin(a);
+	float s3 = d * (-sqrt(3) / 2 * cos(a) + 0.5 * sin(a));
+	Serial.println(s1);
+	Serial.println(s2);
+	Serial.println(s3);
+	Steps steps(s1, -s2, s3);
 	return steps;
 }
 
@@ -26,6 +53,7 @@ Vec2 PolarVec::ToPoint2D()
 	Vec2 point(x, y);
 	return point;
 }
+
 Steps PolarVec::RotateTo(float angle)
 {
 	int full_rot = 4000;				// steps to achieve full rotation eq to 360deg

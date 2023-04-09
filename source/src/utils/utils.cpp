@@ -6,9 +6,14 @@ Vec2::Vec2(float a, float b)
 	B = b;
 }
 
-float cmToSteps(float steps)
+float cmToSteps(float cm)
 {
-	return (steps * 4000) / 18.8496;
+	return (cm * 4000) / 18.8496;
+}
+
+float mmToSteps(float mm)
+{
+	return (mm * 4000) / 188.496;
 }
 
 float degToRad(float degrees)
