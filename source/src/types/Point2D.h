@@ -6,11 +6,9 @@
 
 class Point2D
 {
-private:
+public:
 	int X;
 	int Y;
-
-public:
 	Point2D(int x, int y);
 	Vec2 toPolarVec();
 	Steps toSteps();

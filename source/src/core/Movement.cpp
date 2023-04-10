@@ -76,12 +76,23 @@ void Movement::setTargetRelative(Steps steps)
 
 void Movement::setTargetAbsolute(Steps steps)
 {
-
 	long s1 = steps.M1 - M1_POS;
 	long s2 = steps.M2 - M2_POS;
 	long s3 = steps.M3 - M3_POS;
 	target = Steps(s1, s2, s3);
+	M1_POS += s1;
+	M2_POS += s2;
+	M3_POS += s3;
 	moveTo(target);
+}
+
+Steps Movement::rotateTo(float angle)
+{
+
+	int full_rot = 4000;				// steps to achieve full rotation eq to 360deg
+	float rot = angle * full_rot / 360; // rotation in steps per single motor
+	Steps steps = {rot, rot, rot};
+	return steps;
 }
 
 void Movement::run()
@@ -105,5 +116,15 @@ void Movement::stop()
 	A1.stop();
 	A2.stop();
 	A3.stop();
-	delay(5000);
+	delay(2500);
+}
+
+void Movement::fullStop()
+{
+	A1.setMaxSpeed(0);
+	A2.setMaxSpeed(0);
+	A3.setMaxSpeed(0);
+	A1.stop();
+	A2.stop();
+	A3.stop();
 }

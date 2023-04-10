@@ -81,7 +81,7 @@ void Lidar::Task(void *params)
 		detect();
 		if (hasDetected())
 		{
-			Serial.println("YEET !!");
+			Serial.println("###-DETECTED-###");
 		}
 	}
 }

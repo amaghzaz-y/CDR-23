@@ -25,6 +25,8 @@ public:
 	bool hasArrived();
 	void moveTo(Steps steps);
 	void stop();
+	void fullStop();
+	Steps rotateTo(float angle);
 
 private:
 	// ESP_FlexyStepper M1;
