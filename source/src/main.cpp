@@ -10,6 +10,7 @@ void log(char *msg, int value)
 	Serial.print(" : ");
 	Serial.println(value);
 }
+
 Strategy strategy;
 Lidar lidar;
 Movement movement;
@@ -49,16 +50,17 @@ void setup()
 
 void loop()
 {
+	strategy.start(false);
 	// Serial.print("detected ->     ");
 	// Serial.println(lidar.hasDetected());
-	Serial.println("starting");
-	log("start", 0);
+	// Serial.println("starting");
+	// log("start", 0);
 	// simple_strat();
-	movement.moveTo(PolarVec(120.0, (50.0 * 1.025)).ToStepsCosSin()); //* 1.037
-	while (!movement.hasArrived())
-	{
-		movement.run();
-	}
-	delay(5000);
-	log("finished movement", movement.hasArrived());
+	// movement.moveTo(PolarVec(120.0, (50.0 * 1.025)).ToStepsCosSin()); //* 1.037
+	// while (!movement.hasArrived())
+	// {
+	// 	movement.run();
+	// }
+	// delay(5000);
+	// log("finished movement", movement.hasArrived());
 }

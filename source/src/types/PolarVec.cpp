@@ -46,11 +46,11 @@ Steps PolarVec::ToStepsCosSin()
 	return steps;
 }
 
-Point2D PolarVec::ToPoint2D()
+Vec2 PolarVec::ToPoint2D()
 {
 	float x = float(distance) * cos(angle);
 	float y = float(distance) * sin(angle);
-	Point2D point(x, y);
+	Vec2 point(x, y);
 	return point;
 }
 

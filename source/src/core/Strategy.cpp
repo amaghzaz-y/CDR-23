@@ -2,9 +2,6 @@
 
 Strategy::Strategy()
 {
-	currentPoint = Point2D(0, 0);
-	points = &Point2D(0, 0);
-	homePOS = Point2D(0, 0);
 }
 
 void Strategy::selectTeam(int number)
@@ -113,8 +110,9 @@ void Strategy::updatePOS(Point2D point)
 	currentPoint = point;
 }
 
-void Strategy::start()
+void Strategy::start(bool lidar)
 {
+	isDetected = lidar;
 	while (currentInstruction < arrayLength)
 	{
 		currentPoint = points[currentInstruction];
@@ -129,7 +127,8 @@ void Strategy::executeVecs()
 {
 	while (currentInstruction < arrayLength)
 	{
-		currentPoint = vecs[currentInstruction].ToPoint2D();
+		Vec2 vec = vecs[currentInstruction].ToPoint2D();
+		currentPoint = Point2D(vec.A, vec.B);
 		goToPoint();
 		updatePOS(currentPoint);
 		currentInstruction++;

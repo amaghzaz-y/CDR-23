@@ -44,7 +44,7 @@ private:
 
 public:
 	Strategy();
-	void start();
+	void start(bool lidar);
 	void executeVecs();
 	void stop();
 	void setPoints(Point2D *points, int len);
