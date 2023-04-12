@@ -14,6 +14,5 @@ public:
 	Steps ToSteps();
 	Steps ToStepsCos();
 	Vec2 ToPoint2D();
-	Steps RotateTo(float angle);
 	Steps ToStepsCosSin();
 };

@@ -53,11 +53,3 @@ Vec2 PolarVec::ToPoint2D()
 	Vec2 point(x, y);
 	return point;
 }
-
-Steps PolarVec::RotateTo(float angle)
-{
-	int full_rot = 4000;				// steps to achieve full rotation eq to 360deg
-	float rot = angle * full_rot / 360; // rotation in steps per single motor
-	Steps steps = {rot, rot, rot};
-	return steps;
-}
