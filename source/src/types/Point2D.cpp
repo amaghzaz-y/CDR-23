@@ -7,6 +7,12 @@ Point2D::Point2D(int x, int y)
 	Y = y * UNIT;
 }
 
+Point2D::Point2D()
+{
+	X = 0;
+	Y = 0;
+}
+
 Vec2 Point2D::toPolarVec()
 {
 	float distance = sqrt(pow(X, 2) + pow(Y, 2));

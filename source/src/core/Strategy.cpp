@@ -1,20 +1,48 @@
 #include "Strategy.h"
 
+Strategy::Strategy()
+{
+	currentPoint = Point2D(0, 0);
+	points = &Point2D(0, 0);
+	homePOS = Point2D(0, 0);
+}
+
 void Strategy::selectTeam(int number)
 {
-	if (number == 0)
-	{
-		team = 0;
-	}
-	else if (number == 1)
-	{
-		team = 1;
-	}
+	team = number;
 }
 
 void Strategy::selectHome(int number)
 {
 	home = number;
+}
+
+void Strategy::makeSelection()
+{
+	if (digitalRead(HOME_PIN) == 0)
+	{
+		selectHome(0);
+	}
+	else
+	{
+		selectHome(1);
+	}
+
+	if (digitalRead(TEAM_PIN) == 0)
+	{
+		selectTeam(0);
+	}
+	else
+	{
+		selectTeam(1);
+	}
+}
+
+bool Strategy::isReady()
+{
+	if (digitalRead(PIN_REED) == 0)
+		return false;
+	return true;
 }
 
 void Strategy::calibrate()
@@ -54,23 +82,35 @@ void Strategy::stop()
 	movement.fullStop();
 }
 
-void Strategy::setTable(Point2D *p, int len)
+void Strategy::setPoints(Point2D *p, int len)
 {
 	points = p;
 	arrayLength = len;
 }
 
-void Strategy::execute()
+void Strategy::setVecs(PolarVec *v, int len)
+{
+	vecs = v;
+	arrayLength = len;
+}
+
+void Strategy::goToPoint()
 {
 	movement.setTargetRelative(currentPoint.toSteps());
 	while (!movement.hasArrived())
 	{
-		if (lidar.hasDetected())
+		if (isDetected)
 		{
 			movement.stop();
 		}
 		movement.run();
 	}
+}
+void Strategy::goHome() {}
+
+void Strategy::updatePOS(Point2D point)
+{
+	currentPoint = point;
 }
 
 void Strategy::start()
@@ -78,7 +118,21 @@ void Strategy::start()
 	while (currentInstruction < arrayLength)
 	{
 		currentPoint = points[currentInstruction];
-		execute();
+		goToPoint();
+		updatePOS(currentPoint);
 		currentInstruction++;
 	}
+	goHome();
+}
+
+void Strategy::executeVecs()
+{
+	while (currentInstruction < arrayLength)
+	{
+		currentPoint = vecs[currentInstruction].ToPoint2D();
+		goToPoint();
+		updatePOS(currentPoint);
+		currentInstruction++;
+	}
+	goHome();
 }

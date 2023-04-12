@@ -4,7 +4,6 @@
 #include <math.h>
 #include <utils/utils.h>
 #include <Arduino.h>
-
 class PolarVec
 {
 public:
@@ -15,7 +14,7 @@ public:
 	PolarVec(float angle, float distance);
 	Steps ToSteps();
 	Steps ToStepsCos();
-	Vec2 ToPoint2D();
+	Point2D ToPoint2D();
 	Steps RotateTo(float angle);
 	Steps ToStepsCosSin();
 };

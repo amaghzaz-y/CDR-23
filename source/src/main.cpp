@@ -2,38 +2,27 @@
 #include <core/Movement.h>
 #include <types/PolarVec.h>
 #include <core/Lidar.h>
+#include <ticker/Ticker.h>
+#include <core/Strategy.h>
 void log(char *msg, int value)
 {
 	Serial.print(msg);
 	Serial.print(" : ");
 	Serial.println(value);
 }
+Strategy strategy;
 Lidar lidar;
-
 Movement movement;
 
-PolarVec vecs[] = {PolarVec(0, 30), PolarVec(120, 30), PolarVec(240, 30)};
-// Point2D points[] = {Point2D(0, 0), Point2D(0, 10), Point2D(50, 10), Point2D(10, 0), Point2D(0, 0)};
+void fullSTOP()
+{
+	strategy.stop();
+	Serial.println("FULL STOP");
+}
 
-// void simple_strat()
-// {
-// 	log("start", 0);
-// 	int i = 0;
-// 	for (i; i < 5; i++)
-// 	{
-// 		log("iteration", i);
-// 		Serial.println();
-// 		movement.setTargetRelative(points[i].toSteps());
-// 		while (!movement.hasArrived())
-// 		{
-// 			// if (lidar.hasDetected())
-// 			// {
-// 			// 	movement.stop();
-// 			// }
-// 			movement.run();
-// 		}
-// 	}
-// }
+Ticker timer(fullSTOP, 120, 1);
+
+PolarVec vecs[] = {PolarVec(0, 30), PolarVec(120, 30), PolarVec(240, 30)};
 
 void LidarTask(void *pvParameters)
 {

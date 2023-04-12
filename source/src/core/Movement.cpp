@@ -24,9 +24,10 @@ void Movement::setup()
 
 void Movement::moveTo(Steps steps)
 {
-	double absStepsX = abs(steps.M1);
-	double absStepsY = abs(steps.M2);
-	double absStepsZ = abs(steps.M3);
+	double absStepsX = abs(steps.M1) * CORRECTIF;
+	double absStepsY = abs(steps.M2) * CORRECTIF;
+	double absStepsZ = abs(steps.M3) * CORRECTIF;
+
 	double maxSteps = max(absStepsX, max(absStepsZ, absStepsY));
 
 	double scalerX = absStepsX / maxSteps;
