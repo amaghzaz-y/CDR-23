@@ -2,8 +2,21 @@
 
 Strategy::Strategy()
 {
+	currentInstruction = 0;
+	currentRotation = 0.0;
+	arrayLength = 0;
+	isPulled = false;
+	calibrated = false;
+	isHome = false;
+	isDetected = false;
+	team = 0;
+	home = 0;
 }
 
+void Strategy::setup()
+{
+	movement.setup();
+}
 void Strategy::selectTeam(int number)
 {
 	team = number;
@@ -103,6 +116,7 @@ void Strategy::goToPoint()
 		movement.run();
 	}
 }
+
 void Strategy::goHome() {}
 
 void Strategy::updatePOS(Point2D point)
@@ -113,6 +127,10 @@ void Strategy::updatePOS(Point2D point)
 void Strategy::start(bool lidar)
 {
 	isDetected = lidar;
+	if (!isCalibrated())
+	{
+		calibrate();
+	}
 	while (currentInstruction < arrayLength)
 	{
 		currentPoint = points[currentInstruction];
@@ -123,14 +141,26 @@ void Strategy::start(bool lidar)
 	goHome();
 }
 
-void Strategy::executeVecs()
+void Strategy::executeVecs(bool lidar)
 {
+	isDetected = lidar;
+	if (!isCalibrated())
+	{
+		calibrate();
+	}
 	while (currentInstruction < arrayLength)
 	{
-		Vec2 vec = vecs[currentInstruction].ToPoint2D();
-		currentPoint = Point2D(vec.A, vec.B);
-		goToPoint();
-		updatePOS(currentPoint);
+		PolarVec vec = vecs[currentInstruction];
+		movement.setTargetRelative(vec.ToSteps());
+		while (!movement.hasArrived())
+		{
+			if (isDetected)
+			{
+				movement.stop();
+			}
+			movement.run();
+		}
+		// updatePOS(currentPoint);
 		currentInstruction++;
 	}
 	goHome();

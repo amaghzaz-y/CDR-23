@@ -1,8 +1,10 @@
+#pragma once
+
 #include "types/Point2D.h"
 #include "core/Movement.h"
 #include "types/PolarVec.h"
 #include "core/Lidar.h"
-#include "ticker/Ticker.h"
+
 #define HEIGHT 2000 // value in mm
 #define WIDTH 1500	// value in mm
 #define OFFSET 100	// value in mm
@@ -30,8 +32,7 @@ private:
 	bool isDetected;
 	int team;
 	int home;
-	int chrono;
-	void makeSelection();
+
 	void goToPoint();
 	void updatePOS(Point2D point);
 	void calibrate();
@@ -40,12 +41,14 @@ private:
 	bool atHome();
 	void goHome();
 	bool isCalibrated();
-	bool isReady();
 
 public:
 	Strategy();
+	void makeSelection();
+	bool isReady();
+	void setup();
 	void start(bool lidar);
-	void executeVecs();
+	void executeVecs(bool lidar);
 	void stop();
 	void setPoints(Point2D *points, int len);
 	void setVecs(PolarVec *vecs, int len);

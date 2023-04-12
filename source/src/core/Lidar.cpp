@@ -74,15 +74,12 @@ bool Lidar::isPointNull(PolarVec v)
 	return true;
 }
 
-void Lidar::Task(void *params)
+void Lidar::Task()
 {
-	for (;;)
+	detect();
+	if (hasDetected())
 	{
-		detect();
-		if (hasDetected())
-		{
-			Serial.println("###-DETECTED-###");
-		}
+		Serial.println("###-DETECTED-###");
 	}
 }
 

@@ -14,7 +14,7 @@ public:
 	void setAngle(float _angle);
 	void setRadius(float _radius);
 	void setMaxRange(float _range);
-	void Task(void *params);
+	void Task();
 	void startService();
 
 private:
