@@ -90,7 +90,7 @@ void Movement::setTargetAbsolute(Steps steps)
 Steps Movement::rotateTo(double angle)
 {
 
-	double full_rot = 4000.0;			   // steps to achieve full rotation eq to 360deg
+	double full_rot = 4000.0 * 1.025;	   // steps to achieve full rotation eq to 360deg
 	double rot = angle * full_rot / 360.0; // rotation in steps per single motor
 	Steps steps = {(long)rot, (long)rot, (long)rot};
 	return steps;

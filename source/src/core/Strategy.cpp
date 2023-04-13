@@ -3,7 +3,6 @@
 Strategy::Strategy()
 {
 	currentInstruction = 0;
-	currentRotation = 0.0;
 	arrayLength = 0;
 	isPulled = false;
 	calibrated = false;
@@ -20,24 +19,28 @@ void Strategy::setup()
 void Strategy::selectTeam(int number)
 {
 	team = number;
+	Serial.print("TEAM SELECTED : ");
+	Serial.println(team);
 }
 
-void Strategy::selectHome(int number)
+void Strategy::init()
 {
-	home = number;
+	if (digitalRead(INIT_PIN) == 1)
+	{
+		Serial.println("Starting Init");
+		calibrate();
+		while (isReady())
+			;
+	}
+	else
+	{
+		while (1)
+			;
+	}
 }
 
 void Strategy::makeSelection()
 {
-	if (digitalRead(HOME_PIN) == 0)
-	{
-		selectHome(0);
-	}
-	else
-	{
-		selectHome(1);
-	}
-
 	if (digitalRead(TEAM_PIN) == 0)
 	{
 		selectTeam(0);
@@ -51,29 +54,45 @@ void Strategy::makeSelection()
 bool Strategy::isReady()
 {
 	if (digitalRead(PIN_REED) == 0)
+	{
+		Serial.println("not ready");
 		return false;
+	}
+	Serial.println("ready");
 	return true;
 }
 
 void Strategy::calibrate()
 {
-	if (team == 0 && home == 0)
+	if (team == 0)
 	{
-		movement.setTargetRelative(PolarVec(180, 150).ToSteps());
+		movement.setTargetRelative(PolarVec(SIDE_B, 200).ToStepsCosSin());
 		movement.runSync();
-		movement.setTargetRelative(PolarVec(270, 150).ToSteps());
+		movement.setTargetRelative(PolarVec(SIDE_CA, 115).ToStepsCosSin());
+		movement.runSync();
+		Steps rot = movement.rotateTo(SIDE_B);
+		movement.setTargetRelative(rot);
+		movement.runSync();
+		movement.setTargetRelative(PolarVec(SIDE_BC, 200).ToStepsCosSin());
 		movement.runSync();
 		isHome = true;
 		calibrated = true;
+		delay(3000);
 	}
-	else if (team == 1 && home == 0)
+	else if (team == 1)
 	{
-		movement.setTargetRelative(PolarVec(180, 150).ToSteps());
+		movement.setTargetRelative(PolarVec(SIDE_C, 200).ToStepsCosSin());
 		movement.runSync();
-		movement.setTargetRelative(PolarVec(270, 150).ToSteps());
+		movement.setTargetRelative(PolarVec(SIDE_AB, 115).ToStepsCosSin());
+		movement.runSync();
+		Steps rot = movement.rotateTo(SIDE_C);
+		movement.setTargetRelative(rot);
+		movement.runSync();
+		movement.setTargetRelative(PolarVec(SIDE_BC, 200).ToStepsCosSin());
 		movement.runSync();
 		isHome = true;
 		calibrated = true;
+		delay(3000);
 	}
 }
 

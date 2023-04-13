@@ -40,16 +40,14 @@ void setup()
 	lidar.setAngle(180);
 	lidar.setRadius(360);
 	lidar.setMaxRange(300);
-	xTaskCreatePinnedToCore(LidarTask, "lidarTask", 10000, NULL, 0, NULL, 0);
+	// xTaskCreatePinnedToCore(LidarTask, "lidarTask", 10000, NULL, 0, NULL, 0);
 	strategy.setVecs(vecs, 3);
 }
 
 void loop()
 {
-	while (!strategy.isReady())
-	{
-		strategy.makeSelection();
-	}
-	ticker.start();
-	strategy.executeVecs(false);
+	delay(3000);
+	strategy.selectTeam(1);
+	strategy.calibrate();
+	Serial.println("calibrating");
 }
