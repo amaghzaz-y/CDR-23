@@ -15,7 +15,7 @@ Strategy::Strategy()
 void Strategy::setup()
 {
 	movement.setup();
-	pinMode(INIT_PIN, INPUT_PULLDOWN);
+	pinMode(INIT_PIN, INPUT_PULLUP);
 	pinMode(REED_PIN, INPUT_PULLUP);
 	pinMode(TEAM_PIN, INPUT_PULLDOWN);
 }
@@ -66,32 +66,34 @@ void Strategy::calibrate()
 {
 	if (team == 0)
 	{
-		movement.setTarget(PolarVec(SIDE_B, 200).ToStepsCosSin());
+		movement.moveToRel(PolarVec(SIDE_B, 200).ToStepsCosSin());
 		movement.runSync();
-		movement.setTarget(PolarVec(SIDE_CA, 115).ToStepsCosSin());
+		movement.moveToRel(PolarVec(SIDE_CA, 115).ToStepsCosSin());
 		movement.runSync();
 		Steps rot = movement.rotateTo(SIDE_B);
-		movement.setTarget(rot);
+		movement.moveToRel(rot);
 		movement.runSync();
-		movement.setTarget(PolarVec(SIDE_BC, 200).ToStepsCosSin());
+		movement.moveToRel(PolarVec(SIDE_BC, 200).ToStepsCosSin());
 		movement.runSync();
 		isHome = true;
 		calibrated = true;
+		currentPoint = Point2D(INITIAL_X, INITIAL_Y);
 		delay(3000);
 	}
 	else if (team == 1)
 	{
-		movement.setTarget(PolarVec(SIDE_C, 200).ToStepsCosSin());
+		movement.moveToRel(PolarVec(SIDE_C, 200).ToStepsCosSin());
 		movement.runSync();
-		movement.setTarget(PolarVec(SIDE_AB, 115).ToStepsCosSin());
+		movement.moveToRel(PolarVec(SIDE_AB, 115).ToStepsCosSin());
 		movement.runSync();
 		Steps rot = movement.rotateTo(SIDE_C);
-		movement.setTarget(rot);
+		movement.moveToRel(rot);
 		movement.runSync();
-		movement.setTarget(PolarVec(SIDE_BC, 200).ToStepsCosSin());
+		movement.moveToRel(PolarVec(SIDE_BC, 200).ToStepsCosSin());
 		movement.runSync();
 		isHome = true;
 		calibrated = true;
+		currentPoint = Point2D(INITIAL_X, INITIAL_Y);
 		delay(3000);
 	}
 }
@@ -125,7 +127,9 @@ void Strategy::setVecs(PolarVec *v, int len)
 
 void Strategy::goToPoint()
 {
-	movement.setTarget(currentPoint.toSteps());
+	isHome = false;
+	calibrated = false;
+	movement.moveToRel(nextPoint.toSteps());
 	while (!movement.hasArrived())
 	{
 		if (isDetected)
@@ -134,14 +138,15 @@ void Strategy::goToPoint()
 		}
 		movement.run();
 	}
+	currentPoint = nextPoint;
+}
+
+void Strategy::setNextPoint(Point2D point)
+{
+	nextPoint = Point2D(point.X - currentPoint.X, point.Y - currentPoint.Y);
 }
 
 void Strategy::goHome() {}
-
-void Strategy::updatePOS(Point2D point)
-{
-	currentPoint = point;
-}
 
 void Strategy::start(bool lidar)
 {
@@ -152,9 +157,8 @@ void Strategy::start(bool lidar)
 	}
 	while (currentInstruction < arrayLength)
 	{
-		currentPoint = points[currentInstruction];
+		setNextPoint(points[currentInstruction]);
 		goToPoint();
-		updatePOS(currentPoint);
 		currentInstruction++;
 	}
 	goHome();
@@ -170,7 +174,7 @@ void Strategy::executeVecs(bool lidar)
 	while (currentInstruction < arrayLength)
 	{
 		PolarVec vec = vecs[currentInstruction];
-		movement.setTarget(vec.ToSteps());
+		movement.moveToRel(vec.ToSteps());
 		while (!movement.hasArrived())
 		{
 			if (isDetected)
@@ -179,7 +183,6 @@ void Strategy::executeVecs(bool lidar)
 			}
 			movement.run();
 		}
-		// updatePOS(currentPoint);
 		currentInstruction++;
 	}
 	goHome();

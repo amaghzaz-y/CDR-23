@@ -46,12 +46,11 @@ void setup()
 
 void loop()
 {
-	// strategy.makeSelection();
-	strategy.init();
-	// Serial.print("REED : ");
-	// Serial.print(digitalRead(REED_PIN));
-	// Serial.print("  INIT : ");
-	// Serial.print(digitalRead(INIT_PIN));
-	// Serial.print("  TEAM : ");
+	while (!strategy.atHome())
+	{
+		strategy.init();
+	}
+	strategy.setNextPoint(Point2D(1000, 500));
+	strategy.goToPoint();
 	// Serial.println(digitalRead(TEAM_PIN));
 }

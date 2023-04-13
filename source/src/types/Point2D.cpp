@@ -1,10 +1,10 @@
 #include <types/Point2D.h>
-#define UNIT 50
+#define UNIT 1
 
 Point2D::Point2D(int x, int y)
 {
-	X = x * UNIT;
-	Y = y * UNIT;
+	X = x;
+	Y = y;
 }
 
 Point2D::Point2D()
@@ -24,8 +24,13 @@ Vec2 Point2D::toPolarVec()
 Steps Point2D::toSteps()
 {
 	float distance = sqrt(pow(X, 2) + pow(Y, 2));
-	float angle = atan2(Y, X);
+	float angle = 360.0 - atan2(Y, X) * 57.2957795;
+	Serial.print(" ### Distance : ");
+	Serial.print(distance);
+	Serial.print("Angle : ");
+	Serial.print(angle);
+	Serial.println(" ###");
 	PolarVec vec = PolarVec(angle, distance);
-	Steps steps = vec.ToSteps();
+	Steps steps = vec.ToStepsCosSin();
 	return steps;
 }

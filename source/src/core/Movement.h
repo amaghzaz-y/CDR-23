@@ -18,8 +18,11 @@ class Movement
 {
 public:
 	Movement();
+	AccelStepper A1;
+	AccelStepper A2;
+	AccelStepper A3;
 	void setup();
-	void setTarget(Steps steps);
+	// void setTarget(Steps steps);
 	void run();
 	void runSync();
 	bool hasArrived();
@@ -33,9 +36,7 @@ private:
 	// ESP_FlexyStepper M1;
 	// ESP_FlexyStepper M2;
 	// ESP_FlexyStepper M3;
-	AccelStepper A1;
-	AccelStepper A2;
-	AccelStepper A3;
+
 	Steps target;
 	int M1_POS;
 	int M2_POS;
