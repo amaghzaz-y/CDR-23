@@ -15,6 +15,9 @@ Strategy::Strategy()
 void Strategy::setup()
 {
 	movement.setup();
+	pinMode(INIT_PIN, INPUT_PULLDOWN);
+	pinMode(REED_PIN, INPUT_PULLUP);
+	pinMode(TEAM_PIN, INPUT_PULLDOWN);
 }
 void Strategy::selectTeam(int number)
 {
@@ -25,17 +28,14 @@ void Strategy::selectTeam(int number)
 
 void Strategy::init()
 {
-	if (digitalRead(INIT_PIN) == 1)
+	if (digitalRead(TEAM_PIN) == 1)
 	{
-		Serial.println("Starting Init");
+		Serial.println("Starting Calibration");
 		calibrate();
-		while (isReady())
-			;
 	}
 	else
 	{
-		while (1)
-			;
+		Serial.println("Waiting for init...");
 	}
 }
 
@@ -53,7 +53,7 @@ void Strategy::makeSelection()
 
 bool Strategy::isReady()
 {
-	if (digitalRead(PIN_REED) == 0)
+	if (digitalRead(REED_PIN) == 0)
 	{
 		Serial.println("not ready");
 		return false;
@@ -66,14 +66,14 @@ void Strategy::calibrate()
 {
 	if (team == 0)
 	{
-		movement.setTargetRelative(PolarVec(SIDE_B, 200).ToStepsCosSin());
+		movement.setTarget(PolarVec(SIDE_B, 200).ToStepsCosSin());
 		movement.runSync();
-		movement.setTargetRelative(PolarVec(SIDE_CA, 115).ToStepsCosSin());
+		movement.setTarget(PolarVec(SIDE_CA, 115).ToStepsCosSin());
 		movement.runSync();
 		Steps rot = movement.rotateTo(SIDE_B);
-		movement.setTargetRelative(rot);
+		movement.setTarget(rot);
 		movement.runSync();
-		movement.setTargetRelative(PolarVec(SIDE_BC, 200).ToStepsCosSin());
+		movement.setTarget(PolarVec(SIDE_BC, 200).ToStepsCosSin());
 		movement.runSync();
 		isHome = true;
 		calibrated = true;
@@ -81,14 +81,14 @@ void Strategy::calibrate()
 	}
 	else if (team == 1)
 	{
-		movement.setTargetRelative(PolarVec(SIDE_C, 200).ToStepsCosSin());
+		movement.setTarget(PolarVec(SIDE_C, 200).ToStepsCosSin());
 		movement.runSync();
-		movement.setTargetRelative(PolarVec(SIDE_AB, 115).ToStepsCosSin());
+		movement.setTarget(PolarVec(SIDE_AB, 115).ToStepsCosSin());
 		movement.runSync();
 		Steps rot = movement.rotateTo(SIDE_C);
-		movement.setTargetRelative(rot);
+		movement.setTarget(rot);
 		movement.runSync();
-		movement.setTargetRelative(PolarVec(SIDE_BC, 200).ToStepsCosSin());
+		movement.setTarget(PolarVec(SIDE_BC, 200).ToStepsCosSin());
 		movement.runSync();
 		isHome = true;
 		calibrated = true;
@@ -125,7 +125,7 @@ void Strategy::setVecs(PolarVec *v, int len)
 
 void Strategy::goToPoint()
 {
-	movement.setTargetRelative(currentPoint.toSteps());
+	movement.setTarget(currentPoint.toSteps());
 	while (!movement.hasArrived())
 	{
 		if (isDetected)
@@ -170,7 +170,7 @@ void Strategy::executeVecs(bool lidar)
 	while (currentInstruction < arrayLength)
 	{
 		PolarVec vec = vecs[currentInstruction];
-		movement.setTargetRelative(vec.ToSteps());
+		movement.setTarget(vec.ToSteps());
 		while (!movement.hasArrived())
 		{
 			if (isDetected)

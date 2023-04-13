@@ -8,11 +8,11 @@
 #define HEIGHT 2000 // value in mm
 #define WIDTH 1500	// value in mm
 #define OFFSET 100	// value in mm
-#define PIN_REED 32
+#define REED_PIN 32
 #define INIT_PIN 34
 #define TEAM_PIN 35
 
-const Point2D HOME_1_POS = Point2D(OFFSET, OFFSET);
+const Point2D HOME_1_POS = Point2D(175.0, 250.0);
 const Point2D HOME_2_POS = Point2D(HEIGHT - OFFSET, WIDTH - OFFSET);
 
 const int SIDE_A = 0;

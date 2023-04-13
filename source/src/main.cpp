@@ -46,8 +46,12 @@ void setup()
 
 void loop()
 {
-	delay(3000);
-	strategy.selectTeam(1);
-	strategy.calibrate();
-	Serial.println("calibrating");
+	// strategy.makeSelection();
+	strategy.init();
+	// Serial.print("REED : ");
+	// Serial.print(digitalRead(REED_PIN));
+	// Serial.print("  INIT : ");
+	// Serial.print(digitalRead(INIT_PIN));
+	// Serial.print("  TEAM : ");
+	// Serial.println(digitalRead(TEAM_PIN));
 }

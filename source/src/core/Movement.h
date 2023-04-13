@@ -19,12 +19,12 @@ class Movement
 public:
 	Movement();
 	void setup();
-	void setTargetRelative(Steps steps);
-	void setTargetAbsolute(Steps steps);
+	void setTarget(Steps steps);
 	void run();
 	void runSync();
 	bool hasArrived();
-	void moveTo(Steps steps);
+	void moveToRel(Steps steps);
+	void moveToAbs(Steps steps);
 	void stop();
 	void fullStop();
 	Steps rotateTo(double angle);

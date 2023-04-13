@@ -22,7 +22,7 @@ void Movement::setup()
 	A3.setMaxSpeed(SPEED);
 }
 
-void Movement::moveTo(Steps steps)
+void Movement::moveToRel(Steps steps)
 {
 	double absStepsX = abs(steps.M1) * CORRECTIF;
 	double absStepsY = abs(steps.M2) * CORRECTIF;
@@ -58,6 +58,42 @@ void Movement::moveTo(Steps steps)
 	A2.move(steps.M2);
 	A3.move(steps.M3);
 }
+void Movement::moveToAbs(Steps steps)
+{
+	double absStepsX = abs(steps.M1) * CORRECTIF;
+	double absStepsY = abs(steps.M2) * CORRECTIF;
+	double absStepsZ = abs(steps.M3) * CORRECTIF;
+
+	double maxSteps = max(absStepsX, max(absStepsZ, absStepsY));
+
+	double scalerX = absStepsX / maxSteps;
+	double scalerY = absStepsY / maxSteps;
+	double scalerZ = absStepsZ / maxSteps;
+
+	double speedX = SPEED * scalerX;
+	double speedY = SPEED * scalerY;
+	double speedZ = SPEED * scalerZ;
+
+	double accelX = ACCEL * scalerX;
+	double accelY = ACCEL * scalerY;
+	double accelZ = ACCEL * scalerZ;
+
+	A1.setAcceleration(accelX);
+	A2.setAcceleration(accelY);
+	A3.setAcceleration(accelZ);
+
+	A1.setMaxSpeed(speedX);
+	A2.setMaxSpeed(speedY);
+	A3.setMaxSpeed(speedZ);
+
+	A1.setCurrentPosition(0);
+	A2.setCurrentPosition(0);
+	A3.setCurrentPosition(0);
+
+	A1.moveTo(steps.M1);
+	A2.moveTo(steps.M2);
+	A3.moveTo(steps.M3);
+}
 
 bool Movement::hasArrived()
 {
@@ -68,24 +104,24 @@ bool Movement::hasArrived()
 	return false;
 }
 
-void Movement::setTargetRelative(Steps steps)
-{
+// void Movement::setTarget(Steps steps)
+// {
 
-	target = steps;
-	moveTo(target);
-}
+// 	target = steps;
+// 	moveTo(target);
+// }
 
-void Movement::setTargetAbsolute(Steps steps)
-{
-	long s1 = steps.M1 - M1_POS;
-	long s2 = steps.M2 - M2_POS;
-	long s3 = steps.M3 - M3_POS;
-	target = Steps(s1, s2, s3);
-	M1_POS += s1;
-	M2_POS += s2;
-	M3_POS += s3;
-	moveTo(target);
-}
+// void Movement::setTargetAbsolute(Steps steps)
+// {
+// 	long s1 = steps.M1 - M1_POS;
+// 	long s2 = steps.M2 - M2_POS;
+// 	long s3 = steps.M3 - M3_POS;
+// 	target = Steps(s1, s2, s3);
+// 	M1_POS += s1;
+// 	M2_POS += s2;
+// 	M3_POS += s3;
+// 	moveTo(target);
+// }
 
 Steps Movement::rotateTo(double angle)
 {
