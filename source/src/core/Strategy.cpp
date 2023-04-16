@@ -147,7 +147,11 @@ void Strategy::goToPoint()
 	currentPoint = target;
 }
 
-void Strategy::goHome() {}
+void Strategy::goHome()
+{
+	setNextPoint(HOME_1_POS);
+	goToPoint();
+}
 
 void Strategy::start(bool lidar)
 {

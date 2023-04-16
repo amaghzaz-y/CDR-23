@@ -24,9 +24,9 @@ void Movement::setup()
 
 void Movement::moveToRel(Steps steps)
 {
-	double absStepsX = abs(steps.M1) * CORRECTIF;
-	double absStepsY = abs(steps.M2) * CORRECTIF;
-	double absStepsZ = abs(steps.M3) * CORRECTIF;
+	double absStepsX = abs(steps.M1);
+	double absStepsY = abs(steps.M2);
+	double absStepsZ = abs(steps.M3);
 
 	double maxSteps = max(absStepsX, max(absStepsZ, absStepsY));
 

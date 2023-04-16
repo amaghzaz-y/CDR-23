@@ -32,7 +32,6 @@ private:
 	Point2D target;
 	Point2D *points;
 	PolarVec *vecs;
-	Point2D homePOS;
 	int currentInstruction;
 	int arrayLength;
 	float rotation;

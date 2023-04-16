@@ -3,6 +3,7 @@
 #include <utils/utils.h>
 #include <types/Steps.h>
 #include <types/PolarVec.h>
+
 class Point2D
 {
 public:
