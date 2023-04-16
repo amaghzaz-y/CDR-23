@@ -1,4 +1,5 @@
 #include <types/PolarVec.h>
+
 PolarVec::PolarVec(float a, float d)
 {
 	angle = a;

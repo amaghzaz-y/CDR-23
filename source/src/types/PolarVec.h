@@ -3,7 +3,8 @@
 #include <math.h>
 #include <utils/utils.h>
 #include <Arduino.h>
-#define CORRECTIF 1.025
+
+const float CORRECTIF = 1.025;
 
 class PolarVec
 {
