@@ -128,14 +128,14 @@ void Strategy::setVecs(PolarVec *v, int len)
 void Strategy::setNextPoint(Point2D point)
 {
 	target = point;
-	nextPoint = Point2D(point.X - currentPoint.X, point.Y - currentPoint.Y);
+	absPoint = Point2D(point.X - currentPoint.X, point.Y - currentPoint.Y);
 }
 
 void Strategy::goToPoint()
 {
 	isHome = false;
 	calibrated = false;
-	movement.moveToRel(nextPoint.toSteps());
+	movement.moveToRel(absPoint.toSteps());
 	while (!movement.hasArrived())
 	{
 		if (isDetected)
@@ -151,14 +151,15 @@ void Strategy::goHome()
 {
 	setNextPoint(HOME_1_POS);
 	goToPoint();
+	isHome = true;
 }
 
 void Strategy::start(bool lidar)
 {
 	isDetected = lidar;
-	if (!isCalibrated())
+	if (!isCalibrated() || !atHome())
 	{
-		calibrate();
+		init();
 	}
 	while (currentInstruction < arrayLength)
 	{

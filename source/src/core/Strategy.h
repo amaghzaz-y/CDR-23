@@ -5,13 +5,14 @@
 #include "types/PolarVec.h"
 #include "core/Lidar.h"
 
-#define HEIGHT 2000		 // value in mm
-#define WIDTH 1500		 // value in mm
-#define INITIAL_X 171.47 // value in mm
-#define INITIAL_Y 250.73
+#define HEIGHT 2000 // value in mm
+#define WIDTH 1500	// value in mm
 #define REED_PIN 32
 #define INIT_PIN 34
 #define TEAM_PIN 35
+
+const float INITIAL_X = 171.47; // value in mm
+const float INITIAL_Y = 250.73;
 
 const Point2D HOME_1_POS = Point2D(INITIAL_X, INITIAL_Y);
 const Point2D HOME_2_POS = Point2D(HEIGHT - INITIAL_X, WIDTH - INITIAL_Y);
@@ -28,7 +29,7 @@ class Strategy
 private:
 	Movement movement;
 	Point2D currentPoint;
-	Point2D nextPoint;
+	Point2D absPoint;
 	Point2D target;
 	Point2D *points;
 	PolarVec *vecs;
