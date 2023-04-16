@@ -10,6 +10,5 @@ public:
 	int Y;
 	Point2D(int x, int y);
 	Point2D();
-	Vec2 toPolarVec();
 	Steps toSteps();
 };

@@ -17,7 +17,7 @@ void Strategy::setup()
 	movement.setup();
 	pinMode(INIT_PIN, INPUT_PULLUP);
 	pinMode(REED_PIN, INPUT_PULLUP);
-	pinMode(TEAM_PIN, INPUT_PULLDOWN);
+	pinMode(TEAM_PIN, INPUT_PULLUP);
 }
 void Strategy::selectTeam(int number)
 {
@@ -28,7 +28,7 @@ void Strategy::selectTeam(int number)
 
 void Strategy::init()
 {
-	if (digitalRead(TEAM_PIN) == 1)
+	if (digitalRead(REED_PIN) == 0)
 	{
 		Serial.println("Starting Calibration");
 		calibrate();
@@ -130,6 +130,7 @@ void Strategy::goToPoint()
 	isHome = false;
 	calibrated = false;
 	movement.moveToRel(nextPoint.toSteps());
+	currentPoint = nextPoint;
 	while (!movement.hasArrived())
 	{
 		if (isDetected)
@@ -138,7 +139,6 @@ void Strategy::goToPoint()
 		}
 		movement.run();
 	}
-	currentPoint = nextPoint;
 }
 
 void Strategy::setNextPoint(Point2D point)

@@ -13,14 +13,6 @@ Point2D::Point2D()
 	Y = 0;
 }
 
-Vec2 Point2D::toPolarVec()
-{
-	float distance = sqrt(pow(X, 2) + pow(Y, 2));
-	float angle = atan2(Y, X);
-	Vec2 vec(angle, distance);
-	return vec;
-}
-
 Steps Point2D::toSteps()
 {
 	float distance = sqrt(pow(X, 2) + pow(Y, 2));

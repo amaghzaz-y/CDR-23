@@ -42,6 +42,7 @@ void setup()
 	lidar.setMaxRange(300);
 	// xTaskCreatePinnedToCore(LidarTask, "lidarTask", 10000, NULL, 0, NULL, 0);
 	strategy.setVecs(vecs, 3);
+	pinMode(32, INPUT_PULLUP);
 }
 
 void loop()
@@ -52,5 +53,8 @@ void loop()
 	}
 	strategy.setNextPoint(Point2D(1000, 500));
 	strategy.goToPoint();
-	// Serial.println(digitalRead(TEAM_PIN));
+	strategy.setNextPoint(Point2D(1000, 1000));
+	strategy.goToPoint();
+	strategy.setNextPoint(Point2D(0, 0));
+	strategy.goToPoint();
 }
