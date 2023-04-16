@@ -29,6 +29,7 @@ private:
 	Movement movement;
 	Point2D currentPoint;
 	Point2D nextPoint;
+	Point2D target;
 	Point2D *points;
 	PolarVec *vecs;
 	Point2D homePOS;

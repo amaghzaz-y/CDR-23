@@ -125,12 +125,17 @@ void Strategy::setVecs(PolarVec *v, int len)
 	arrayLength = len;
 }
 
+void Strategy::setNextPoint(Point2D point)
+{
+	target = point;
+	nextPoint = Point2D(point.X - currentPoint.X, point.Y - currentPoint.Y);
+}
+
 void Strategy::goToPoint()
 {
 	isHome = false;
 	calibrated = false;
 	movement.moveToRel(nextPoint.toSteps());
-	currentPoint = nextPoint;
 	while (!movement.hasArrived())
 	{
 		if (isDetected)
@@ -139,11 +144,7 @@ void Strategy::goToPoint()
 		}
 		movement.run();
 	}
-}
-
-void Strategy::setNextPoint(Point2D point)
-{
-	nextPoint = Point2D(point.X - currentPoint.X, point.Y - currentPoint.Y);
+	currentPoint = target;
 }
 
 void Strategy::goHome() {}
