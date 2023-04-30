@@ -45,12 +45,17 @@ private:
 	bool isHome;
 	bool isDetected;
 	int team;
+	void run();
+	void runSync();
+	void goToPoint();
+	void doRotation();
+	void setNextPoint(Point2D point);
+	void setNextRotation(float angle);
+	void rotateTo(float angle);
 
 public:
 	Movement();
 	void setup();
-	void run();
-	void runSync();
 	bool hasArrived();
 	void moveToRel(Steps steps);
 	void moveToAbs(Steps steps);
@@ -59,11 +64,6 @@ public:
 	void setTeam(int t);
 	void goHome();
 	bool isCalibrated();
-	void goToPoint();
-	void doRotation();
-	void setNextPoint(Point2D point);
-	void setNextRotation(float angle);
-	void rotateTo(float angle);
 	bool atHome();
 	void calibrate();
 	void setPoints(Point2D *points, int len);

@@ -1,9 +1,5 @@
 #include "Strategy.h"
 
-Strategy::Strategy()
-{
-}
-
 void Strategy::setup()
 {
 	movement.setup();
@@ -36,7 +32,10 @@ void Strategy::makeSelection()
 		movement.setTeam(1);
 	}
 }
-
+void Strategy::stop()
+{
+	movement.fullStop();
+}
 bool Strategy::isReady()
 {
 	if (digitalRead(REED_PIN) == 0)
@@ -55,4 +54,9 @@ void Strategy::start(bool lidar)
 		init();
 	}
 	movement.start(lidar);
+}
+
+void Strategy::setPoints(Point2D *p, int len)
+{
+	movement.setPoints(p, len);
 }

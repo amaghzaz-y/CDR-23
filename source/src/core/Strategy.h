@@ -13,12 +13,15 @@
 
 class Strategy
 {
-public:
+private:
 	Movement movement;
-	Strategy();
-	void setup();
 	void makeSelection();
-	bool isReady();
 	void init();
+	bool isReady();
+
+public:
+	void setup();
 	void start(bool lidar);
+	void stop();
+	void setPoints(Point2D *points, int len);
 };

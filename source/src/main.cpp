@@ -16,10 +16,10 @@ Lidar lidar;
 
 void FullStop()
 {
-	strategy.movement.stop();
+	strategy.stop();
 }
 
-Ticker ticker(FullStop, 120000, 1);
+Ticker ticker(FullStop, 1200000, 1);
 
 // PolarVec vecs[] = {PolarVec(0, 50), PolarVec(120, 50), PolarVec(240, 50)};
 Point2D points[] = {Point2D(1000, 500), Point2D(500, 500), Point2D(400, 400), Point2D(343, 545)};
@@ -42,7 +42,7 @@ void setup()
 	lidar.setRadius(360);
 	lidar.setMaxRange(300);
 	// xTaskCreatePinnedToCore(LidarTask, "lidarTask", 10000, NULL, 0, NULL, 0);
-	strategy.movement.setPoints(points, 4);
+	strategy.setPoints(points, 4);
 	strategy.setup();
 }
 float rotation = 0.0;
