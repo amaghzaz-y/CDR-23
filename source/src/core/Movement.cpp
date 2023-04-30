@@ -58,11 +58,12 @@ void Movement::moveToRel(Steps steps)
 	A2.move(steps.M2);
 	A3.move(steps.M3);
 }
+
 void Movement::moveToAbs(Steps steps)
 {
-	double absStepsX = abs(steps.M1) * CORRECTIF;
-	double absStepsY = abs(steps.M2) * CORRECTIF;
-	double absStepsZ = abs(steps.M3) * CORRECTIF;
+	double absStepsX = abs(steps.M1);
+	double absStepsY = abs(steps.M2);
+	double absStepsZ = abs(steps.M3);
 
 	double maxSteps = max(absStepsX, max(absStepsZ, absStepsY));
 
@@ -104,32 +105,23 @@ bool Movement::hasArrived()
 	return false;
 }
 
-// void Movement::setTarget(Steps steps)
-// {
-
-// 	target = steps;
-// 	moveTo(target);
-// }
-
-// void Movement::setTargetAbsolute(Steps steps)
-// {
-// 	long s1 = steps.M1 - M1_POS;
-// 	long s2 = steps.M2 - M2_POS;
-// 	long s3 = steps.M3 - M3_POS;
-// 	target = Steps(s1, s2, s3);
-// 	M1_POS += s1;
-// 	M2_POS += s2;
-// 	M3_POS += s3;
-// 	moveTo(target);
-// }
-
-Steps Movement::rotateTo(double angle)
+void Movement::rotateTo(Point2D point)
 {
-
-	double full_rot = 4000.0 * 1.025;	   // steps to achieve full rotation eq to 360deg
+	float angle = point.getAngle();
+	double full_rot = 4000.0 * correctif;  // steps to achieve full rotation eq to 360deg
 	double rot = angle * full_rot / 360.0; // rotation in steps per single motor
 	Steps steps = {(long)rot, (long)rot, (long)rot};
-	return steps;
+	moveToRel(steps);
+	runSync();
+}
+
+void Movement::rotateToSide(float angle)
+{
+	double full_rot = 4000.0 * correctif;  // steps to achieve full rotation eq to 360deg
+	double rot = angle * full_rot / 360.0; // rotation in steps per single motor
+	Steps steps = {(long)rot, (long)rot, (long)rot};
+	moveToRel(steps);
+	runSync();
 }
 
 void Movement::run()
@@ -164,4 +156,103 @@ void Movement::fullStop()
 	A1.stop();
 	A2.stop();
 	A3.stop();
+}
+
+void Movement::setNextPoint(Point2D point)
+{
+	targetPoint = point;
+	absPoint = Point2D(point.X - currentPoint.X, point.Y - currentPoint.Y);
+}
+void Movement::setTeam(int i)
+{
+	team = i;
+}
+
+void Movement::goHome()
+{
+	if (team == 0)
+	{
+		setNextPoint(TEAM_A_HOME);
+		goToPoint();
+		isHome = true;
+	}
+	else if (team == 1)
+	{
+		setNextPoint(TEAM_B_HOME);
+		goToPoint();
+		isHome = true;
+	}
+}
+
+void Movement::goToPoint()
+{
+	isHome = false;
+	calibrated = false;
+	moveToRel(absPoint.toSteps());
+	while (!hasArrived())
+	{
+		if (isDetected)
+		{
+			stop();
+		}
+		run();
+	}
+	currentPoint = targetPoint;
+}
+
+void Movement::setPoints(Point2D *p, int len)
+{
+	points = p;
+	arrayLength = len;
+}
+
+void Movement::calibrate()
+{
+	if (team == 0)
+	{
+		moveToRel(PolarVec(SIDE_B, 200).ToStepsCosSin());
+		runSync();
+		moveToRel(PolarVec(SIDE_CA, 115).ToStepsCosSin());
+		runSync();
+		rotateToSide(SIDE_B);
+		moveToRel(PolarVec(SIDE_BC, 200).ToStepsCosSin());
+		runSync();
+		moveToRel(PolarVec(SIDE_A, 50).ToStepsCosSin());
+		runSync();
+		isHome = true;
+		calibrated = true;
+		currentPoint = Point2D(INITIAL_X, INITIAL_Y);
+		delay(3000);
+	}
+	else if (team == 1)
+	{
+		moveToRel(PolarVec(SIDE_C, 200).ToStepsCosSin());
+		runSync();
+		moveToRel(PolarVec(SIDE_AB, 115).ToStepsCosSin());
+		runSync();
+		rotateToSide(SIDE_C);
+		moveToRel(PolarVec(SIDE_BC, 200).ToStepsCosSin());
+		runSync();
+		isHome = true;
+		calibrated = true;
+		currentPoint = Point2D(INITIAL_X, INITIAL_Y);
+		delay(3000);
+	}
+}
+
+bool Movement::isCalibrated()
+{
+	return calibrated;
+}
+
+void Movement::start(bool lidar)
+{
+	isDetected = lidar;
+	while (currentInstruction < arrayLength)
+	{
+		setNextPoint(points[currentInstruction]);
+		goToPoint();
+		currentInstruction++;
+	}
+	goHome();
 }

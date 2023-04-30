@@ -16,7 +16,7 @@ Point2D::Point2D()
 Steps Point2D::toSteps()
 {
 	float distance = sqrt(pow(X, 2) + pow(Y, 2));
-	float angle = 360.0 - atan2(Y, X) * 57.2957795;
+	float angle = 360.0 - atan2(Y, X) * 57.2957795; // in degrees
 	Serial.print(" ### Distance : ");
 	Serial.print(distance);
 	Serial.print("Angle : ");
@@ -25,4 +25,10 @@ Steps Point2D::toSteps()
 	PolarVec vec = PolarVec(angle, distance);
 	Steps steps = vec.ToStepsCosSin();
 	return steps;
+}
+
+float Point2D::getAngle()
+{
+	float angle = 360.0 - atan2(Y, X) * 57.2957795; // in degrees
+	return angle;
 }

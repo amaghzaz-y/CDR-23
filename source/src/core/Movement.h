@@ -1,8 +1,9 @@
 #pragma once
 
 #include <types/Steps.h>
-// #include <stepper/ESP_FlexyStepper.h>
 #include <stepper/AccelStepper.h>
+#include <types/Point2D.h>
+
 #define PIN_DIR_M1 33
 #define PIN_DIR_M2 26
 #define PIN_DIR_M3 12
@@ -10,18 +11,47 @@
 #define PIN_STP_M2 27
 #define PIN_STP_M3 14
 #define PIN_ENABLE 13
+const int SIDE_A = 0;
+const int SIDE_AB = 60;
+const int SIDE_B = 120;
+const int SIDE_BC = 180;
+const int SIDE_C = -120;
+const int SIDE_CA = -60;
+const double SPEED = 4000.0;
+const double ACCEL = 2000.0;
+const double correctif = 1.025;
+const float INITIAL_X = 231.47; // value in mm
+const float INITIAL_Y = 250.73; // mm
+const Point2D TEAM_A_HOME = Point2D(INITIAL_X, INITIAL_Y);
+const Point2D TEAM_B_HOME = Point2D(INITIAL_X, INITIAL_Y);
 
-const double SPEED = 3000;
-const double ACCEL = 1000;
 class Movement
 {
-public:
-	Movement();
+private:
 	AccelStepper A1;
 	AccelStepper A2;
 	AccelStepper A3;
+	Point2D currentPoint;
+	Point2D absPoint;
+	Point2D targetPoint;
+	Point2D *points;
+	PolarVec *vecs;
+	Steps target;
+	int currentInstruction;
+	int arrayLength;
+	float currentRotation;
+	bool isPulled;
+	bool calibrated;
+	bool isHome;
+	bool isDetected;
+	int team;
+	int M1_POS;
+	int M2_POS;
+	int M3_POS;
+
+public:
+	Movement();
 	void setup();
-	// void setTarget(Steps steps);
 	void run();
 	void runSync();
 	bool hasArrived();
@@ -29,16 +59,15 @@ public:
 	void moveToAbs(Steps steps);
 	void stop();
 	void fullStop();
-	Steps rotateTo(double angle);
-
-private:
-	// ESP_FlexyStepper M1;
-	// ESP_FlexyStepper M2;
-	// ESP_FlexyStepper M3;
-
-	Steps target;
-	int M1_POS;
-	int M2_POS;
-	int M3_POS;
-	// void doStepAsync(Steps steps);
+	void setTeam(int t);
+	void goHome();
+	bool isCalibrated();
+	void goToPoint();
+	void rotateTo(Point2D point);
+	void rotateToSide(float angle);
+	bool atHome();
+	void calibrate();
+	void setNextPoint(Point2D point);
+	void setPoints(Point2D *points, int len);
+	void start(bool lidar);
 };
