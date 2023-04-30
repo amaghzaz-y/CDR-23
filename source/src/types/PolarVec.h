@@ -4,8 +4,6 @@
 #include <utils/utils.h>
 #include <Arduino.h>
 
-const float CORRECTIF = 1.025;
-
 class PolarVec
 {
 public:

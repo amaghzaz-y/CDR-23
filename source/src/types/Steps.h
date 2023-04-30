@@ -1,4 +1,5 @@
 #pragma once
+const float correctif = 1.025;
 
 class Steps
 {

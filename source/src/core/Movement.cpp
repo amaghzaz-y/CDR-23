@@ -1,8 +1,7 @@
 #include <core/Movement.h>
 
-Movement::Movement() : target(0, 0, 0)
+Movement::Movement()
 {
-	M1_POS = M2_POS = M3_POS = 0;
 	A1 = AccelStepper(1, 25, 33);
 	A1.setEnablePin(13);
 	A2 = AccelStepper(1, 27, 26);
@@ -87,10 +86,6 @@ void Movement::moveToAbs(Steps steps)
 	A2.setMaxSpeed(speedY);
 	A3.setMaxSpeed(speedZ);
 
-	A1.setCurrentPosition(0);
-	A2.setCurrentPosition(0);
-	A3.setCurrentPosition(0);
-
 	A1.moveTo(steps.M1);
 	A2.moveTo(steps.M2);
 	A3.moveTo(steps.M3);
@@ -108,7 +103,7 @@ bool Movement::hasArrived()
 void Movement::rotateTo(Point2D point)
 {
 	float angle = point.getAngle();
-	double full_rot = 4000.0 * correctif;  // steps to achieve full rotation eq to 360deg
+	double full_rot = 4000.0;			   // steps to achieve full rotation eq to 360deg
 	double rot = angle * full_rot / 360.0; // rotation in steps per single motor
 	Steps steps = {(long)rot, (long)rot, (long)rot};
 	moveToRel(steps);
@@ -117,7 +112,7 @@ void Movement::rotateTo(Point2D point)
 
 void Movement::rotateToSide(float angle)
 {
-	double full_rot = 4000.0 * correctif;  // steps to achieve full rotation eq to 360deg
+	double full_rot = 4000.0;			   // steps to achieve full rotation eq to 360deg
 	double rot = angle * full_rot / 360.0; // rotation in steps per single motor
 	Steps steps = {(long)rot, (long)rot, (long)rot};
 	moveToRel(steps);
@@ -158,11 +153,6 @@ void Movement::fullStop()
 	A3.stop();
 }
 
-void Movement::setNextPoint(Point2D point)
-{
-	targetPoint = point;
-	absPoint = Point2D(point.X - currentPoint.X, point.Y - currentPoint.Y);
-}
 void Movement::setTeam(int i)
 {
 	team = i;
@@ -182,6 +172,12 @@ void Movement::goHome()
 		goToPoint();
 		isHome = true;
 	}
+}
+
+void Movement::setNextPoint(Point2D point)
+{
+	targetPoint = point;
+	absPoint = Point2D(point.X - currentPoint.X, point.Y - currentPoint.Y);
 }
 
 void Movement::goToPoint()
@@ -255,4 +251,9 @@ void Movement::start(bool lidar)
 		currentInstruction++;
 	}
 	goHome();
+}
+
+bool Movement::atHome()
+{
+	return isHome;
 }

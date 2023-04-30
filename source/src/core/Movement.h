@@ -19,7 +19,6 @@ const int SIDE_C = -120;
 const int SIDE_CA = -60;
 const double SPEED = 4000.0;
 const double ACCEL = 2000.0;
-const double correctif = 1.025;
 const float INITIAL_X = 231.47; // value in mm
 const float INITIAL_Y = 250.73; // mm
 const Point2D TEAM_A_HOME = Point2D(INITIAL_X, INITIAL_Y);
@@ -36,7 +35,6 @@ private:
 	Point2D targetPoint;
 	Point2D *points;
 	PolarVec *vecs;
-	Steps target;
 	int currentInstruction;
 	int arrayLength;
 	float currentRotation;
@@ -45,9 +43,6 @@ private:
 	bool isHome;
 	bool isDetected;
 	int team;
-	int M1_POS;
-	int M2_POS;
-	int M3_POS;
 
 public:
 	Movement();

@@ -2,9 +2,9 @@
 
 Steps::Steps(long m1, long m2, long m3)
 {
-	M1 = m1;
-	M2 = m2;
-	M3 = m3;
+	M1 = long(float(m1) * correctif);
+	M2 = long(float(m2) * correctif);
+	M3 = long(float(m3) * correctif);
 }
 
 long *Steps::Positions()

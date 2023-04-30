@@ -3,7 +3,7 @@
 PolarVec::PolarVec(float a, float d)
 {
 	angle = a;
-	distance = d * CORRECTIF;
+	distance = d;
 };
 
 Steps PolarVec::ToSteps()
