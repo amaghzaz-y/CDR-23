@@ -100,23 +100,12 @@ bool Movement::hasArrived()
 	return false;
 }
 
-void Movement::rotateTo(Point2D point)
-{
-	float angle = point.getAngle();
-	double full_rot = 4000.0;			   // steps to achieve full rotation eq to 360deg
-	double rot = angle * full_rot / 360.0; // rotation in steps per single motor
-	Steps steps = {(long)rot, (long)rot, (long)rot};
-	moveToRel(steps);
-	runSync();
-}
-
-void Movement::rotateToSide(float angle)
+void Movement::rotateTo(float angle)
 {
 	double full_rot = 4000.0;			   // steps to achieve full rotation eq to 360deg
 	double rot = angle * full_rot / 360.0; // rotation in steps per single motor
 	Steps steps = {(long)rot, (long)rot, (long)rot};
 	moveToRel(steps);
-	runSync();
 }
 
 void Movement::run()
@@ -180,6 +169,26 @@ void Movement::setNextPoint(Point2D point)
 	absPoint = Point2D(point.X - currentPoint.X, point.Y - currentPoint.Y);
 }
 
+void Movement::setNextRotation(float angle)
+{
+	targetRotation = angle;
+	absRotation = angle - currentRotation;
+}
+
+void Movement::doRotation()
+{
+	rotateTo(absRotation);
+	while (!hasArrived())
+	{
+		if (isDetected)
+		{
+			stop();
+		}
+		run();
+	}
+	currentRotation = targetRotation;
+}
+
 void Movement::goToPoint()
 {
 	isHome = false;
@@ -210,7 +219,8 @@ void Movement::calibrate()
 		runSync();
 		moveToRel(PolarVec(SIDE_CA, 115).ToStepsCosSin());
 		runSync();
-		rotateToSide(SIDE_B);
+		rotateTo(SIDE_B);
+		runSync();
 		moveToRel(PolarVec(SIDE_BC, 200).ToStepsCosSin());
 		runSync();
 		moveToRel(PolarVec(SIDE_A, 50).ToStepsCosSin());
@@ -226,7 +236,8 @@ void Movement::calibrate()
 		runSync();
 		moveToRel(PolarVec(SIDE_AB, 115).ToStepsCosSin());
 		runSync();
-		rotateToSide(SIDE_C);
+		rotateTo(SIDE_C);
+		runSync();
 		moveToRel(PolarVec(SIDE_BC, 200).ToStepsCosSin());
 		runSync();
 		isHome = true;
