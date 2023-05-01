@@ -15,6 +15,9 @@ class Strategy
 {
 private:
 	Movement movement;
+	Point2D *points;
+	int currentInstruction;
+	int arrayLength;
 	void makeSelection();
 	void init();
 	bool isReady();
@@ -22,6 +25,7 @@ private:
 public:
 	void setup();
 	void start(bool lidar);
+	void startSEMI(bool lidar);
 	void stop();
 	void setPoints(Point2D *points, int len);
 };

@@ -126,14 +126,18 @@ void Movement::goHome()
 {
 	if (team == 0)
 	{
+		setNextRotation(TEAM_A_HOME.getAngle());
+		doRotation();
 		setNextPoint(TEAM_A_HOME);
-		goToPoint();
+		goToPoint(false);
 		isHome = true;
 	}
 	else if (team == 1)
 	{
+		setNextRotation(TEAM_B_HOME.getAngle());
+		doRotation();
 		setNextPoint(TEAM_B_HOME);
-		goToPoint();
+		goToPoint(false);
 		isHome = true;
 	}
 }
@@ -163,12 +167,19 @@ void Movement::doRotation()
 	}
 	currentRotation = targetRotation;
 }
-
-void Movement::goToPoint()
+// if true then apply distance offset
+void Movement::goToPoint(bool offset)
 {
 	isHome = false;
 	calibrated = false;
-	moveTo(absPoint.toStepsOffset(absRotation, OFFSET_DISTANCE));
+	if (offset)
+	{
+		moveTo(absPoint.toStepsOffset(absRotation, OFFSET_DISTANCE));
+	}
+	else
+	{
+		moveTo(absPoint.toStepsOffset(absRotation, 0.0));
+	}
 	while (!hasArrived())
 	{
 		if (isDetected)
@@ -178,12 +189,6 @@ void Movement::goToPoint()
 		run();
 	}
 	currentPoint = targetPoint;
-}
-
-void Movement::setPoints(Point2D *p, int len)
-{
-	points = p;
-	arrayLength = len;
 }
 
 void Movement::calibrate()
@@ -227,16 +232,20 @@ bool Movement::isCalibrated()
 	return calibrated;
 }
 
-void Movement::start(bool lidar)
+void Movement::Execute(Point2D point, bool lidar)
 {
 	isDetected = lidar;
-	while (currentInstruction < arrayLength)
-	{
-		setNextPoint(points[currentInstruction]);
-		goToPoint();
-		currentInstruction++;
-	}
-	goHome();
+	setNextPoint(point);
+	goToPoint(false);
+}
+
+void Movement::ExecuteSEMI(Point2D point, bool lidar)
+{
+	isDetected = lidar;
+	setNextRotation(point.getAngle());
+	doRotation();
+	setNextPoint(point);
+	goToPoint(true);
 }
 
 bool Movement::atHome()

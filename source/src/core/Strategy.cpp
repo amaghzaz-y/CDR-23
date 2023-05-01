@@ -32,10 +32,12 @@ void Strategy::makeSelection()
 		movement.setTeam(1);
 	}
 }
+
 void Strategy::stop()
 {
 	movement.fullStop();
 }
+
 bool Strategy::isReady()
 {
 	if (digitalRead(REED_PIN) == 0)
@@ -49,14 +51,34 @@ bool Strategy::isReady()
 
 void Strategy::start(bool lidar)
 {
-	if (!movement.isCalibrated() || !movement.atHome())
+	while (!movement.isCalibrated() || !movement.atHome())
 	{
 		init();
 	}
-	movement.start(lidar);
+	while (currentInstruction < arrayLength)
+	{
+		movement.Execute(points[currentInstruction], lidar);
+		currentInstruction++;
+	}
+	movement.goHome();
+}
+
+void Strategy::startSEMI(bool lidar)
+{
+	while (!movement.isCalibrated() || !movement.atHome())
+	{
+		init();
+	}
+	while (currentInstruction < arrayLength)
+	{
+		movement.ExecuteSEMI(points[currentInstruction], lidar);
+		currentInstruction++;
+	}
+	movement.goHome();
 }
 
 void Strategy::setPoints(Point2D *p, int len)
 {
-	movement.setPoints(p, len);
+	points = p;
+	arrayLength = len;
 }

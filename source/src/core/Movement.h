@@ -21,8 +21,8 @@ const double SPEED = 4000.0;
 const double ACCEL = 2000.0;
 const float INITIAL_X = 231.47; // value in mm
 const float INITIAL_Y = 250.73; // mm
-const Point2D TEAM_A_HOME = Point2D(INITIAL_X, INITIAL_Y);
-const Point2D TEAM_B_HOME = Point2D(INITIAL_X, INITIAL_Y);
+Point2D TEAM_A_HOME = Point2D(INITIAL_X, INITIAL_Y);
+Point2D TEAM_B_HOME = Point2D(INITIAL_X, INITIAL_Y);
 const float OFFSET_DISTANCE = 50.0; // mm
 class Movement
 {
@@ -36,35 +36,30 @@ private:
 	float absRotation;
 	Point2D absPoint;
 	Point2D targetPoint;
-	Point2D *points;
-	PolarVec *vecs;
-	int currentInstruction;
-	int arrayLength;
 	bool calibrated;
 	bool isHome;
 	bool isDetected;
 	int team;
 	void run();
 	void runSync();
-	void goToPoint();
-	void doRotation();
+	void rotateTo(float angle);
+	void moveTo(Steps steps);
 	void setNextPoint(Point2D point);
 	void setNextRotation(float angle);
-	void rotateTo(float angle);
-	void goHome();
-	void moveTo(Steps steps);
+	void goToPoint(bool distance);
+	void doRotation();
+	void stop();
 
 public:
 	Movement();
 	void setup();
 	bool hasArrived();
-	void stop();
 	void fullStop();
 	void setTeam(int t);
 	bool isCalibrated();
 	bool atHome();
 	void calibrate();
-	void setPoints(Point2D *points, int len);
-	void start(bool lidar);
-	void startSemi(bool lidar);
+	void Execute(Point2D point, bool lidar);
+	void ExecuteSEMI(Point2D point, bool lidar);
+	void goHome();
 };

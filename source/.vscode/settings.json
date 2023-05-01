@@ -18,7 +18,12 @@
 		"vector": "cpp",
 		"string_view": "cpp",
 		"initializer_list": "cpp",
-		"random": "cpp"
+		"random": "cpp",
+		"*.tcc": "cpp",
+		"fstream": "cpp",
+		"istream": "cpp",
+		"ostream": "cpp",
+		"sstream": "cpp"
 	},
 	"cmake.sourceDirectory": "${workspaceFolder}/.pio/libdeps/upesy_wroom/Unity"
 }
