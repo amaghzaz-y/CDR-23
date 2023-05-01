@@ -36,16 +36,14 @@ void LidarTask(void *pvParameters)
 void setup()
 {
 	Serial.begin(9600);
-	strategy.setup();
 	lidar.setup();
 	lidar.setAngle(180);
 	lidar.setRadius(360);
 	lidar.setMaxRange(300);
+	strategy.setup();
 	// xTaskCreatePinnedToCore(LidarTask, "lidarTask", 10000, NULL, 0, NULL, 0);
 	strategy.setPoints(points, 4);
-	strategy.setup();
 }
-float rotation = 0.0;
 
 void loop()
 {

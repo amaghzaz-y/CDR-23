@@ -19,9 +19,17 @@ void Movement::setup()
 	A1.setMaxSpeed(SPEED);
 	A2.setMaxSpeed(SPEED);
 	A3.setMaxSpeed(SPEED);
+
+	currentRotation = 0.0;
+	targetRotation = 0.0;
+	absRotation = 0.0;
+	calibrated = false;
+	isHome = false;
+	isDetected = false;
+	team = 0;
 }
 
-void Movement::moveToRel(Steps steps)
+void Movement::moveTo(Steps steps)
 {
 	double absStepsX = abs(steps.M1);
 	double absStepsY = abs(steps.M2);
@@ -58,39 +66,6 @@ void Movement::moveToRel(Steps steps)
 	A3.move(steps.M3);
 }
 
-void Movement::moveToAbs(Steps steps)
-{
-	double absStepsX = abs(steps.M1);
-	double absStepsY = abs(steps.M2);
-	double absStepsZ = abs(steps.M3);
-
-	double maxSteps = max(absStepsX, max(absStepsZ, absStepsY));
-
-	double scalerX = absStepsX / maxSteps;
-	double scalerY = absStepsY / maxSteps;
-	double scalerZ = absStepsZ / maxSteps;
-
-	double speedX = SPEED * scalerX;
-	double speedY = SPEED * scalerY;
-	double speedZ = SPEED * scalerZ;
-
-	double accelX = ACCEL * scalerX;
-	double accelY = ACCEL * scalerY;
-	double accelZ = ACCEL * scalerZ;
-
-	A1.setAcceleration(accelX);
-	A2.setAcceleration(accelY);
-	A3.setAcceleration(accelZ);
-
-	A1.setMaxSpeed(speedX);
-	A2.setMaxSpeed(speedY);
-	A3.setMaxSpeed(speedZ);
-
-	A1.moveTo(steps.M1);
-	A2.moveTo(steps.M2);
-	A3.moveTo(steps.M3);
-}
-
 bool Movement::hasArrived()
 {
 	if (A1.distanceToGo() == 0 && A2.distanceToGo() == 0 && A3.distanceToGo() == 0)
@@ -105,7 +80,7 @@ void Movement::rotateTo(float angle)
 	double full_rot = 4000.0;			   // steps to achieve full rotation eq to 360deg
 	double rot = angle * full_rot / 360.0; // rotation in steps per single motor
 	Steps steps = {(long)rot, (long)rot, (long)rot};
-	moveToRel(steps);
+	moveTo(steps);
 }
 
 void Movement::run()
@@ -193,7 +168,7 @@ void Movement::goToPoint()
 {
 	isHome = false;
 	calibrated = false;
-	moveToRel(absPoint.toSteps());
+	moveTo(absPoint.toStepsOffset(absRotation, OFFSET_DISTANCE));
 	while (!hasArrived())
 	{
 		if (isDetected)
@@ -215,34 +190,34 @@ void Movement::calibrate()
 {
 	if (team == 0)
 	{
-		moveToRel(PolarVec(SIDE_B, 200).ToStepsCosSin());
+		moveTo(PolarVec(SIDE_B, 200).ToSteps());
 		runSync();
-		moveToRel(PolarVec(SIDE_CA, 115).ToStepsCosSin());
+		moveTo(PolarVec(SIDE_CA, 115).ToSteps());
 		runSync();
 		rotateTo(SIDE_B);
 		runSync();
-		moveToRel(PolarVec(SIDE_BC, 200).ToStepsCosSin());
+		moveTo(PolarVec(SIDE_BC, 200).ToSteps());
 		runSync();
-		moveToRel(PolarVec(SIDE_A, 50).ToStepsCosSin());
+		moveTo(PolarVec(SIDE_A, 50).ToSteps());
 		runSync();
 		isHome = true;
 		calibrated = true;
-		currentPoint = Point2D(INITIAL_X, INITIAL_Y);
+		currentPoint = TEAM_A_HOME;
 		delay(3000);
 	}
 	else if (team == 1)
 	{
-		moveToRel(PolarVec(SIDE_C, 200).ToStepsCosSin());
+		moveTo(PolarVec(SIDE_C, 200).ToSteps());
 		runSync();
-		moveToRel(PolarVec(SIDE_AB, 115).ToStepsCosSin());
+		moveTo(PolarVec(SIDE_AB, 115).ToSteps());
 		runSync();
 		rotateTo(SIDE_C);
 		runSync();
-		moveToRel(PolarVec(SIDE_BC, 200).ToStepsCosSin());
+		moveTo(PolarVec(SIDE_BC, 200).ToSteps());
 		runSync();
 		isHome = true;
 		calibrated = true;
-		currentPoint = Point2D(INITIAL_X, INITIAL_Y);
+		currentPoint = TEAM_B_HOME;
 		delay(3000);
 	}
 }

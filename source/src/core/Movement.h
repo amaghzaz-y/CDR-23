@@ -23,7 +23,7 @@ const float INITIAL_X = 231.47; // value in mm
 const float INITIAL_Y = 250.73; // mm
 const Point2D TEAM_A_HOME = Point2D(INITIAL_X, INITIAL_Y);
 const Point2D TEAM_B_HOME = Point2D(INITIAL_X, INITIAL_Y);
-
+const float OFFSET_DISTANCE = 50.0; // mm
 class Movement
 {
 private:
@@ -40,7 +40,6 @@ private:
 	PolarVec *vecs;
 	int currentInstruction;
 	int arrayLength;
-	bool isPulled;
 	bool calibrated;
 	bool isHome;
 	bool isDetected;
@@ -52,20 +51,20 @@ private:
 	void setNextPoint(Point2D point);
 	void setNextRotation(float angle);
 	void rotateTo(float angle);
+	void goHome();
+	void moveTo(Steps steps);
 
 public:
 	Movement();
 	void setup();
 	bool hasArrived();
-	void moveToRel(Steps steps);
-	void moveToAbs(Steps steps);
 	void stop();
 	void fullStop();
 	void setTeam(int t);
-	void goHome();
 	bool isCalibrated();
 	bool atHome();
 	void calibrate();
 	void setPoints(Point2D *points, int len);
 	void start(bool lidar);
+	void startSemi(bool lidar);
 };

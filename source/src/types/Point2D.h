@@ -12,5 +12,6 @@ public:
 	Point2D(int x, int y);
 	Point2D();
 	Steps toSteps();
+	Steps toStepsOffset(float angle, float distance);
 	float getAngle();
 };
