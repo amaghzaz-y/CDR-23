@@ -24,9 +24,9 @@ Steps Point2D::toSteps()
 
 Steps Point2D::toStepsOffset(float angle, float distance)
 {
-	float distance = sqrt(pow(X, 2) + pow(Y, 2)) + distance;
-	float angle = 360.0 - angle - atan2(Y, X) * 57.2957795; // in degrees
-	PolarVec vec = PolarVec(angle, distance);
+	float d = sqrt(pow(X, 2) + pow(Y, 2)) + distance;	// distance in mm
+	float a = 360.0 - angle - atan2(Y, X) * 57.2957795; // angle in degrees
+	PolarVec vec = PolarVec(a, d);
 	Steps steps = vec.ToSteps();
 	return steps;
 }
