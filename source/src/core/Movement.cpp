@@ -8,6 +8,15 @@ Movement::Movement()
 	A2.setEnablePin(13);
 	A3 = AccelStepper(1, 14, 12);
 	A3.setEnablePin(13);
+	TEAM_A_HOME = Point2D(INITIAL_X, INITIAL_Y);
+	TEAM_B_HOME = Point2D(INITIAL_X, INITIAL_Y);
+	currentRotation = 0.0;
+	targetRotation = 0.0;
+	angleToDo = 0.0;
+	calibrated = false;
+	isHome = false;
+	isDetected = false;
+	team = 0;
 }
 
 void Movement::setup()
@@ -19,18 +28,17 @@ void Movement::setup()
 	A1.setMaxSpeed(SPEED);
 	A2.setMaxSpeed(SPEED);
 	A3.setMaxSpeed(SPEED);
-
-	currentRotation = 0.0;
-	targetRotation = 0.0;
-	absRotation = 0.0;
-	calibrated = false;
-	isHome = false;
-	isDetected = false;
-	team = 0;
 }
 
 void Movement::moveTo(Steps steps)
 {
+	// Serial.print("M1 : ");
+	// Serial.print(steps.M1);
+	// Serial.print(" - M2 : ");
+	// Serial.print(steps.M2);
+	// Serial.print(" - M3 : ");
+	// Serial.println(steps.M3);
+
 	double absStepsX = abs(steps.M1);
 	double absStepsY = abs(steps.M2);
 	double absStepsZ = abs(steps.M3);
@@ -126,37 +134,51 @@ void Movement::goHome()
 {
 	if (team == 0)
 	{
-		setNextRotation(TEAM_A_HOME.getAngle());
-		doRotation();
-		setNextPoint(TEAM_A_HOME);
-		goToPoint(false);
+		setPoint(TEAM_A_HOME);
+		goToPoint();
 		isHome = true;
 	}
 	else if (team == 1)
 	{
-		setNextRotation(TEAM_B_HOME.getAngle());
-		doRotation();
-		setNextPoint(TEAM_B_HOME);
-		goToPoint(false);
+		setPoint(TEAM_B_HOME);
+		goToPoint();
 		isHome = true;
 	}
 }
 
-void Movement::setNextPoint(Point2D point)
+void Movement::goHomeSEMI()
+{
+	if (team == 0)
+	{
+		setPoint(TEAM_A_HOME);
+		goToPointRotate();
+		isHome = true;
+	}
+	else if (team == 1)
+	{
+		setPoint(TEAM_B_HOME);
+		goToPointRotate();
+		isHome = true;
+	}
+}
+
+void Movement::setPoint(Point2D point)
 {
 	targetPoint = point;
 	absPoint = Point2D(point.X - currentPoint.X, point.Y - currentPoint.Y);
 }
 
-void Movement::setNextRotation(float angle)
+void Movement::setRotation(float angle)
 {
 	targetRotation = angle;
-	absRotation = angle - currentRotation;
+	angleToDo = angle - currentRotation;
+	Serial.print("Rotating to Angle: ");
+	Serial.println(angleToDo);
 }
 
 void Movement::doRotation()
 {
-	rotateTo(absRotation);
+	rotateTo(angleToDo);
 	while (!hasArrived())
 	{
 		if (isDetected)
@@ -166,20 +188,23 @@ void Movement::doRotation()
 		run();
 	}
 	currentRotation = targetRotation;
+	Serial.print("current rotation : ");
+	Serial.println(currentRotation);
 }
-// if true then apply distance offset
-void Movement::goToPoint(bool offset)
+
+void Movement::goToPoint()
 {
 	isHome = false;
 	calibrated = false;
-	if (offset)
-	{
-		moveTo(absPoint.toStepsOffset(absRotation, OFFSET_DISTANCE));
-	}
-	else
-	{
-		moveTo(absPoint.toStepsOffset(absRotation, 0.0));
-	}
+
+	float distance = sqrt(pow(absPoint.X, 2) + pow(absPoint.Y, 2));
+	float angle = 360.0 - (atan2(absPoint.Y, absPoint.X) * 57.2957795); // in degrees
+	angle = normalizeAngle(angle);
+	Serial.print("Moving to Angle : ");
+	Serial.println(angle);
+	PolarVec vec = PolarVec(angle, distance);
+	moveTo(vec.ToSteps());
+
 	while (!hasArrived())
 	{
 		if (isDetected)
@@ -190,6 +215,37 @@ void Movement::goToPoint(bool offset)
 	}
 	currentPoint = targetPoint;
 }
+
+void Movement::goToPointRotate()
+{
+	isHome = false;
+	calibrated = false;
+
+	float distance = sqrt(pow(absPoint.X, 2) + pow(absPoint.Y, 2));
+	float angle = 360.0 - (atan2(absPoint.Y, absPoint.X) * 57.2957795); // in degrees
+	angle = normalizeAngle(angle);
+
+	setRotation(angle);
+	doRotation();
+
+	angle = normalizeAngle(angle - currentRotation);
+
+	PolarVec vec = PolarVec(angle, distance);
+
+	moveTo(vec.ToSteps());
+
+	Serial.print("Moving to Angle : ");
+	Serial.println(angle);
+	while (!hasArrived())
+	{
+		if (isDetected)
+		{
+			stop();
+		}
+		run();
+	}
+	currentPoint = targetPoint;
+};
 
 void Movement::calibrate()
 {
@@ -235,17 +291,15 @@ bool Movement::isCalibrated()
 void Movement::Execute(Point2D point, bool lidar)
 {
 	isDetected = lidar;
-	setNextPoint(point);
-	goToPoint(false);
+	setPoint(point);
+	goToPoint();
 }
 
 void Movement::ExecuteSEMI(Point2D point, bool lidar)
 {
 	isDetected = lidar;
-	setNextRotation(point.getAngle());
-	doRotation();
-	setNextPoint(point);
-	goToPoint(true);
+	setPoint(point);
+	goToPointRotate();
 }
 
 bool Movement::atHome()

@@ -61,8 +61,20 @@ void Strategy::start(bool lidar)
 		currentInstruction++;
 	}
 	movement.goHome();
+	currentInstruction = 0;
 }
-
+void Strategy::startDebug(bool lidar)
+{
+	delay(2000);
+	Serial.println("Starting...");
+	while (currentInstruction < arrayLength)
+	{
+		movement.ExecuteSEMI(points[currentInstruction], lidar);
+		currentInstruction++;
+	}
+	movement.goHomeSEMI();
+	currentInstruction = 0;
+}
 void Strategy::startSEMI(bool lidar)
 {
 	while (!movement.isCalibrated() || !movement.atHome())
@@ -75,7 +87,8 @@ void Strategy::startSEMI(bool lidar)
 		actuators.PickObject(0);
 		currentInstruction++;
 	}
-	movement.goHome();
+	movement.goHomeSEMI();
+	currentInstruction = 0;
 }
 
 void Strategy::setPoints(Point2D *p, int len)

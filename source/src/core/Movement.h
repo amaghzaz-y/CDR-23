@@ -3,6 +3,7 @@
 #include <types/Steps.h>
 #include <stepper/AccelStepper.h>
 #include <types/Point2D.h>
+#include <utils/utils.h>
 
 #define PIN_DIR_M1 33
 #define PIN_DIR_M2 26
@@ -21,8 +22,7 @@ const double SPEED = 4000.0;
 const double ACCEL = 2000.0;
 const float INITIAL_X = 231.47; // value in mm
 const float INITIAL_Y = 250.73; // mm
-Point2D TEAM_A_HOME = Point2D(INITIAL_X, INITIAL_Y);
-Point2D TEAM_B_HOME = Point2D(INITIAL_X, INITIAL_Y);
+
 const float OFFSET_DISTANCE = 50.0; // mm
 class Movement
 {
@@ -33,7 +33,7 @@ private:
 	Point2D currentPoint;
 	float currentRotation;
 	float targetRotation;
-	float absRotation;
+	float angleToDo;
 	Point2D absPoint;
 	Point2D targetPoint;
 	bool calibrated;
@@ -42,24 +42,29 @@ private:
 	int team;
 	void run();
 	void runSync();
-	void rotateTo(float angle);
 	void moveTo(Steps steps);
-	void setNextPoint(Point2D point);
-	void setNextRotation(float angle);
-	void goToPoint(bool distance);
-	void doRotation();
+
+	void goToPoint();
 	void stop();
+	Point2D TEAM_A_HOME;
+	Point2D TEAM_B_HOME;
 
 public:
 	Movement();
+	void rotateTo(float angle);
+	void doRotation();
+	void goToPointRotate();
 	void setup();
 	bool hasArrived();
 	void fullStop();
 	void setTeam(int t);
 	bool isCalibrated();
+	void setPoint(Point2D point);
+	void setRotation(float angle);
 	bool atHome();
 	void calibrate();
 	void Execute(Point2D point, bool lidar);
 	void ExecuteSEMI(Point2D point, bool lidar);
 	void goHome();
+	void goHomeSEMI();
 };

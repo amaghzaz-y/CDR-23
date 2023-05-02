@@ -21,8 +21,7 @@ void FullStop()
 
 Ticker ticker(FullStop, 1200000, 1);
 
-// PolarVec vecs[] = {PolarVec(0, 50), PolarVec(120, 50), PolarVec(240, 50)};
-Point2D points[] = {Point2D(1000, 500), Point2D(500, 500), Point2D(400, 400), Point2D(343, 545)};
+Point2D points[] = {Point2D(1000, 500), Point2D(500, 700)};
 
 void LidarTask(void *pvParameters)
 {
@@ -42,10 +41,10 @@ void setup()
 	lidar.setMaxRange(300);
 	strategy.setup();
 	// xTaskCreatePinnedToCore(LidarTask, "lidarTask", 10000, NULL, 0, NULL, 0);
-	strategy.setPoints(points, 4);
+	strategy.setPoints(points, 2);
 }
 
 void loop()
 {
-	strategy.start(false);
+	strategy.startDebug(false);
 }
