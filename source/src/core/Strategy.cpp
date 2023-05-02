@@ -72,6 +72,7 @@ void Strategy::startSEMI(bool lidar)
 	while (currentInstruction < arrayLength)
 	{
 		movement.ExecuteSEMI(points[currentInstruction], lidar);
+		actuators.PickObject(0);
 		currentInstruction++;
 	}
 	movement.goHome();

@@ -4,7 +4,7 @@
 #include "core/Movement.h"
 #include "types/PolarVec.h"
 #include "core/Lidar.h"
-
+#include "core/Actuators.h"
 #define HEIGHT 2000 // value in mm
 #define WIDTH 1500	// value in mm
 #define REED_PIN 32
@@ -15,6 +15,7 @@ class Strategy
 {
 private:
 	Movement movement;
+	Actuators actuators;
 	Point2D *points;
 	int currentInstruction;
 	int arrayLength;
