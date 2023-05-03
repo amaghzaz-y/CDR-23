@@ -13,4 +13,5 @@ public:
 	// 1.angle 2.distance
 	PolarVec(float angle, float distance);
 	Steps ToSteps();
+	Vec2 toVec2();
 };

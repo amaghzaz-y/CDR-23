@@ -21,7 +21,7 @@ void FullStop()
 
 Ticker ticker(FullStop, 1200000, 1);
 
-Point2D points[] = {Point2D(1000, 500), Point2D(500, 700)};
+Point2D points[] = {Point2D(1000, 500), Point2D(1000, 1000)};
 
 void LidarTask(void *pvParameters)
 {

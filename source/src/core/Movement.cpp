@@ -171,6 +171,7 @@ void Movement::setPoint(Point2D point)
 	absPoint = Point2D(point.X - currentPoint.X, point.Y - currentPoint.Y);
 }
 
+// sets new absolute Rotation // working proprely
 void Movement::setRotation(float angle)
 {
 	targetRotation = angle;
@@ -179,6 +180,7 @@ void Movement::setRotation(float angle)
 	Serial.println(angleToDo);
 }
 
+// executes the absolute rotation
 void Movement::doRotation()
 {
 	rotateTo(angleToDo);
@@ -225,13 +227,13 @@ void Movement::goToPointRotate()
 	calibrated = false;
 
 	float distance = sqrt(pow(absPoint.X, 2) + pow(absPoint.Y, 2));
-	float angle = rootAngle - (atan2(absPoint.Y, absPoint.X) * 57.2957795); // in degrees
+	float angle = 360 - rootAngle - (atan2(absPoint.Y, absPoint.X) * 57.2957795); // in degrees
 	angle = normalizeAngle(angle);
 
 	setRotation(angle);
 	doRotation();
 
-	PolarVec vec = PolarVec(0.0, distance);
+	PolarVec vec = PolarVec(rootAngle, distance);
 
 	moveTo(vec.ToSteps());
 
@@ -252,13 +254,14 @@ void Movement::setRootAngle(float angle)
 {
 	rootAngle = angle;
 }
+
 void Movement::calibrate()
 {
 	if (team == 0)
 	{
-		moveTo(PolarVec(SIDE_C, 200).ToSteps());
+		moveTo(PolarVec(SIDE_B, 200).ToSteps());
 		runSync();
-		moveTo(PolarVec(SIDE_AB, 115).ToSteps());
+		moveTo(PolarVec(SIDE_CA, 115).ToSteps());
 		runSync();
 		rotateTo(30.0);
 		runSync();
