@@ -83,6 +83,10 @@ void Strategy::startSEMI(bool lidar)
 	}
 	while (currentInstruction < arrayLength)
 	{
+		if (currentInstruction == 1)
+		{
+			movement.setRootAngle(SIDE_B);
+		}
 		movement.ExecuteSEMI(points[currentInstruction], lidar);
 		actuators.PickObject(0);
 		currentInstruction++;

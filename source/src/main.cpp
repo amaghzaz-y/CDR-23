@@ -3,7 +3,7 @@
 #include <core/Lidar.h>
 #include <core/Strategy.h>
 #include <ticker/Ticker.h>
-
+#include <utils/utils.h>
 void log(char *msg, int value)
 {
 	Serial.print(msg);
@@ -46,5 +46,11 @@ void setup()
 
 void loop()
 {
-	strategy.startDebug(false);
+	// delay(5000);
+	// strategy.movement.rotateTo(-60.0);
+	// strategy.movement.runSync();
+	// delay(5000);
+	// strategy.movement.rotateTo(120.0);
+	// strategy.movement.runSync();
+	strategy.startSEMI(false);
 }

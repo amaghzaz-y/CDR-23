@@ -12,12 +12,12 @@
 #define PIN_STP_M2 27
 #define PIN_STP_M3 14
 #define PIN_ENABLE 13
-const int SIDE_A = 0;
-const int SIDE_AB = 60;
-const int SIDE_B = 120;
-const int SIDE_BC = 180;
-const int SIDE_C = -120;
-const int SIDE_CA = -60;
+const int SIDE_A = 360;
+const int SIDE_AB = -60;
+const int SIDE_B = -120;
+const int SIDE_BC = -180;
+const int SIDE_C = 120;
+const int SIDE_CA = 60;
 const double SPEED = 4000.0;
 const double ACCEL = 2000.0;
 const float INITIAL_X = 231.47; // value in mm
@@ -40,10 +40,7 @@ private:
 	bool isHome;
 	bool isDetected;
 	int team;
-	void run();
-	void runSync();
-	void moveTo(Steps steps);
-
+	float rootAngle;
 	void goToPoint();
 	void stop();
 	Point2D TEAM_A_HOME;
@@ -51,6 +48,7 @@ private:
 
 public:
 	Movement();
+	void setRootAngle(float angle);
 	void rotateTo(float angle);
 	void doRotation();
 	void goToPointRotate();
@@ -63,6 +61,9 @@ public:
 	void setRotation(float angle);
 	bool atHome();
 	void calibrate();
+	void run();
+	void runSync();
+	void moveTo(Steps steps);
 	void Execute(Point2D point, bool lidar);
 	void ExecuteSEMI(Point2D point, bool lidar);
 	void goHome();
