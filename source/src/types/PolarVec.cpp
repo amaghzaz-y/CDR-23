@@ -20,4 +20,5 @@ Vec2 PolarVec::toVec2()
 {
 	float x = distance * cos(angle);
 	float y = distance * sin(angle);
+	return Vec2(x, y);
 };
