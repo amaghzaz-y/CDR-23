@@ -27,7 +27,7 @@
  */
 /*
  *  RoboPeak LIDAR System
- *  Data Packet IO protocol definition for RP-LIDAR
+ *  Data Packet IO packet definition for RP-LIDAR
  *
  *  Copyright 2009 - 2014 RoboPeak Team
  *  http://www.robopeak.com
@@ -36,37 +36,61 @@
 
 #pragma once
 
-#include <rplidar/rptypes.h>
-// RP-Lidar Input Packets
+#include "lib/rplidar/rplidar_protocol.h"
 
-#define RPLIDAR_CMD_SYNC_BYTE 0xA5
-#define RPLIDAR_CMDFLAG_HAS_PAYLOAD 0x80
+// Commands
+//-----------------------------------------
 
-#define RPLIDAR_ANS_SYNC_BYTE1 0xA5
-#define RPLIDAR_ANS_SYNC_BYTE2 0x5A
+// Commands without payload and response
+#define RPLIDAR_CMD_STOP 0x25
+#define RPLIDAR_CMD_SCAN 0x20
+#define RPLIDAR_CMD_FORCE_SCAN 0x21
+#define RPLIDAR_CMD_RESET 0x40
 
-#define RPLIDAR_ANS_PKTFLAG_LOOP 0x1
+// Commands without payload but have response
+#define RPLIDAR_CMD_GET_DEVICE_INFO 0x50
+#define RPLIDAR_CMD_GET_DEVICE_HEALTH 0x52
 
 #if defined(_WIN32)
 #pragma pack(1)
 #endif
 
-typedef struct _rplidar_cmd_packet_t
-{
-    _u8 syncByte; // must be RPLIDAR_CMD_SYNC_BYTE
-    _u8 cmd_flag;
-    _u8 size;
-    _u8 data[0];
-} __attribute__((packed)) rplidar_cmd_packet_t;
+// Response
+// ------------------------------------------
+#define RPLIDAR_ANS_TYPE_MEASUREMENT 0x81
 
-typedef struct _rplidar_ans_header_t
+#define RPLIDAR_ANS_TYPE_DEVINFO 0x4
+#define RPLIDAR_ANS_TYPE_DEVHEALTH 0x6
+
+#define RPLIDAR_STATUS_OK 0x0
+#define RPLIDAR_STATUS_WARNING 0x1
+#define RPLIDAR_STATUS_ERROR 0x2
+
+#define RPLIDAR_RESP_MEASUREMENT_SYNCBIT (0x1 << 0)
+#define RPLIDAR_RESP_MEASUREMENT_QUALITY_SHIFT 2
+#define RPLIDAR_RESP_MEASUREMENT_CHECKBIT (0x1 << 0)
+#define RPLIDAR_RESP_MEASUREMENT_ANGLE_SHIFT 1
+
+typedef struct _rplidar_response_measurement_node_t
 {
-    _u8 syncByte1; // must be RPLIDAR_ANS_SYNC_BYTE1
-    _u8 syncByte2; // must be RPLIDAR_ANS_SYNC_BYTE2
-    _u32 size : 30;
-    _u32 subType : 2;
-    _u8 type;
-} __attribute__((packed)) rplidar_ans_header_t;
+    _u8 sync_quality;       // syncbit:1;syncbit_inverse:1;quality:6;
+    _u16 angle_q6_checkbit; // check_bit:1;angle_q6:15;
+    _u16 distance_q2;
+} __attribute__((packed)) rplidar_response_measurement_node_t;
+
+typedef struct _rplidar_response_device_info_t
+{
+    _u8 model;
+    _u16 firmware_version;
+    _u8 hardware_version;
+    _u8 serialnum[16];
+} __attribute__((packed)) rplidar_response_device_info_t;
+
+typedef struct _rplidar_response_device_health_t
+{
+    _u8 status;
+    _u16 error_code;
+} __attribute__((packed)) rplidar_response_device_health_t;
 
 #if defined(_WIN32)
 #pragma pack()

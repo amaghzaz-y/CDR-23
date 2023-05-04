@@ -1,5 +1,5 @@
 #pragma once
-#include <rplidar/RPLidar.h>
+#include <lib/rplidar/RPLidar.h>
 #include <types/PolarVec.h>
 #define LIDAR_MOTOR_PIN 15
 #define LIDAR_MOTOR_SPEED 120

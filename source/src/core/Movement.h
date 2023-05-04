@@ -1,7 +1,7 @@
 #pragma once
 
 #include <types/Steps.h>
-#include <stepper/AccelStepper.h>
+#include <lib/stepper/AccelStepper.h>
 #include <types/Point2D.h>
 #include <utils/utils.h>
 
