@@ -63,6 +63,7 @@ void Strategy::start(bool lidar)
 	movement.goHome();
 	currentInstruction = 0;
 }
+
 void Strategy::startDebug(bool lidar)
 {
 	delay(2000);
@@ -75,6 +76,7 @@ void Strategy::startDebug(bool lidar)
 	movement.goHomeSEMI();
 	currentInstruction = 0;
 }
+
 void Strategy::startSEMI(bool lidar)
 {
 	while (!movement.isCalibrated() || !movement.atHome())
@@ -85,11 +87,11 @@ void Strategy::startSEMI(bool lidar)
 	{
 		if (currentInstruction == 1)
 		{
-			movement.setRootAngle(SIDE_B);
+			movement.setSide(SIDE_B);
 		}
 		if (currentInstruction == 2)
 		{
-			movement.setRootAngle(SIDE_C);
+			movement.setSide(SIDE_C);
 		}
 		movement.ExecuteSEMI(points[currentInstruction], lidar);
 		// actuators.pickObject(0);

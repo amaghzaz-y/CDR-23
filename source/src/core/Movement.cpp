@@ -17,7 +17,7 @@ Movement::Movement()
 	isHome = false;
 	isDetected = false;
 	team = 0;
-	rootAngle = SIDE_A;
+	currentSideAngle = SIDE_A;
 }
 
 void Movement::setup()
@@ -148,7 +148,7 @@ void Movement::goHome()
 
 void Movement::goHomeSEMI()
 {
-	setRootAngle(SIDE_A);
+	setSide(SIDE_A);
 	if (team == 0)
 	{
 		setPoint(TEAM_A_HOME);
@@ -203,7 +203,7 @@ void Movement::goToPoint()
 	calibrated = false;
 
 	float distance = sqrt(pow(absPoint.X, 2) + pow(absPoint.Y, 2));
-	float angle = rootAngle - (atan2(absPoint.Y, absPoint.X) * 57.2957795); // in degrees
+	float angle = currentSideAngle - (atan2(absPoint.Y, absPoint.X) * 57.2957795); // in degrees
 	angle = normalizeAngle(angle);
 	Serial.print("Moving to Angle : ");
 	Serial.println(angle);
@@ -227,13 +227,13 @@ void Movement::goToPointRotate()
 	calibrated = false;
 
 	float distance = sqrt(pow(absPoint.X, 2) + pow(absPoint.Y, 2));
-	float angle = 360 - rootAngle - (atan2(absPoint.Y, absPoint.X) * 57.2957795); // in degrees
+	float angle = 360 - currentSideAngle - (atan2(absPoint.Y, absPoint.X) * 57.2957795); // in degrees
 	angle = normalizeAngle(angle);
 
 	setRotation(angle);
 	doRotation();
 
-	PolarVec vec = PolarVec(rootAngle, distance);
+	PolarVec vec = PolarVec(currentSideAngle, distance);
 
 	moveTo(vec.ToSteps());
 
@@ -250,9 +250,9 @@ void Movement::goToPointRotate()
 	currentPoint = targetPoint;
 };
 
-void Movement::setRootAngle(float angle)
+void Movement::setSide(float angle)
 {
-	rootAngle = angle;
+	currentSideAngle = angle;
 }
 
 void Movement::calibrate()

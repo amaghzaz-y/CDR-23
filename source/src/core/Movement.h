@@ -40,7 +40,7 @@ private:
 	bool isHome;
 	bool isDetected;
 	int team;
-	float rootAngle;
+	float currentSideAngle;
 	void goToPoint();
 	void stop();
 	Point2D TEAM_A_HOME;
@@ -48,7 +48,7 @@ private:
 
 public:
 	Movement();
-	void setRootAngle(float angle);
+	void setSide(float angle);
 	void rotateTo(float angle);
 	void doRotation();
 	void goToPointRotate();
