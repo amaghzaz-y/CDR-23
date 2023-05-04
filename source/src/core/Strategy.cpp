@@ -110,6 +110,14 @@ void Strategy::startSEMIOFFSET(bool lidar)
 	// }
 	while (currentInstruction < arrayLength)
 	{
+		if (currentInstruction == 1)
+		{
+			movement.setSide(SIDE_B);
+		}
+		if (currentInstruction == 2)
+		{
+			movement.setSide(SIDE_C);
+		}
 		movement.ExecuteSEMIOFFSET(points[currentInstruction], lidar);
 		delay(2000);
 		currentInstruction++;

@@ -24,11 +24,7 @@ float PolarVec::getAngle()
 Vec2 PolarVec::toVec2()
 {
 	float x = StepsTomm(distance) * cos(angle);
-	float y = StepsTomm(distance) * sin(angle);
-	if (x < 0)
-		x = -x;
-	if (y < 0)
-		y = -y;
+	float y = -StepsTomm(distance) * sin(angle);
 	return Vec2(x, y);
 };
 

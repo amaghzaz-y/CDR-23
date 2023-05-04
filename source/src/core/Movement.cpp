@@ -278,8 +278,7 @@ void Movement::goToPoinRotateOffset()
 		}
 		run();
 	}
-	// might add currentSideAngle if results aren't coherent  => PolarVec(angle + currentSideAngle, (distance - 75));
-	PolarVec vecOffset = PolarVec(angle, (distance - 75));
+	PolarVec vecOffset = PolarVec(angle + currentSideAngle, (distance - 75));
 	Vec2 point = vecOffset.toVec2();
 	currentPoint = Point2D(point.A + currentPoint.X, point.B + currentPoint.Y);
 
