@@ -102,6 +102,22 @@ void Strategy::startSEMI(bool lidar)
 	currentInstruction = 0;
 }
 
+void Strategy::startSEMIOFFSET(bool lidar)
+{
+	// while (!movement.isCalibrated() || !movement.atHome())
+	// {
+	// 	init();
+	// }
+	while (currentInstruction < arrayLength)
+	{
+		movement.ExecuteSEMIOFFSET(points[currentInstruction], lidar);
+		delay(2000);
+		currentInstruction++;
+	}
+	movement.goHomeSEMI();
+	currentInstruction = 0;
+}
+
 void Strategy::setPoints(Point2D *p, int len)
 {
 	points = p;

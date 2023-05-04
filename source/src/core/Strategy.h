@@ -30,6 +30,7 @@ public:
 	void startDebug(bool lidar);
 
 	void startSEMI(bool lidar);
+	void startSEMIOFFSET(bool lidar);
 	void stop();
 	void setPoints(Point2D *points, int len);
 };

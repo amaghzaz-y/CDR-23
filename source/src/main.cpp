@@ -50,12 +50,12 @@ void setup()
 void loop()
 {
 	// Serial.println(lidar.hasDetected());
-	actuators.performTEST();
+	// actuators.performTEST();
 	// delay(5000);
 	// strategy.movement.rotateTo(-60.0);
 	// strategy.movement.runSync();
 	// delay(5000);
 	// strategy.movement.rotateTo(120.0);
 	// strategy.movement.runSync();
-	// strategy.startSEMI(false);
+	strategy.startSEMIOFFSET(false);
 }

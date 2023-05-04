@@ -16,9 +16,23 @@ Steps PolarVec::ToSteps()
 	return steps;
 }
 
+float PolarVec::getAngle()
+{
+	return (angle * 57.2957795);
+}
+
 Vec2 PolarVec::toVec2()
 {
-	float x = distance * cos(angle);
-	float y = distance * sin(angle);
+	float x = StepsTomm(distance) * cos(angle);
+	float y = StepsTomm(distance) * sin(angle);
+	if (x < 0)
+		x = -x;
+	if (y < 0)
+		y = -y;
 	return Vec2(x, y);
 };
+
+float PolarVec::getDistance()
+{
+	return distance;
+}

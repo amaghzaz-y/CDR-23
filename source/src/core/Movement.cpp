@@ -168,7 +168,11 @@ void Movement::goHomeSEMI()
 void Movement::setPoint(Point2D point)
 {
 	targetPoint = point;
-	absPoint = Point2D(point.X - currentPoint.X, point.Y - currentPoint.Y);
+	absPoint = Point2D(targetPoint.X - currentPoint.X, targetPoint.Y - currentPoint.Y);
+	Serial.print("targetPoint : ");
+	Serial.print(targetPoint.X);
+	Serial.print(" , ");
+	Serial.println(targetPoint.Y);
 }
 
 // sets new absolute Rotation // working proprely
@@ -238,7 +242,7 @@ void Movement::goToPointRotate()
 	moveTo(vec.ToSteps());
 
 	Serial.print("Moving to Angle : ");
-	Serial.println(vec.angle);
+	Serial.println(vec.getAngle());
 	while (!hasArrived())
 	{
 		if (isDetected)
@@ -249,6 +253,41 @@ void Movement::goToPointRotate()
 	}
 	currentPoint = targetPoint;
 };
+
+void Movement::goToPoinRotateOffset()
+{
+	isHome = false;
+	calibrated = false;
+
+	float distance = sqrt(pow(absPoint.X, 2) + pow(absPoint.Y, 2));						 // in mm
+	float angle = 360 - currentSideAngle - (atan2(absPoint.Y, absPoint.X) * 57.2957795); // in degrees
+	angle = normalizeAngle(angle);
+
+	setRotation(angle);
+	doRotation();
+
+	PolarVec vec = PolarVec(currentSideAngle, (distance - 75));
+
+	moveTo(vec.ToSteps());
+
+	while (!hasArrived())
+	{
+		if (isDetected)
+		{
+			stop();
+		}
+		run();
+	}
+	// might add currentSideAngle if results aren't coherent  => PolarVec(angle + currentSideAngle, (distance - 75));
+	PolarVec vecOffset = PolarVec(angle, (distance - 75));
+	Vec2 point = vecOffset.toVec2();
+	currentPoint = Point2D(point.A + currentPoint.X, point.B + currentPoint.Y);
+
+	Serial.print("currentPoint : ");
+	Serial.print(currentPoint.X);
+	Serial.print(" , ");
+	Serial.println(currentPoint.Y);
+}
 
 void Movement::setSide(float angle)
 {
@@ -308,6 +347,13 @@ void Movement::ExecuteSEMI(Point2D point, bool lidar)
 	isDetected = lidar;
 	setPoint(point);
 	goToPointRotate();
+}
+
+void Movement::ExecuteSEMIOFFSET(Point2D point, bool lidar)
+{
+	isDetected = lidar;
+	setPoint(point);
+	goToPoinRotateOffset();
 }
 
 bool Movement::atHome()

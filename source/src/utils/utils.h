@@ -10,4 +10,6 @@ public:
 
 float degToRad(float degrees);
 float mmToSteps(float distance);
+float StepsTomm(float steps);
+
 float normalizeAngle(float angle);

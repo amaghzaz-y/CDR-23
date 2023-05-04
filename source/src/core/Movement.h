@@ -12,6 +12,7 @@
 #define PIN_STP_M2 27
 #define PIN_STP_M3 14
 #define PIN_ENABLE 13
+
 const int SIDE_A = 360;
 const int SIDE_AB = 60;
 const int SIDE_B = 120;
@@ -52,6 +53,7 @@ public:
 	void rotateTo(float angle);
 	void doRotation();
 	void goToPointRotate();
+	void goToPoinRotateOffset();
 	void setup();
 	bool hasArrived();
 	void fullStop();
@@ -66,6 +68,7 @@ public:
 	void moveTo(Steps steps);
 	void Execute(Point2D point, bool lidar);
 	void ExecuteSEMI(Point2D point, bool lidar);
+	void ExecuteSEMIOFFSET(Point2D point, bool lidar);
 	void goHome();
 	void goHomeSEMI();
 };

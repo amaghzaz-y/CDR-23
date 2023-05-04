@@ -24,7 +24,7 @@ bool Lidar::inRadius(PolarVec point)
 {
 	float max_angle = angle + (radius / 2);
 	float min_angle = angle - (radius / 2);
-	if ((point.angle >= min_angle) && (point.angle <= max_angle) && (point.distance <= maxRange) && (point.distance != 0.0f))
+	if ((point.getAngle() >= min_angle) && (point.getAngle() <= max_angle) && (point.getDistance() <= maxRange) && (point.getDistance() != 0.0f))
 	{
 		return true;
 	}
@@ -39,8 +39,9 @@ PolarVec Lidar::scan()
 	PolarVec point = {0, 0};
 	if (IS_OK(lidar.waitPoint()))
 	{
-		point.angle = lidar.getCurrentPoint().angle;
-		point.distance = lidar.getCurrentPoint().distance;
+		float a = lidar.getCurrentPoint().angle;
+		float d = lidar.getCurrentPoint().distance;
+		PolarVec cp = PolarVec(a, d);
 	}
 	else
 	{
@@ -69,7 +70,7 @@ bool Lidar::hasDetected()
 
 bool Lidar::isPointNull(PolarVec v)
 {
-	if (v.angle != 0 || v.distance != 0)
+	if (v.getAngle() != 0 || v.getDistance() != 0)
 		return false;
 	return true;
 }
