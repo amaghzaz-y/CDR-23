@@ -1,4 +1,4 @@
-#include <lib/espsoftwareserial/SoftwareSerial.h>
+#include <lib/SoftwareSerial/SoftwareSerial.h>
 #define RXPIN 12
 #define TXPIN 13
 
