@@ -23,6 +23,6 @@ bool Sensors::getSensor(int side)
 	}
 	else
 	{
-		return true;
+		return false;
 	}
 }
