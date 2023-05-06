@@ -28,7 +28,7 @@ public:
 	void setup();
 	void start(bool lidar);
 	void startDebug(bool lidar);
-
+	bool ready();
 	void startSEMI(bool lidar);
 	void startSEMIOFFSET(bool lidar);
 	void stop();

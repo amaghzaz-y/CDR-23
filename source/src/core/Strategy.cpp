@@ -35,7 +35,9 @@ void Strategy::makeSelection()
 
 void Strategy::stop()
 {
+	Serial.println("FULL STOP IS INITIATED");
 	movement.fullStop();
+	Serial.println("FULL STOP HAS BEEN COMPLETE");
 }
 
 bool Strategy::isReady()
@@ -51,10 +53,7 @@ bool Strategy::isReady()
 
 void Strategy::start(bool lidar)
 {
-	while (!movement.isCalibrated() || !movement.atHome())
-	{
-		init();
-	}
+
 	while (currentInstruction < arrayLength)
 	{
 		movement.Execute(points[currentInstruction], lidar);
@@ -79,10 +78,7 @@ void Strategy::startDebug(bool lidar)
 
 void Strategy::startSEMI(bool lidar)
 {
-	while (!movement.isCalibrated() || !movement.atHome())
-	{
-		init();
-	}
+
 	while (currentInstruction < arrayLength)
 	{
 		if (currentInstruction == 1)
@@ -104,10 +100,6 @@ void Strategy::startSEMI(bool lidar)
 
 void Strategy::startSEMIOFFSET(bool lidar)
 {
-	// while (!movement.isCalibrated() || !movement.atHome())
-	// {
-	// 	init();
-	// }
 	while (currentInstruction < arrayLength)
 	{
 		if (currentInstruction == 1)
@@ -130,4 +122,12 @@ void Strategy::setPoints(Point2D *p, int len)
 {
 	points = p;
 	arrayLength = len;
+}
+
+bool Strategy::ready()
+{
+	while (!movement.isCalibrated() || !movement.atHome())
+	{
+		init();
+	}
 }

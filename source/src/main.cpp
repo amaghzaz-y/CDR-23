@@ -21,7 +21,8 @@ void FullStop()
 	strategy.stop();
 }
 
-Ticker ticker(FullStop, 1200000, 1);
+Ticker ticker(FullStop,
+			  100000, 0, MILLIS);
 
 Point2D points[] = {Point2D(1000, 500), Point2D(1000, 1000), Point2D(700, 1000)};
 
@@ -41,14 +42,19 @@ void setup()
 	lidar.setAngle(180);
 	lidar.setRadius(360);
 	lidar.setMaxRange(300);
+	ticker.start();
 	strategy.setup();
-	actuators.setup();
+	// actuators.setup();
 	xTaskCreatePinnedToCore(LidarTask, "lidarTask", 10000, NULL, 0, NULL, 0);
 	strategy.setPoints(points, 3);
 }
 
 void loop()
 {
+	strategy.ready();
+	ticker.start();
+	strategy.startSEMIOFFSET(false);
+	// Serial.println("START");
 	// Serial.println(lidar.hasDetected());
 	// actuators.performTEST();
 	// delay(5000);
@@ -57,5 +63,5 @@ void loop()
 	// delay(5000);
 	// strategy.movement.rotateTo(120.0);
 	// strategy.movement.runSync();
-	strategy.startSEMIOFFSET(false);
+	// strategy.startSEMIOFFSET(false);
 }
