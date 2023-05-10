@@ -68,7 +68,6 @@ void Movement::moveTo(Steps steps)
 	A1.setCurrentPosition(0);
 	A2.setCurrentPosition(0);
 	A3.setCurrentPosition(0);
-
 	A1.move(steps.M1);
 	A2.move(steps.M2);
 	A3.move(steps.M3);
@@ -266,7 +265,7 @@ void Movement::goToPoinRotateOffset()
 	setRotation(angle);
 	doRotation();
 
-	PolarVec vec = PolarVec(currentSideAngle, (distance - 60));
+	PolarVec vec = PolarVec(currentSideAngle, (distance - OFFSET_DISTANCE));
 
 	moveTo(vec.ToSteps());
 
@@ -278,7 +277,7 @@ void Movement::goToPoinRotateOffset()
 		}
 		run();
 	}
-	PolarVec vecOffset = PolarVec(angle + currentSideAngle, (distance - 60));
+	PolarVec vecOffset = PolarVec(angle + currentSideAngle, (distance - OFFSET_DISTANCE));
 	Vec2 point = vecOffset.toVec2();
 	currentPoint = Point2D(point.A + currentPoint.X, point.B + currentPoint.Y);
 

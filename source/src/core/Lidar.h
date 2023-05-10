@@ -2,6 +2,7 @@
 #include <lib/rplidar/RPLidar.h>
 #include <types/PolarVec.h>
 #include <types/Point2D.h>
+
 #define LIDAR_MOTOR_PIN 15
 #define LIDAR_MOTOR_SPEED 120
 #define X_RANGE_MAX 1500

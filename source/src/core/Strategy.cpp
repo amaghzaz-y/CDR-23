@@ -148,3 +148,35 @@ void Strategy::ready()
 		init();
 	}
 }
+
+void Strategy::startStratA(bool lidar)
+{
+	actuators.delevateObject(SIDE_A_ID, 0);
+	actuators.releaseObject(SIDE_A_ID);
+	movement.ExecuteSEMIOFFSET(Point2D(575, 225), lidar);
+	actuators.pickObject(SIDE_A_ID);
+	actuators.elevateObject(SIDE_A, 1);
+
+	movement.setSide(SIDE_B);
+	actuators.delevateObject(SIDE_B_ID, 0);
+	actuators.releaseObject(SIDE_B_ID);
+	movement.ExecuteSEMIOFFSET(Point2D(775, 225), lidar);
+	actuators.pickObject(SIDE_B_ID);
+	actuators.elevateObject(SIDE_B_ID, 1);
+
+	movement.setSide(SIDE_C);
+	actuators.delevateObject(SIDE_C_ID, 0);
+	actuators.releaseObject(SIDE_C_ID);
+	movement.ExecuteSEMIOFFSET(Point2D(1125, 725), lidar);
+	actuators.pickObject(SIDE_C_ID);
+	actuators.elevateObject(SIDE_C_ID, 1);
+
+	movement.ExecuteSEMI(Point2D(1125, 1775), lidar);
+	actuators.delevateObject(SIDE_A_ID, 0);
+	actuators.delevateObject(SIDE_B_ID, 0);
+	actuators.delevateObject(SIDE_C_ID, 0);
+	actuators.releaseObject(SIDE_A_ID);
+	actuators.releaseObject(SIDE_B_ID);
+	actuators.releaseObject(SIDE_C_ID);
+	movement.fullStop();
+}

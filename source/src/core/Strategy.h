@@ -33,4 +33,5 @@ public:
 	void startSEMIOFFSET(bool lidar);
 	void stop();
 	void setPoints(Point2D *points, int len);
+	void startStratA(bool lidar);
 };

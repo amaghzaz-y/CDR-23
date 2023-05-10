@@ -53,7 +53,8 @@ void loop()
 {
 	strategy.ready();
 	// actuators.performTEST();
-	strategy.startSEMIOFFSET(false);
+	// strategy.startSEMIOFFSET(false);
+	strategy.startStratA(false);
 	// strategy.actuators.performTEST();
 	// Serial.println("START");
 	// Serial.println(lidar.hasDetected());
