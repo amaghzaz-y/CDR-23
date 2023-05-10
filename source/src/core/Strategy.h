@@ -14,7 +14,6 @@
 class Strategy
 {
 private:
-	Actuators actuators;
 	Point2D *points;
 	int currentInstruction;
 	int arrayLength;
@@ -24,11 +23,12 @@ private:
 
 public:
 	Movement movement;
+	Actuators actuators;
 
 	void setup();
 	void start(bool lidar);
 	void startDebug(bool lidar);
-	bool ready();
+	void ready();
 	void startSEMI(bool lidar);
 	void startSEMIOFFSET(bool lidar);
 	void stop();

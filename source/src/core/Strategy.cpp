@@ -2,7 +2,9 @@
 
 void Strategy::setup()
 {
+	currentInstruction = 0;
 	movement.setup();
+	actuators.setup();
 	pinMode(INIT_PIN, INPUT_PULLUP);
 	pinMode(REED_PIN, INPUT_PULLUP);
 	pinMode(TEAM_PIN, INPUT_PULLUP);
@@ -110,11 +112,26 @@ void Strategy::startSEMIOFFSET(bool lidar)
 		{
 			movement.setSide(SIDE_C);
 		}
+		if (currentInstruction == 2)
+		{
+			actuators.releaseObject(0);
+		}
 		movement.ExecuteSEMIOFFSET(points[currentInstruction], lidar);
-		delay(2000);
+		if (currentInstruction == 2)
+		{
+			actuators.pickObject(0);
+			actuators.elevateObject(SIDE_C_ID, 2);
+		}
+		else
+		{
+			delay(2000);
+		}
 		currentInstruction++;
 	}
 	movement.goHomeSEMI();
+	actuators.delevateObject(SIDE_C_ID, 1);
+	actuators.delevateObject(SIDE_C_ID, 0);
+	actuators.releaseObject(0);
 	currentInstruction = 0;
 }
 
@@ -124,7 +141,7 @@ void Strategy::setPoints(Point2D *p, int len)
 	arrayLength = len;
 }
 
-bool Strategy::ready()
+void Strategy::ready()
 {
 	while (!movement.isCalibrated() || !movement.atHome())
 	{

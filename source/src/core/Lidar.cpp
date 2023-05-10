@@ -4,6 +4,7 @@ void Lidar::setup()
 {
 	lidar.begin(Serial2);
 	opponentDetected = false;
+	currentPosition = Point2D(0, 0);
 }
 
 void Lidar::reconnect()
@@ -53,7 +54,7 @@ PolarVec Lidar::scan()
 void Lidar::detect()
 {
 	PolarVec point = scan();
-	if (Lidar::inRadius(point))
+	if (Lidar::inRange(point))
 	{
 		opponentDetected = true;
 	}
@@ -97,4 +98,19 @@ void Lidar::setRadius(float _radius)
 void Lidar::setMaxRange(float range)
 {
 	maxRange = range;
+}
+
+bool Lidar::inRange(PolarVec point)
+{
+	Vec2 vec = point.toVec2();
+	Point2D npoint = Point2D(vec.A + currentPosition.X, vec.B + currentPosition.Y);
+	if (vec.A > X_RANGE_MAX && vec.A < 0.0)
+	{
+		return false;
+	}
+	if (vec.B > Y_RANGE_MAX && vec.B < 0.0)
+	{
+		return false;
+	}
+	return true;
 }

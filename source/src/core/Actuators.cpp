@@ -7,7 +7,7 @@ void Actuators::pickObject(int SIDE)
 		for (uint16_t microsec = USMIN; microsec < USMAX; microsec++)
 		{
 			servoDriver.writeMicroseconds(SERVO_SIDE_A_L, microsec);
-			servoDriver.writeMicroseconds(SERVO_SIDE_A_R, (USMAX - microsec) + 800);
+			servoDriver.writeMicroseconds(SERVO_SIDE_A_R, (USMAX - microsec) + 700);
 		}
 		side_A_full = true;
 	}
@@ -25,7 +25,7 @@ void Actuators::pickObject(int SIDE)
 		for (uint16_t microsec = USMIN; microsec < USMAX; microsec++)
 		{
 			servoDriver.writeMicroseconds(SERVO_SIDE_C_L, microsec);
-			servoDriver.writeMicroseconds(SERVO_SIDE_C_R, (USMAX - microsec) + 800);
+			servoDriver.writeMicroseconds(SERVO_SIDE_C_R, (USMAX - microsec) + 850);
 		}
 		side_C_full = true;
 	}
@@ -38,7 +38,7 @@ void Actuators::releaseObject(int SIDE)
 		for (uint16_t microsec = USMAX; microsec > USMIN; microsec--)
 		{
 			servoDriver.writeMicroseconds(SERVO_SIDE_A_L, microsec);
-			servoDriver.writeMicroseconds(SERVO_SIDE_A_R, (USMAX - microsec) + 800);
+			servoDriver.writeMicroseconds(SERVO_SIDE_A_R, (USMAX - microsec) + 700);
 		}
 		side_A_full = false;
 	}
@@ -88,12 +88,193 @@ void Actuators::setup()
 	servoDriver.setOscillatorFrequency(28000000);
 	servoDriver.setPWMFreq(SERVO_FREQ);
 	delay(50);
+	delevateObject(2, 0);
+	foldAll();
+}
+void Actuators::foldAll()
+{
+
+	servoDriver.writeMicroseconds(SERVO_SIDE_A_L, 3400);
+	servoDriver.writeMicroseconds(SERVO_SIDE_A_R, 0);
 }
 
 void Actuators::performTEST()
 {
-	pickObject(SIDE_A_ID);
-	delay(5000);
-	releaseObject(SIDE_A_ID);
-	delay(5000);
+	while (1)
+	{
+		// pickObject(SIDE_A_ID);
+		// elevateObject(SIDE_C_ID, 0);
+		// delay(2000);
+		// delevateObject(SIDE_C_ID, 0);
+		// delay(2000);
+
+		delay(5000);
+		pickObject(SIDE_A_ID);
+		delay(2000);
+		elevateObject(SIDE_C_ID, 0);
+		delay(2000);
+		elevateObject(SIDE_C_ID, 1);
+		delay(2000);
+		elevateObject(SIDE_C_ID, 2);
+		delay(2000);
+		delevateObject(SIDE_C_ID, 2);
+		delay(2000);
+		delevateObject(SIDE_C_ID, 1);
+		delay(2000);
+		delevateObject(SIDE_C_ID, 0);
+		delay(2000);
+		releaseObject(SIDE_A_ID);
+	}
+}
+
+void Actuators::elevateObject(int SIDE, int LEVEL)
+{
+	if (LEVEL == 0)
+	{
+		if (SIDE == SIDE_A_ID)
+		{
+			for (uint16_t microsec = US_LEVEL_0; microsec < US_LEVEL_1; microsec++)
+			{
+				servoDriver.writeMicroseconds(SERVO_SIDE_A_U, microsec);
+			}
+		}
+		else if (SIDE == SIDE_B_ID)
+		{
+			for (uint16_t microsec = US_LEVEL_0; microsec < US_LEVEL_1; microsec++)
+			{
+				servoDriver.writeMicroseconds(SERVO_SIDE_B_U, microsec);
+			}
+		}
+		else if (SIDE == SIDE_C_ID)
+		{
+			for (uint16_t microsec = US_LEVEL_0; microsec < US_LEVEL_1; microsec++)
+			{
+				servoDriver.writeMicroseconds(SERVO_SIDE_C_U, microsec);
+			}
+		}
+	}
+	else if (LEVEL == 1)
+	{
+		if (SIDE == SIDE_A_ID)
+		{
+			for (uint16_t microsec = US_LEVEL_1; microsec < US_LEVEL_2; microsec++)
+			{
+				servoDriver.writeMicroseconds(SERVO_SIDE_A_U, microsec);
+			}
+		}
+		else if (SIDE == SIDE_B_ID)
+		{
+			for (uint16_t microsec = US_LEVEL_1; microsec < US_LEVEL_2; microsec++)
+			{
+				servoDriver.writeMicroseconds(SERVO_SIDE_B_U, microsec);
+			}
+		}
+		else if (SIDE == SIDE_C_ID)
+		{
+			for (uint16_t microsec = US_LEVEL_1; microsec < US_LEVEL_2; microsec++)
+			{
+				servoDriver.writeMicroseconds(SERVO_SIDE_C_U, microsec);
+			}
+		}
+	}
+	else if (LEVEL == 2)
+	{
+		if (SIDE == SIDE_A_ID)
+		{
+			for (uint16_t microsec = US_LEVEL_2; microsec < US_LEVEL_3; microsec++)
+			{
+				servoDriver.writeMicroseconds(SERVO_SIDE_A_U, microsec);
+			}
+		}
+		else if (SIDE == SIDE_B_ID)
+		{
+			for (uint16_t microsec = US_LEVEL_2; microsec < US_LEVEL_3; microsec++)
+			{
+				servoDriver.writeMicroseconds(SERVO_SIDE_B_U, microsec);
+			}
+		}
+		else if (SIDE == SIDE_C_ID)
+		{
+			for (uint16_t microsec = US_LEVEL_2; microsec < US_LEVEL_3; microsec++)
+			{
+				servoDriver.writeMicroseconds(SERVO_SIDE_C_U, microsec);
+			}
+		}
+	}
+}
+
+void Actuators::delevateObject(int SIDE, int LEVEL)
+{
+	if (LEVEL == 0)
+	{
+		if (SIDE == SIDE_A_ID)
+		{
+			for (uint16_t microsec = US_LEVEL_1; microsec > US_LEVEL_0; microsec--)
+			{
+				servoDriver.writeMicroseconds(SERVO_SIDE_A_U, microsec);
+			}
+		}
+		else if (SIDE == SIDE_B_ID)
+		{
+			for (uint16_t microsec = US_LEVEL_1; microsec > US_LEVEL_0; microsec--)
+			{
+				servoDriver.writeMicroseconds(SERVO_SIDE_B_U, microsec);
+			}
+		}
+		else if (SIDE == SIDE_C_ID)
+		{
+			for (uint16_t microsec = US_LEVEL_1; microsec > US_LEVEL_0; microsec--)
+			{
+				servoDriver.writeMicroseconds(SERVO_SIDE_C_U, microsec);
+			}
+		}
+	}
+	else if (LEVEL == 1)
+	{
+		if (SIDE == SIDE_A_ID)
+		{
+			for (uint16_t microsec = US_LEVEL_2; microsec > US_LEVEL_1; microsec--)
+			{
+				servoDriver.writeMicroseconds(SERVO_SIDE_A_U, microsec);
+			}
+		}
+		else if (SIDE == SIDE_B_ID)
+		{
+			for (uint16_t microsec = US_LEVEL_2; microsec > US_LEVEL_1; microsec--)
+			{
+				servoDriver.writeMicroseconds(SERVO_SIDE_B_U, microsec);
+			}
+		}
+		else if (SIDE == SIDE_C_ID)
+		{
+			for (uint16_t microsec = US_LEVEL_2; microsec > US_LEVEL_1; microsec--)
+			{
+				servoDriver.writeMicroseconds(SERVO_SIDE_C_U, microsec);
+			}
+		}
+	}
+	else if (LEVEL == 2)
+	{
+		if (SIDE == SIDE_A_ID)
+		{
+			for (uint16_t microsec = US_LEVEL_3; microsec > US_LEVEL_2; microsec--)
+			{
+				servoDriver.writeMicroseconds(SERVO_SIDE_A_U, microsec);
+			}
+		}
+		else if (SIDE == SIDE_B_ID)
+		{
+			for (uint16_t microsec = US_LEVEL_3; microsec > US_LEVEL_2; microsec--)
+			{
+				servoDriver.writeMicroseconds(SERVO_SIDE_B_U, microsec);
+			}
+		}
+		else if (SIDE == SIDE_C_ID)
+		{
+			for (uint16_t microsec = US_LEVEL_3; microsec > US_LEVEL_2; microsec--)
+			{
+				servoDriver.writeMicroseconds(SERVO_SIDE_C_U, microsec);
+			}
+		}
+	}
 }

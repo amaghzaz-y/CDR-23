@@ -8,12 +8,12 @@ Vec2::Vec2(float a, float b)
 
 float mmToSteps(float mm)
 {
-	return (mm * 16000) / 188.496;
+	return (mm * 4000) / 188.496;
 }
 
 float StepsTomm(float steps)
 {
-	return 188.496 * steps / 16000;
+	return 188.496 * steps / 4000;
 }
 
 float degToRad(float degrees)

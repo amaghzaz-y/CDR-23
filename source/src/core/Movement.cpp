@@ -266,7 +266,7 @@ void Movement::goToPoinRotateOffset()
 	setRotation(angle);
 	doRotation();
 
-	PolarVec vec = PolarVec(currentSideAngle, (distance - 75));
+	PolarVec vec = PolarVec(currentSideAngle, (distance - 60));
 
 	moveTo(vec.ToSteps());
 
@@ -278,7 +278,7 @@ void Movement::goToPoinRotateOffset()
 		}
 		run();
 	}
-	PolarVec vecOffset = PolarVec(angle + currentSideAngle, (distance - 75));
+	PolarVec vecOffset = PolarVec(angle + currentSideAngle, (distance - 60));
 	Vec2 point = vecOffset.toVec2();
 	currentPoint = Point2D(point.A + currentPoint.X, point.B + currentPoint.Y);
 
