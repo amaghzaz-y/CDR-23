@@ -1,4 +1,4 @@
-#include <lib/SoftwareSerial/SoftwareSerial.h>
+#include <lib/softwareserial/SoftwareSerial.h>
 #include <types/Point2D.h>
 #define RXPIN 12
 #define TXPIN 13
