@@ -7,7 +7,7 @@ void Actuators::pickObject(int SIDE)
 		for (uint16_t microsec = USMIN; microsec < USMAX; microsec++)
 		{
 			servoDriver.writeMicroseconds(SERVO_SIDE_A_L, microsec);
-			servoDriver.writeMicroseconds(SERVO_SIDE_A_R, (USMAX - microsec) + 700);
+			servoDriver.writeMicroseconds(SERVO_SIDE_A_R, (USMAX - microsec) + 900);
 		}
 		side_A_full = true;
 	}
@@ -16,7 +16,7 @@ void Actuators::pickObject(int SIDE)
 		for (uint16_t microsec = USMIN; microsec < USMAX; microsec++)
 		{
 			servoDriver.writeMicroseconds(SERVO_SIDE_B_L, microsec);
-			servoDriver.writeMicroseconds(SERVO_SIDE_B_R, (USMAX - microsec) + 800);
+			servoDriver.writeMicroseconds(SERVO_SIDE_B_R, (USMAX - microsec) + 600);
 		}
 		side_B_full = true;
 	}
@@ -25,7 +25,7 @@ void Actuators::pickObject(int SIDE)
 		for (uint16_t microsec = USMIN; microsec < USMAX; microsec++)
 		{
 			servoDriver.writeMicroseconds(SERVO_SIDE_C_L, microsec);
-			servoDriver.writeMicroseconds(SERVO_SIDE_C_R, (USMAX - microsec) + 850);
+			servoDriver.writeMicroseconds(SERVO_SIDE_C_R, (USMAX - microsec) + 700);
 		}
 		side_C_full = true;
 	}
@@ -38,7 +38,7 @@ void Actuators::releaseObject(int SIDE)
 		for (uint16_t microsec = USMAX; microsec > USMIN; microsec--)
 		{
 			servoDriver.writeMicroseconds(SERVO_SIDE_A_L, microsec);
-			servoDriver.writeMicroseconds(SERVO_SIDE_A_R, (USMAX - microsec) + 700);
+			servoDriver.writeMicroseconds(SERVO_SIDE_A_R, (USMAX - microsec) + 900);
 		}
 		side_A_full = false;
 	}
@@ -46,8 +46,8 @@ void Actuators::releaseObject(int SIDE)
 	{
 		for (uint16_t microsec = USMAX; microsec > USMIN; microsec--)
 		{
-			servoDriver.writeMicroseconds(SERVO_SIDE_A_L, microsec);
-			servoDriver.writeMicroseconds(SERVO_SIDE_A_R, (USMAX - microsec) + 800);
+			servoDriver.writeMicroseconds(SERVO_SIDE_B_L, microsec);
+			servoDriver.writeMicroseconds(SERVO_SIDE_B_R, (USMAX - microsec) + 600);
 		}
 		side_B_full = false;
 	}
@@ -55,8 +55,8 @@ void Actuators::releaseObject(int SIDE)
 	{
 		for (uint16_t microsec = USMAX; microsec > USMIN; microsec--)
 		{
-			servoDriver.writeMicroseconds(SERVO_SIDE_A_L, microsec);
-			servoDriver.writeMicroseconds(SERVO_SIDE_A_R, (USMAX - microsec) + 800);
+			servoDriver.writeMicroseconds(SERVO_SIDE_C_L, microsec);
+			servoDriver.writeMicroseconds(SERVO_SIDE_C_R, (USMAX - microsec) + 700);
 		}
 		side_C_full = false;
 	}
@@ -96,6 +96,10 @@ void Actuators::foldAll()
 
 	servoDriver.writeMicroseconds(SERVO_SIDE_A_L, 3400);
 	servoDriver.writeMicroseconds(SERVO_SIDE_A_R, 0);
+	servoDriver.writeMicroseconds(SERVO_SIDE_B_L, 3400);
+	servoDriver.writeMicroseconds(SERVO_SIDE_B_R, 0);
+	servoDriver.writeMicroseconds(SERVO_SIDE_C_L, 3400);
+	servoDriver.writeMicroseconds(SERVO_SIDE_C_R, 0);
 }
 
 void Actuators::performTEST()
@@ -107,9 +111,27 @@ void Actuators::performTEST()
 		// delay(2000);
 		// delevateObject(SIDE_C_ID, 0);
 		// delay(2000);
-
+		// foldAll();
 		delay(5000);
+		delevateObject(SIDE_A_ID, 0);
 		pickObject(SIDE_A_ID);
+		delay(2000);
+		elevateObject(SIDE_A_ID, 0);
+		delay(2000);
+		elevateObject(SIDE_A_ID, 1);
+		delay(2000);
+		elevateObject(SIDE_A_ID, 2);
+		delay(2000);
+		delevateObject(SIDE_A_ID, 2);
+		delay(2000);
+		delevateObject(SIDE_A_ID, 1);
+		delay(2000);
+		delevateObject(SIDE_A_ID, 0);
+		delay(2000);
+		releaseObject(SIDE_A_ID);
+		delay(5000);
+		delevateObject(SIDE_C_ID, 0);
+		pickObject(SIDE_C_ID);
 		delay(2000);
 		elevateObject(SIDE_C_ID, 0);
 		delay(2000);
@@ -123,7 +145,24 @@ void Actuators::performTEST()
 		delay(2000);
 		delevateObject(SIDE_C_ID, 0);
 		delay(2000);
-		releaseObject(SIDE_A_ID);
+		releaseObject(SIDE_C_ID);
+		delay(5000);
+		delevateObject(SIDE_B_ID, 0);
+		pickObject(SIDE_B_ID);
+		delay(2000);
+		elevateObject(SIDE_B_ID, 0);
+		delay(2000);
+		elevateObject(SIDE_B_ID, 1);
+		delay(2000);
+		elevateObject(SIDE_B_ID, 2);
+		delay(2000);
+		delevateObject(SIDE_B_ID, 2);
+		delay(2000);
+		delevateObject(SIDE_B_ID, 1);
+		delay(2000);
+		delevateObject(SIDE_B_ID, 0);
+		delay(2000);
+		releaseObject(SIDE_B_ID);
 	}
 }
 

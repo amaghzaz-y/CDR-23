@@ -151,6 +151,7 @@ void Strategy::ready()
 
 void Strategy::startStratA(bool lidar)
 {
+	actuators.foldAll();
 	actuators.delevateObject(SIDE_A_ID, 0);
 	actuators.releaseObject(SIDE_A_ID);
 	movement.ExecuteSEMIOFFSET(Point2D(575, 225), lidar);

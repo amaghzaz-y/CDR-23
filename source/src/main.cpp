@@ -14,7 +14,7 @@ void log(char *msg, int value)
 
 Strategy strategy;
 Lidar lidar;
-// Actuators actuators;
+Actuators actuators;
 
 void FullStop()
 {
@@ -44,17 +44,17 @@ void setup()
 	// lidar.setMaxRange(300);
 	// ticker.start();
 	strategy.setup();
-	// actuators.setup();
+	actuators.setup();
 	// xTaskCreatePinnedToCore(LidarTask, "lidarTask", 10000, NULL, 0, NULL, 0);
 	strategy.setPoints(points, 3);
 }
 
 void loop()
 {
-	strategy.ready();
-	// actuators.performTEST();
+	// strategy.ready();
+	actuators.performTEST();
 	// strategy.startSEMIOFFSET(false);
-	strategy.startStratA(false);
+	// strategy.startStratA(false);
 	// strategy.actuators.performTEST();
 	// Serial.println("START");
 	// Serial.println(lidar.hasDetected());
