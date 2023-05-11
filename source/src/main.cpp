@@ -51,8 +51,9 @@ void setup()
 
 void loop()
 {
-	// strategy.ready();
-	actuators.performTEST();
+	strategy.ready();
+	// actuators.performTEST();
+	strategy.startStratA(false);
 	// strategy.startSEMIOFFSET(false);
 	// strategy.startStratA(false);
 	// strategy.actuators.performTEST();
