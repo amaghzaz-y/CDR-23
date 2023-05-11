@@ -24,7 +24,7 @@ private:
 public:
 	Movement movement;
 	Actuators actuators;
-	
+
 	void setup();
 	void start(bool lidar);
 	void startDebug(bool lidar);

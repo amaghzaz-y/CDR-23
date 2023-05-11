@@ -87,31 +87,57 @@ void Actuators::setup()
 	servoDriver.begin();
 	servoDriver.setOscillatorFrequency(28000000);
 	servoDriver.setPWMFreq(SERVO_FREQ);
-	delay(50);
-	delevateObject(2, 0);
+	delay(100);
 	foldAll();
+	delay(100);
 }
 void Actuators::foldAll()
 {
-
-	servoDriver.writeMicroseconds(SERVO_SIDE_A_L, 3400);
-	servoDriver.writeMicroseconds(SERVO_SIDE_A_R, 0);
-	servoDriver.writeMicroseconds(SERVO_SIDE_B_L, 3400);
-	servoDriver.writeMicroseconds(SERVO_SIDE_B_R, 0);
-	servoDriver.writeMicroseconds(SERVO_SIDE_C_L, 3400);
-	servoDriver.writeMicroseconds(SERVO_SIDE_C_R, 0);
+	Serial.println("folding");
+	for (uint16_t microsec = USMIN; microsec < 2400; microsec++)
+	{
+		servoDriver.writeMicroseconds(SERVO_SIDE_A_L, 2300);
+		servoDriver.writeMicroseconds(SERVO_SIDE_A_R, 500);
+	}
+	for (uint16_t microsec = USMIN; microsec < 2400; microsec++)
+	{
+		servoDriver.writeMicroseconds(SERVO_SIDE_B_L, 2300);
+		servoDriver.writeMicroseconds(SERVO_SIDE_B_R, 475);
+	}
+	for (uint16_t microsec = USMIN; microsec < 2400; microsec++)
+	{
+		servoDriver.writeMicroseconds(SERVO_SIDE_C_L, 2300);
+		servoDriver.writeMicroseconds(SERVO_SIDE_C_R, 480);
+	}
 }
 
+void Actuators::defoldAll()
+{
+	Serial.println("defolding");
+	for (uint16_t microsec = USMAX; microsec > USMIN; microsec--)
+	{
+		servoDriver.writeMicroseconds(SERVO_SIDE_A_L, microsec);
+		servoDriver.writeMicroseconds(SERVO_SIDE_A_R, (USMAX - microsec) + 900);
+	}
+	for (uint16_t microsec = USMAX; microsec > USMIN; microsec--)
+	{
+
+		servoDriver.writeMicroseconds(SERVO_SIDE_B_L, microsec);
+		servoDriver.writeMicroseconds(SERVO_SIDE_B_R, (USMAX - microsec) + 600);
+	}
+	for (uint16_t microsec = USMAX; microsec > USMIN; microsec--)
+	{
+		servoDriver.writeMicroseconds(SERVO_SIDE_C_L, microsec);
+		servoDriver.writeMicroseconds(SERVO_SIDE_C_R, (USMAX - microsec) + 700);
+	}
+	Serial.println("defolded");
+}
 void Actuators::performTEST()
 {
 	while (1)
 	{
-		// pickObject(SIDE_A_ID);
-		// elevateObject(SIDE_C_ID, 0);
-		// delay(2000);
-		// delevateObject(SIDE_C_ID, 0);
-		// delay(2000);
-		// foldAll();
+		delay(5000);
+		foldAll();
 		delay(5000);
 		delevateObject(SIDE_A_ID, 0);
 		pickObject(SIDE_A_ID);
@@ -130,23 +156,6 @@ void Actuators::performTEST()
 		delay(2000);
 		releaseObject(SIDE_A_ID);
 		delay(5000);
-		delevateObject(SIDE_C_ID, 0);
-		pickObject(SIDE_C_ID);
-		delay(2000);
-		elevateObject(SIDE_C_ID, 0);
-		delay(2000);
-		elevateObject(SIDE_C_ID, 1);
-		delay(2000);
-		elevateObject(SIDE_C_ID, 2);
-		delay(2000);
-		delevateObject(SIDE_C_ID, 2);
-		delay(2000);
-		delevateObject(SIDE_C_ID, 1);
-		delay(2000);
-		delevateObject(SIDE_C_ID, 0);
-		delay(2000);
-		releaseObject(SIDE_C_ID);
-		delay(5000);
 		delevateObject(SIDE_B_ID, 0);
 		pickObject(SIDE_B_ID);
 		delay(2000);
@@ -163,6 +172,23 @@ void Actuators::performTEST()
 		delevateObject(SIDE_B_ID, 0);
 		delay(2000);
 		releaseObject(SIDE_B_ID);
+		delay(5000);
+		delevateObject(SIDE_C_ID, 0);
+		pickObject(SIDE_C_ID);
+		delay(2000);
+		elevateObject(SIDE_C_ID, 0);
+		delay(2000);
+		elevateObject(SIDE_C_ID, 1);
+		delay(2000);
+		elevateObject(SIDE_C_ID, 2);
+		delay(2000);
+		delevateObject(SIDE_C_ID, 2);
+		delay(2000);
+		delevateObject(SIDE_C_ID, 1);
+		delay(2000);
+		delevateObject(SIDE_C_ID, 0);
+		delay(2000);
+		releaseObject(SIDE_C_ID);
 	}
 }
 

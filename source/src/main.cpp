@@ -43,17 +43,17 @@ void setup()
 	// lidar.setRadius(360);
 	// lidar.setMaxRange(300);
 	// ticker.start();
-	strategy.setup();
+	// strategy.setup();
 	actuators.setup();
 	// xTaskCreatePinnedToCore(LidarTask, "lidarTask", 10000, NULL, 0, NULL, 0);
-	strategy.setPoints(points, 3);
+	// strategy.setPoints(points, 3);
 }
 
 void loop()
 {
-	strategy.ready();
+	// strategy.ready();
 	// actuators.performTEST();
-	strategy.startStratA(false);
+	// strategy.startStratA(false);
 	// strategy.startSEMIOFFSET(false);
 	// strategy.startStratA(false);
 	// strategy.actuators.performTEST();
