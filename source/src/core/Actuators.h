@@ -4,8 +4,8 @@
 
 #define SERVOMIN 150  // This is the 'minimum' pulse length count (out of 4096)
 #define SERVOMAX 600  // This is the 'maximum' pulse length count (out of 4096)
-#define USMIN 1350	  // This is the rounded 'minimum' microsecond length based on the minimum pulse of 150
-#define USMAX 1900	  // This is the rounded 'maximum' microsecond length based on the maximum pulse of 600
+#define USMIN 1500	  // This is the rounded 'minimum' microsecond length based on the minimum pulse of 150
+#define USMAX 1750	  // This is the rounded 'maximum' microsecond length based on the maximum pulse of 600
 #define SERVO_FREQ 50 // Analog servos run at ~50 Hz updates
 #define US_LEVEL_0 400
 #define US_LEVEL_1 950
@@ -40,7 +40,9 @@ public:
 	bool isObjectPicked(int SIDE);
 	void elevateObject(int SIDE, int LEVEL);
 	void delevateObject(int SIDE, int LEVEL);
+	void delevateAll();
 	void performTEST();
+	void setToZero();
 	void foldAll();
 	void defoldAll();
 };

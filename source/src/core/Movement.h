@@ -49,29 +49,33 @@ private:
 	void stop();
 	Point2D TEAM_A_HOME;
 	Point2D TEAM_B_HOME;
-
-public:
-	Movement();
-	void setSide(float angle);
-	void rotateTo(float angle);
-	void doRotation();
-	void goToPointRotate();
-	void goToPoinRotateOffset();
-	void setup();
-	bool hasArrived();
-	void fullStop();
-	void setTeam(int t);
-	bool isCalibrated();
-	void setPoint(Point2D point);
-	void setRotation(float angle);
-	bool atHome();
-	void calibrate();
 	void run();
 	void runSync();
 	void moveTo(Steps steps);
+	void doRotation();
+	void setPoint(Point2D point);
+	void setRotation(float angle);
+	void goToPointRotate();
+	void goToPoinRotateOffset();
+
+public:
+	Movement();
+	void rotateTo(float angle);
+	void setSide(float angle);
+	void setup();
+	bool HasArrived();
+	void FullStop();
+	void setTeam(int t);
+	bool isCalibrated();
+	bool atHome();
+	void Calibrate();
+	// move to point with translation
 	void Execute(Point2D point, bool lidar);
+	// move to point with rotation only
 	void ExecuteSEMI(Point2D point, bool lidar);
+	// move to point with rotation and offset
 	void ExecuteSEMIOFFSET(Point2D point, bool lidar);
 	void goHome();
 	void goHomeSEMI();
+	void setCurrentPosition(Point2D point);
 };

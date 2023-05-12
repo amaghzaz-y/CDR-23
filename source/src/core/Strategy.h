@@ -34,4 +34,5 @@ public:
 	void stop();
 	void setPoints(Point2D *points, int len);
 	void startStratA(bool lidar);
+	void cookMeth(bool lidar);
 };

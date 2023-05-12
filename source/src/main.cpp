@@ -45,14 +45,22 @@ void setup()
 	// ticker.start();
 	// strategy.setup();
 	actuators.setup();
+	delay(5000);
+
 	// xTaskCreatePinnedToCore(LidarTask, "lidarTask", 10000, NULL, 0, NULL, 0);
 	// strategy.setPoints(points, 3);
 }
 
 void loop()
 {
+	// actuators.delevateObject(SIDE_A_ID, 0);
+	// delay(1000);
+	// actuators.delevateObject(SIDE_B_ID, 0);
+	// delay(1000);
+	// actuators.delevateObject(SIDE_C_ID, 0);
+	// delay(1000);
 	// strategy.ready();
-	// actuators.performTEST();
+	actuators.performTEST();
 	// strategy.startStratA(false);
 	// strategy.startSEMIOFFSET(false);
 	// strategy.startStratA(false);

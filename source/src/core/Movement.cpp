@@ -73,7 +73,7 @@ void Movement::moveTo(Steps steps)
 	A3.move(steps.M3);
 }
 
-bool Movement::hasArrived()
+bool Movement::HasArrived()
 {
 	if (A1.distanceToGo() == 0 && A2.distanceToGo() == 0 && A3.distanceToGo() == 0)
 	{
@@ -98,7 +98,7 @@ void Movement::run()
 }
 void Movement::runSync()
 {
-	while (!hasArrived())
+	while (!HasArrived())
 	{
 		A1.run();
 		A2.run();
@@ -114,7 +114,7 @@ void Movement::stop()
 	delay(2500);
 }
 
-void Movement::fullStop()
+void Movement::FullStop()
 {
 	A1.setMaxSpeed(0);
 	A2.setMaxSpeed(0);
@@ -187,7 +187,7 @@ void Movement::setRotation(float angle)
 void Movement::doRotation()
 {
 	rotateTo(angleToDo);
-	while (!hasArrived())
+	while (!HasArrived())
 	{
 		if (isDetected)
 		{
@@ -213,7 +213,7 @@ void Movement::goToPoint()
 	PolarVec vec = PolarVec(angle, distance);
 	moveTo(vec.ToSteps());
 
-	while (!hasArrived())
+	while (!HasArrived())
 	{
 		if (isDetected)
 		{
@@ -242,7 +242,7 @@ void Movement::goToPointRotate()
 
 	Serial.print("Moving to Angle : ");
 	Serial.println(vec.getAngle());
-	while (!hasArrived())
+	while (!HasArrived())
 	{
 		if (isDetected)
 		{
@@ -269,7 +269,7 @@ void Movement::goToPoinRotateOffset()
 
 	moveTo(vec.ToSteps());
 
-	while (!hasArrived())
+	while (!HasArrived())
 	{
 		if (isDetected)
 		{
@@ -292,7 +292,7 @@ void Movement::setSide(float angle)
 	currentSideAngle = angle;
 }
 
-void Movement::calibrate()
+void Movement::Calibrate()
 {
 	if (team == 0)
 	{
@@ -357,4 +357,9 @@ void Movement::ExecuteSEMIOFFSET(Point2D point, bool lidar)
 bool Movement::atHome()
 {
 	return isHome;
+}
+
+void Movement::setCurrentPosition(Point2D point)
+{
+	currentPoint = point;
 }
