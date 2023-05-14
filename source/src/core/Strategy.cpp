@@ -188,7 +188,7 @@ void Strategy::cookMeth(bool lidar)
 	Point2D entryPoint = Point2D(0, 0);
 	Point2D zoneCenter = Point2D(500, 0);
 	Point2D delta0 = Point2D(PolarVec(0, 285).toVec2().A + zoneCenter.X, PolarVec(0, 285).toVec2().B + zoneCenter.Y);
-	Point2D delta1 = Point2D(PolarVec(-90, 285).toVec2().A + zoneCenter.X, PolarVec(-90, 285).toVec2().B + zoneCenter.Y);
+	Point2D delta1 = Point2D(PolarVec(90, 285).toVec2().A + zoneCenter.X, PolarVec(90, 285).toVec2().B + zoneCenter.Y);
 	Point2D delta2 = Point2D(PolarVec(-180, 285).toVec2().A + zoneCenter.X, PolarVec(-180, 285).toVec2().B + zoneCenter.Y);
 	// Dropping first brown part, IMPORTANT side A facing north !!!
 	movement.setCurrentPosition(entryPoint);

@@ -13,9 +13,9 @@ void log(char *msg, int value)
 }
 
 // Movement movement;
-// Strategy strategy;
+Strategy strategy;
 // Lidar lidar;
-Actuators actuators;
+// Actuators actuators;
 
 void FullStop()
 {
@@ -44,8 +44,8 @@ void setup()
 	// lidar.setRadius(360);
 	// lidar.setMaxRange(300);
 	// ticker.start();
-	// strategy.setup();
-	actuators.setup();
+	strategy.setup();
+	// actuators.setup();
 	// movement.setup();
 	delay(5000);
 
@@ -55,8 +55,21 @@ void setup()
 
 void loop()
 {
+	// strategy.cookMeth(false);
 	// strategy.actuators.performTEST();
-	actuators.performTEST();
+	strategy.actuators.elevateObject(SIDE_B_ID, 1);
+	delay(2000);
+	strategy.actuators.elevateObject(SIDE_B_ID, 2);
+	delay(2000);
+	strategy.actuators.elevateObject(SIDE_B_ID, 3);
+	delay(2000);
+	strategy.actuators.delevateObject(SIDE_B_ID, 2);
+	delay(2000);
+	strategy.actuators.delevateObject(SIDE_B_ID, 1);
+	delay(2000);
+	strategy.actuators.delevateObject(SIDE_B_ID, 0);
+	delay(2000);
+	// actuators.performTEST();
 	// movement.Calibrate();
 	// actuators.delevateObject(SIDE_A_ID, 0);
 	// delay(1000);

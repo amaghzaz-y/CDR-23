@@ -7,10 +7,10 @@
 #define USMIN 1500	  // This is the rounded 'minimum' microsecond length based on the minimum pulse of 150
 #define USMAX 1750	  // This is the rounded 'maximum' microsecond length based on the maximum pulse of 600
 #define SERVO_FREQ 50 // Analog servos run at ~50 Hz updates
-#define US_LEVEL_0 400
-#define US_LEVEL_1 950
-#define US_LEVEL_2 1100
-#define US_LEVEL_3 1350
+#define US_LEVEL_0 420
+#define US_LEVEL_1 750
+#define US_LEVEL_2 900
+#define US_LEVEL_3 1150
 
 const int SERVO_SIDE_A_L = 1;
 const int SERVO_SIDE_A_R = 0;
