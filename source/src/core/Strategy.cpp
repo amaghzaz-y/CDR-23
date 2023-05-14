@@ -67,7 +67,7 @@ void Strategy::start(bool lidar)
 
 void Strategy::startDebug(bool lidar)
 {
-	delay(2000);
+	delay(1200);
 	Serial.println("Starting...");
 	while (currentInstruction < arrayLength)
 	{
@@ -93,7 +93,7 @@ void Strategy::startSEMI(bool lidar)
 		}
 		movement.ExecuteSEMI(points[currentInstruction], lidar);
 		// actuators.pickObject(0);
-		delay(2000);
+		delay(1200);
 		currentInstruction++;
 	}
 	movement.goHomeSEMI();
@@ -124,7 +124,7 @@ void Strategy::startSEMIOFFSET(bool lidar)
 		}
 		else
 		{
-			delay(2000);
+			delay(1200);
 		}
 		currentInstruction++;
 	}
@@ -187,14 +187,17 @@ void Strategy::cookMeth(bool lidar)
 	// Points of interest
 	Point2D entryPoint = Point2D(0, 0);
 	Point2D zoneCenter = Point2D(500, 0);
-	Point2D delta0 = Point2D(PolarVec(0, 285).toVec2().A + zoneCenter.X, PolarVec(0, 285).toVec2().B + zoneCenter.Y);
-	Point2D delta1 = Point2D(PolarVec(90, 285).toVec2().A + zoneCenter.X, PolarVec(90, 285).toVec2().B + zoneCenter.Y);
-	Point2D delta2 = Point2D(PolarVec(-180, 285).toVec2().A + zoneCenter.X, PolarVec(-180, 285).toVec2().B + zoneCenter.Y);
+	Point2D delta0 = Point2D(PolarVec(0, 120).toVec2().A + zoneCenter.X, PolarVec(0, 120).toVec2().B + zoneCenter.Y);
+	Point2D delta1 = Point2D(PolarVec(90, 120).toVec2().A + zoneCenter.X, PolarVec(90, 120).toVec2().B + zoneCenter.Y);
+	Point2D delta2 = Point2D(PolarVec(-180, 120).toVec2().A + zoneCenter.X, PolarVec(-180, 120).toVec2().B + zoneCenter.Y);
 	// Dropping first brown part, IMPORTANT side A facing north !!!
 	movement.setCurrentPosition(entryPoint);
-	//
+	// ----------------------------------
+	// making the first cake @ delta0 //
+	// ----------------------------------
 	movement.setSide(SIDE_C);
-	movement.ExecuteSEMI(delta0, lidar);
+	actuators.elevateObject(SIDE_C_ID, 2);
+	movement.ExecuteSEMIOFFSET(delta0, lidar);
 	actuators.delevateObject(SIDE_C_ID, 0);
 	actuators.releaseObject(SIDE_C_ID);
 	// picking rest brown parts
@@ -204,9 +207,10 @@ void Strategy::cookMeth(bool lidar)
 	movement.setSide(SIDE_AB);
 	movement.ExecuteSEMI(zoneCenter, lidar);
 	// dropping first yellow part
-	actuators.elevateObject(SIDE_B_ID, 1);
+	actuators.elevateObject(SIDE_B_ID, 3);
 	movement.setSide(SIDE_B);
 	movement.ExecuteSEMI(delta0, lidar);
+	actuators.delevateObject(SIDE_B_ID, 1);
 	actuators.releaseObject(SIDE_B_ID);
 	// picking rest yellow parts
 	actuators.elevateObject(SIDE_B_ID, 2);
@@ -215,21 +219,22 @@ void Strategy::cookMeth(bool lidar)
 	movement.setSide(SIDE_CA);
 	movement.ExecuteSEMI(zoneCenter, lidar);
 	// dropping first pink part
-	actuators.elevateObject(SIDE_A_ID, 2);
+	actuators.elevateObject(SIDE_A_ID, 3);
 	movement.setSide(SIDE_A);
 	movement.ExecuteSEMI(delta0, lidar);
+	actuators.delevateObject(SIDE_A_ID, 2);
 	actuators.releaseObject(SIDE_A_ID);
 	// picking rest pink parts	// Return to center
-	movement.ExecuteSEMI(zoneCenter, lidar);
 	actuators.elevateObject(SIDE_A_ID, 3);
 	actuators.pickObject(SIDE_A_ID);
 	// Return to center
 	movement.setSide(SIDE_BC);
-	movement.ExecuteSEMI(zoneCenter, lidar);
+	movement.ExecuteSEMIOFFSET(zoneCenter, lidar);
 	// ----------------------------------
 	// making the second cake @ delta1 //
 	// ----------------------------------
 	movement.setSide(SIDE_C);
+	actuators.elevateObject(SIDE_C_ID, 2);
 	movement.ExecuteSEMI(delta1, lidar);
 	// drop the second brown cake
 	actuators.delevateObject(SIDE_C_ID, 0);
@@ -239,9 +244,9 @@ void Strategy::cookMeth(bool lidar)
 	actuators.pickObject(SIDE_C_ID);
 	// return to center
 	movement.setSide(SIDE_AB);
-	movement.ExecuteSEMI(zoneCenter, lidar);
+	movement.ExecuteSEMIOFFSET(zoneCenter, lidar);
 	// drop the yellow cake
-	actuators.elevateObject(SIDE_B_ID, 2);
+	actuators.elevateObject(SIDE_B_ID, 3);
 	movement.setSide(SIDE_B);
 	movement.ExecuteSEMI(delta1, lidar);
 	actuators.delevateObject(SIDE_B_ID, 1);
@@ -256,7 +261,7 @@ void Strategy::cookMeth(bool lidar)
 	actuators.elevateObject(SIDE_A_ID, 3);
 	movement.setSide(SIDE_A);
 	movement.ExecuteSEMI(delta1, lidar);
-	actuators.elevateObject(SIDE_A_ID, 2);
+	actuators.delevateObject(SIDE_A_ID, 2);
 	actuators.releaseObject(SIDE_A_ID);
 	actuators.elevateObject(SIDE_A_ID, 3);
 	actuators.pickObject(SIDE_A_ID);
@@ -271,7 +276,6 @@ void Strategy::cookMeth(bool lidar)
 	movement.ExecuteSEMI(delta2, lidar);
 	actuators.delevateObject(SIDE_C_ID, 0);
 	actuators.releaseObject(SIDE_C_ID);
-	actuators.elevateObject(SIDE_C_ID, 1);
 	// return to center
 	movement.setSide(SIDE_AB);
 	movement.ExecuteSEMI(zoneCenter, lidar);

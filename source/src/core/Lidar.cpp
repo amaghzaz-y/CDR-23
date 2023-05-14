@@ -21,11 +21,11 @@ void Lidar::reconnect()
 	}
 }
 
-bool Lidar::inRadius(PolarVec point)
+bool Lidar::inRadius(Vec2 point)
 {
 	float max_angle = angle + (radius / 2);
 	float min_angle = angle - (radius / 2);
-	if ((point.getAngle() >= min_angle) && (point.getAngle() <= max_angle) && (point.getDistance() <= maxRange) && (point.getDistance() != 0.0f))
+	if ((point.A >= min_angle) && (point.A <= max_angle) && (point.B <= maxRange) && ((point.B) != 0.0f))
 	{
 		return true;
 	}
@@ -35,14 +35,14 @@ bool Lidar::inRadius(PolarVec point)
 	}
 }
 
-PolarVec Lidar::scan()
+Vec2 Lidar::scan()
 {
-	PolarVec point = {0, 0};
+	Vec2 point = {-1, -1};
 	if (IS_OK(lidar.waitPoint()))
 	{
 		float a = lidar.getCurrentPoint().angle;
 		float d = lidar.getCurrentPoint().distance;
-		PolarVec cp = PolarVec(a, d);
+		point = Vec2(a, d);
 	}
 	else
 	{
@@ -53,8 +53,8 @@ PolarVec Lidar::scan()
 
 void Lidar::detect()
 {
-	PolarVec point = scan();
-	if (Lidar::inRange(point))
+	Vec2 point = scan();
+	if (Lidar::inRadius(point))
 	{
 		opponentDetected = true;
 	}
@@ -69,9 +69,9 @@ bool Lidar::hasDetected()
 	return opponentDetected;
 }
 
-bool Lidar::isPointNull(PolarVec v)
+bool Lidar::isPointNull(Vec2 v)
 {
-	if (v.getAngle() != 0 || v.getDistance() != 0)
+	if (v.A != 0 || v.B != 0)
 		return false;
 	return true;
 }
@@ -100,17 +100,17 @@ void Lidar::setMaxRange(float range)
 	maxRange = range;
 }
 
-bool Lidar::inRange(PolarVec point)
-{
-	Vec2 vec = point.toVec2();
-	Point2D npoint = Point2D(vec.A + currentPosition.X, vec.B + currentPosition.Y);
-	if (vec.A > X_RANGE_MAX && vec.A < 0.0)
-	{
-		return false;
-	}
-	if (vec.B > Y_RANGE_MAX && vec.B < 0.0)
-	{
-		return false;
-	}
-	return true;
-}
+// bool Lidar::inRange(Vec2 point)
+// {
+// 	Vec2 vec = point.toVec2();
+// 	Point2D npoint = Point2D(vec.A + currentPosition.X, vec.B + currentPosition.Y);
+// 	if (vec.A > X_RANGE_MAX && vec.A < 0.0)
+// 	{
+// 		return false;
+// 	}
+// 	if (vec.B > Y_RANGE_MAX && vec.B < 0.0)
+// 	{
+// 		return false;
+// 	}
+// 	return true;
+// }

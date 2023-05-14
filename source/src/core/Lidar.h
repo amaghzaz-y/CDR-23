@@ -20,6 +20,7 @@ public:
 	void setCurrentPoint(Point2D _point);
 	void Task();
 	void startService();
+	Vec2 scan();
 
 private:
 	RPLidar lidar;
@@ -28,10 +29,10 @@ private:
 	float maxRange;
 	bool opponentDetected;
 	Point2D currentPosition;
-	bool inRadius(PolarVec point);
-	bool inRange(PolarVec point);
+	bool inRadius(Vec2 point);
+	bool inRange(Vec2 point);
 	void reconnect();
-	PolarVec scan();
-	bool isPointNull(PolarVec v);
+	bool isPointNull(Vec2 v);
 	TaskHandle_t xHandle;
+	int detectedAngle;
 };

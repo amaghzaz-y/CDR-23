@@ -21,8 +21,8 @@ const int SIDE_BC = -180;
 const int SIDE_C = -120;
 const int SIDE_CA = -60;
 
-const double SPEED = 4000.0;
-const double ACCEL = 2000.0;
+const double SPEED = 6000.0;
+const double ACCEL = 6000.0;
 
 const float INITIAL_X = 231.47; // value in mm
 const float INITIAL_Y = 250.73; // mm
