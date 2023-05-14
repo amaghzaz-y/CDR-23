@@ -226,4 +226,72 @@ void Strategy::cookMeth(bool lidar)
 	// Return to center
 	movement.setSide(SIDE_BC);
 	movement.ExecuteSEMI(zoneCenter, lidar);
+	// ----------------------------------
+	// making the second cake @ delta1 //
+	// ----------------------------------
+	movement.setSide(SIDE_C);
+	movement.ExecuteSEMI(delta1, lidar);
+	// drop the second brown cake
+	actuators.delevateObject(SIDE_C_ID, 0);
+	actuators.releaseObject(SIDE_C_ID);
+	// pickup the rest
+	actuators.elevateObject(SIDE_C_ID, 1);
+	actuators.pickObject(SIDE_C_ID);
+	// return to center
+	movement.setSide(SIDE_AB);
+	movement.ExecuteSEMI(zoneCenter, lidar);
+	// drop the yellow cake
+	actuators.elevateObject(SIDE_B_ID, 2);
+	movement.setSide(SIDE_B);
+	movement.ExecuteSEMI(delta1, lidar);
+	actuators.delevateObject(SIDE_B_ID, 1);
+	actuators.releaseObject(SIDE_B_ID);
+	// pick the rest
+	actuators.elevateObject(SIDE_B_ID, 2);
+	actuators.pickObject(SIDE_B_ID);
+	// return to center
+	movement.setSide(SIDE_CA);
+	movement.ExecuteSEMI(zoneCenter, lidar);
+	// drop the pink cake
+	actuators.elevateObject(SIDE_A_ID, 3);
+	movement.setSide(SIDE_A);
+	movement.ExecuteSEMI(delta1, lidar);
+	actuators.elevateObject(SIDE_A_ID, 2);
+	actuators.releaseObject(SIDE_A_ID);
+	actuators.elevateObject(SIDE_A_ID, 3);
+	actuators.pickObject(SIDE_A_ID);
+	// return to center
+	movement.setSide(SIDE_BC);
+	movement.ExecuteSEMI(zoneCenter, lidar);
+	// ----------------------------------
+	// making the third cake @ delta2 //
+	// ----------------------------------
+	// putting the third brown cake
+	movement.setSide(SIDE_C);
+	movement.ExecuteSEMI(delta2, lidar);
+	actuators.delevateObject(SIDE_C_ID, 0);
+	actuators.releaseObject(SIDE_C_ID);
+	actuators.elevateObject(SIDE_C_ID, 1);
+	// return to center
+	movement.setSide(SIDE_AB);
+	movement.ExecuteSEMI(zoneCenter, lidar);
+	// drop the third yellow cake
+	movement.setSide(SIDE_B);
+	actuators.elevateObject(SIDE_B_ID, 2);
+	movement.ExecuteSEMI(delta2, lidar);
+	actuators.delevateObject(SIDE_B_ID, 1);
+	actuators.releaseObject(SIDE_B_ID);
+	// return to center
+	movement.setSide(SIDE_CA);
+	movement.ExecuteSEMI(zoneCenter, lidar);
+	// dropping the last pink cake
+	movement.setSide(SIDE_A);
+	actuators.elevateObject(SIDE_A_ID, 3);
+	movement.ExecuteSEMI(delta2, lidar);
+	actuators.delevateObject(SIDE_A_ID, 2);
+	actuators.releaseObject(SIDE_A_ID);
+	actuators.elevateObject(SIDE_A_ID, 3);
+	// return to center
+	movement.setSide(SIDE_BC);
+	movement.ExecuteSEMI(zoneCenter, lidar);
 }

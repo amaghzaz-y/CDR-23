@@ -2,12 +2,12 @@
 
 Movement::Movement()
 {
-	A1 = AccelStepper(1, 25, 33);
-	A1.setEnablePin(13);
-	A2 = AccelStepper(1, 27, 26);
-	A2.setEnablePin(13);
-	A3 = AccelStepper(1, 14, 12);
-	A3.setEnablePin(13);
+	A1 = AccelStepper(1, PIN_M1_STEP, PIN_M1_DIR);
+	A1.setEnablePin(PIN_ENABLE);
+	A2 = AccelStepper(1, PIN_M2_STEP, PIN_M2_DIR);
+	A2.setEnablePin(PIN_ENABLE);
+	A3 = AccelStepper(1, PIN_M3_STEP, PIN_M3_DIR);
+	A3.setEnablePin(PIN_ENABLE);
 	TEAM_A_HOME = Point2D(INITIAL_X, INITIAL_Y);
 	TEAM_B_HOME = Point2D(INITIAL_X, INITIAL_Y);
 	currentRotation = 0.0;
@@ -296,6 +296,7 @@ void Movement::Calibrate()
 {
 	if (team == 0)
 	{
+		Serial.println("calibrating for team 0");
 		moveTo(PolarVec(SIDE_B, 200).ToSteps());
 		runSync();
 		moveTo(PolarVec(SIDE_CA, 115).ToSteps());

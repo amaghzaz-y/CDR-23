@@ -4,14 +4,15 @@
 #include <lib/stepper/AccelStepper.h>
 #include <types/Point2D.h>
 #include <utils/utils.h>
+#include "utils/PINS.h"
 
-#define PIN_DIR_M1 33
-#define PIN_DIR_M2 26
-#define PIN_DIR_M3 12
-#define PIN_STP_M1 25
-#define PIN_STP_M2 27
-#define PIN_STP_M3 14
-#define PIN_ENABLE 13
+// #define PIN_DIR_M1 33
+// #define PIN_DIR_M2 26
+// #define PIN_DIR_M3 12
+// #define PIN_STP_M1 25
+// #define PIN_STP_M2 27
+// #define PIN_STP_M3 14
+// #define PIN_ENABLE 13
 
 const int SIDE_A = 360;
 const int SIDE_AB = 60;

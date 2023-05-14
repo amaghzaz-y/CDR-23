@@ -12,13 +12,14 @@ void log(char *msg, int value)
 	Serial.println(value);
 }
 
-Strategy strategy;
-Lidar lidar;
+// Movement movement;
+// Strategy strategy;
+// Lidar lidar;
 Actuators actuators;
 
 void FullStop()
 {
-	strategy.stop();
+	// strategy.stop();
 }
 
 Ticker ticker(FullStop,
@@ -26,18 +27,18 @@ Ticker ticker(FullStop,
 
 Point2D points[] = {Point2D(1000, 500), Point2D(1000, 1000), Point2D(700, 1000)};
 
-void LidarTask(void *pvParameters)
-{
-	for (;;)
-	{
-		lidar.Task();
-		ticker.update();
-	}
-}
+// void LidarTask(void *pvParameters)
+// {
+// 	for (;;)
+// 	{
+// 		lidar.Task();
+// 		ticker.update();
+// 	}
+// }
 
 void setup()
 {
-	Serial.begin(9600);
+	Serial.begin(115200);
 	// lidar.setup();
 	// lidar.setAngle(180);
 	// lidar.setRadius(360);
@@ -45,6 +46,7 @@ void setup()
 	// ticker.start();
 	// strategy.setup();
 	actuators.setup();
+	// movement.setup();
 	delay(5000);
 
 	// xTaskCreatePinnedToCore(LidarTask, "lidarTask", 10000, NULL, 0, NULL, 0);
@@ -53,14 +55,17 @@ void setup()
 
 void loop()
 {
+	// strategy.actuators.performTEST();
+	actuators.performTEST();
+	// movement.Calibrate();
 	// actuators.delevateObject(SIDE_A_ID, 0);
 	// delay(1000);
 	// actuators.delevateObject(SIDE_B_ID, 0);
 	// delay(1000);
 	// actuators.delevateObject(SIDE_C_ID, 0);
 	// delay(1000);
-	// strategy.ready();
-	actuators.performTEST();
+	// strategy.movement.Calibrate();
+	// actuators.performTEST();
 	// strategy.startStratA(false);
 	// strategy.startSEMIOFFSET(false);
 	// strategy.startStratA(false);

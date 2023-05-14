@@ -5,11 +5,20 @@
 #include "types/PolarVec.h"
 #include "core/Lidar.h"
 #include "core/Actuators.h"
+#include "utils/PINS.h"
 #define HEIGHT 2000 // value in mm
 #define WIDTH 1500	// value in mm
-#define REED_PIN 32
-#define INIT_PIN 34
-#define TEAM_PIN 35
+// const int PIN_IFM3 = 34;
+// const int PIN_IFM2 = 36;
+// const int PIN_IFM2 = 39;
+const int PIN_RST_OLED = 19;
+const int PIN_L1 = 2;
+const int PIN_L2 = 18;
+const int PIN_L4 = 23;
+const int PIN_L3 = 35;
+const int REED_PIN = PIN_L1;
+const int INIT_PIN = PIN_L2;
+const int TEAM_PIN = PIN_L3;
 
 class Strategy
 {

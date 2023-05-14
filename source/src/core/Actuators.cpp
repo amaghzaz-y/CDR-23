@@ -93,6 +93,7 @@ void Actuators::setup()
 	delevateAll();
 	delay(100);
 }
+
 void Actuators::foldAll()
 {
 	Serial.println("folding");
@@ -134,6 +135,7 @@ void Actuators::defoldAll()
 	}
 	Serial.println("defolded");
 }
+
 void Actuators::performTEST()
 {
 	while (1)

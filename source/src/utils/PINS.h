@@ -1,3 +1,4 @@
+#pragma once
 const int PIN_M1_DIR = 33;
 const int PIN_M2_DIR = 26;
 const int PIN_M3_DIR = 4;
@@ -9,13 +10,5 @@ const int PIN_LIDAR_MOTOR = 5;
 const int PIN_SCL = 22;
 const int PIN_SDA = 21;
 const int PIN_NEOPIXEL = 15;
-const int PIN_IFM3 = 34;
-const int PIN_IFM2 = 36;
-const int PIN_IFM2 = 39;
-const int PIN_L1 = 2;
-const int PIN_L2 = 18;
-const int PIN_RST_OLED = 19;
-const int PIN_L4 = 23;
-const int PIN_L3 = 35;
 const int PIN_SOFT_SERIAL_TX = 13;
 const int PIN_SOFT_SERIAL_RX = 12;

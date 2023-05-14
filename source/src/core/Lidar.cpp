@@ -9,14 +9,14 @@ void Lidar::setup()
 
 void Lidar::reconnect()
 {
-	analogWrite(LIDAR_MOTOR_PIN, 0);
+	analogWrite(PIN_LIDAR_MOTOR, 0);
 	delay(15);
 	rplidar_response_device_info_t info;
 	if (IS_OK(lidar.getDeviceInfo(info, 100)))
 	{
 		Serial.println("Lidar Detected...");
 		lidar.startScan();
-		analogWrite(LIDAR_MOTOR_PIN, LIDAR_MOTOR_SPEED);
+		analogWrite(PIN_LIDAR_MOTOR, LIDAR_MOTOR_SPEED);
 		delay(500);
 	}
 }
