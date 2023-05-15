@@ -76,8 +76,9 @@ bool Lidar::isPointNull(Vec2 v)
 	return true;
 }
 
-void Lidar::Task()
+void Lidar::Task(Point2D currentPosition)
 {
+	setCurrentPoint(currentPosition);
 	detect();
 	if (hasDetected())
 	{
@@ -100,17 +101,22 @@ void Lidar::setMaxRange(float range)
 	maxRange = range;
 }
 
-// bool Lidar::inRange(Vec2 point)
-// {
-// 	Vec2 vec = point.toVec2();
-// 	Point2D npoint = Point2D(vec.A + currentPosition.X, vec.B + currentPosition.Y);
-// 	if (vec.A > X_RANGE_MAX && vec.A < 0.0)
-// 	{
-// 		return false;
-// 	}
-// 	if (vec.B > Y_RANGE_MAX && vec.B < 0.0)
-// 	{
-// 		return false;
-// 	}
-// 	return true;
-// }
+bool Lidar::inRange(Vec2 point)
+{
+	Vec2 vec = PolarVec(point.A, point.B).toVec2();
+	Point2D npoint = Point2D(vec.A + currentPosition.X, vec.B + currentPosition.Y);
+	if (npoint.Y > X_RANGE_MAX && npoint.Y < 0.0)
+	{
+		return false;
+	}
+	if (npoint.Y > Y_RANGE_MAX && npoint.Y < 0.0)
+	{
+		return false;
+	}
+	return true;
+}
+
+void Lidar::setCurrentPoint(Point2D currentPoint)
+{
+	currentPosition = currentPoint;
+}

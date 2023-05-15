@@ -44,4 +44,5 @@ public:
 	void startStratA(bool lidar);
 	void cookMeth(bool lidar);
 	void Homologuation(bool lidar);
+	Point2D getCurrentPoint();
 };

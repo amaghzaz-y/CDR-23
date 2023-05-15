@@ -18,8 +18,7 @@ public:
 	void setRadius(float _radius);
 	void setMaxRange(float _range);
 	void setCurrentPoint(Point2D _point);
-	void Task();
-	void startService();
+	void Task(Point2D currentPoint);
 	Vec2 scan();
 
 private:
@@ -33,6 +32,5 @@ private:
 	bool inRange(Vec2 point);
 	void reconnect();
 	bool isPointNull(Vec2 v);
-	TaskHandle_t xHandle;
 	int detectedAngle;
 };

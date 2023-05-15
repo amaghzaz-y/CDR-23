@@ -29,7 +29,7 @@ void LidarTask(void *pvParameters)
 {
 	for (;;)
 	{
-		lidar.Task();
+		lidar.Task(strategy.getCurrentPoint());
 		ticker.update();
 	}
 }

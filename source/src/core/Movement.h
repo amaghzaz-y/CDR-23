@@ -79,4 +79,5 @@ public:
 	void goHome();
 	void goHomeSEMI();
 	void setCurrentPosition(Point2D point);
+	Point2D getCurrentPoint();
 };

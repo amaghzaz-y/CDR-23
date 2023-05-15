@@ -304,3 +304,8 @@ void Strategy::Homologuation(bool lidar)
 	Ready();
 	cookMeth(lidar);
 }
+
+Point2D Strategy::getCurrentPoint()
+{
+	return movement.getCurrentPoint();
+}

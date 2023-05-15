@@ -364,3 +364,8 @@ void Movement::setCurrentPosition(Point2D point)
 {
 	currentPoint = point;
 }
+
+Point2D Movement::getCurrentPoint()
+{
+	return currentPoint;
+}
