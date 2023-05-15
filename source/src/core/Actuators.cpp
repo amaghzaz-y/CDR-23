@@ -29,30 +29,6 @@ void Actuators::pickObject(int SIDE)
 		}
 		side_C_full = true;
 	}
-	// if (SIDE == SIDE_A_ID)
-	// {
-
-	// 	servoDriver.writeMicroseconds(SERVO_SIDE_A_L, 1750);
-	// 	servoDriver.writeMicroseconds(SERVO_SIDE_A_R, 950);
-
-	// 	side_A_full = true;
-	// }
-	// if (SIDE == SIDE_B_ID)
-	// {
-
-	// 	servoDriver.writeMicroseconds(SERVO_SIDE_B_L, 1900);
-	// 	servoDriver.writeMicroseconds(SERVO_SIDE_B_R, 720);
-
-	// 	side_B_full = true;
-	// }
-	// if (SIDE == SIDE_C_ID)
-	// {
-
-	// 	servoDriver.writeMicroseconds(SERVO_SIDE_C_L, 1950);
-	// 	servoDriver.writeMicroseconds(SERVO_SIDE_C_R, 670);
-
-	// 	side_C_full = true;
-	// }
 }
 
 void Actuators::releaseObject(int SIDE)
@@ -294,70 +270,6 @@ void Actuators::elevateObject(int SIDE, int LEVEL)
 			}
 		}
 	}
-	// if (LEVEL == 1)
-	// {
-	// 	if (SIDE == SIDE_A_ID)
-	// 	{
-	// 		for (uint16_t microsec = (US_LEVEL_0); microsec < (US_LEVEL_1 - 60); microsec++)
-	// 		{
-	// 			servoDriver.writeMicroseconds(SERVO_SIDE_A_U, microsec);
-	// 		}
-	// 	}
-	// 	else if (SIDE == SIDE_B_ID)
-	// 	{
-	// 		for (uint16_t microsec = US_LEVEL_0; microsec < (US_LEVEL_1 + 150); microsec++)
-	// 		{
-	// 			servoDriver.writeMicroseconds(SERVO_SIDE_B_U, microsec);
-	// 		}
-	// 	}
-	// 	else if (SIDE == SIDE_C_ID)
-	// 	{
-	// 		for (uint16_t microsec = US_LEVEL_0; microsec < (US_LEVEL_1 + 150); microsec++)
-	// 		{
-	// 			servoDriver.writeMicroseconds(SERVO_SIDE_C_U, microsec);
-	// 		}
-	// 	}
-	// }
-	// else if (LEVEL == 2)
-	// {
-	// 	if (SIDE == SIDE_A_ID)
-	// 	{
-	// 		for (uint16_t microsec = (US_LEVEL_1 - 60); microsec < (US_LEVEL_2 - 40); microsec++)
-	// 		{
-	// 			servoDriver.writeMicroseconds(SERVO_SIDE_A_U, microsec);
-	// 		}
-	// 	}
-	// 	else if (SIDE == SIDE_B_ID)
-	// 	{
-	// 		for (uint16_t microsec = (US_LEVEL_1 + 150); microsec < (US_LEVEL_2 + 250); microsec++)
-	// 		{
-	// 			servoDriver.writeMicroseconds(SERVO_SIDE_B_U, microsec);
-	// 		}
-	// 	}
-	// 	else if (SIDE == SIDE_C_ID)
-	// 	{
-	// 		for (uint16_t microsec = (US_LEVEL_1 + 150); microsec < (US_LEVEL_2 + 250); microsec++)
-	// 		{
-	// 			servoDriver.writeMicroseconds(SERVO_SIDE_C_U, microsec);
-	// 		}
-	// 	}
-	// }
-	// else if (LEVEL == 3)
-	// {
-	// 	if (SIDE == SIDE_A_ID)
-	// 	{
-	// 		servoDriver.writeMicroseconds(SERVO_SIDE_A_U, 1125);
-	// 	}
-	// 	else if (SIDE == SIDE_B_ID)
-	// 	{
-
-	// 		servoDriver.writeMicroseconds(SERVO_SIDE_B_U, 1450);
-	// 	}
-	// 	else if (SIDE == SIDE_C_ID)
-	// 	{
-	// 		servoDriver.writeMicroseconds(SERVO_SIDE_C_U, 1450);
-	// 	}
-	// }
 }
 
 void Actuators::delevateObject(int SIDE, int LEVEL)
@@ -434,58 +346,6 @@ void Actuators::delevateObject(int SIDE, int LEVEL)
 			}
 		}
 	}
-	// if (LEVEL == 0)
-	// {
-	// 	if (SIDE == SIDE_A_ID)
-	// 	{
-	// 		servoDriver.writeMicroseconds(SERVO_SIDE_A_U, 420);
-	// 	}
-	// 	else if (SIDE == SIDE_B_ID)
-	// 	{
-
-	// 		servoDriver.writeMicroseconds(SERVO_SIDE_B_U, 420);
-	// 	}
-	// 	else if (SIDE == SIDE_C_ID)
-	// 	{
-
-	// 		servoDriver.writeMicroseconds(SERVO_SIDE_C_U, 420);
-	// 	}
-	// }
-	// else if (LEVEL == 1)
-	// {
-	// 	if (SIDE == SIDE_A_ID)
-	// 	{
-	// 		servoDriver.writeMicroseconds(SERVO_SIDE_A_U, 750);
-	// 	}
-	// 	else if (SIDE == SIDE_B_ID)
-	// 	{
-
-	// 		servoDriver.writeMicroseconds(SERVO_SIDE_B_U, 750);
-	// 	}
-	// 	else if (SIDE == SIDE_C_ID)
-	// 	{
-
-	// 		servoDriver.writeMicroseconds(SERVO_SIDE_C_U, 750);
-	// 	}
-	// }
-	// else if (LEVEL == 2)
-	// {
-	// 	if (SIDE == SIDE_A_ID)
-	// 	{
-
-	// 		servoDriver.writeMicroseconds(SERVO_SIDE_A_U, 900);
-	// 	}
-	// 	else if (SIDE == SIDE_B_ID)
-	// 	{
-
-	// 		servoDriver.writeMicroseconds(SERVO_SIDE_B_U, 900);
-	// 	}
-	// 	else if (SIDE == SIDE_C_ID)
-	// 	{
-
-	// 		servoDriver.writeMicroseconds(SERVO_SIDE_C_U, 900);
-	// 	}
-	// }
 }
 
 void Actuators::setToZero()

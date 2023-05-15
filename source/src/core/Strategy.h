@@ -26,22 +26,22 @@ private:
 	Point2D *points;
 	int currentInstruction;
 	int arrayLength;
-	void makeSelection();
+	void teamSelection();
 	void init();
-	bool isReady();
 
 public:
 	Movement movement;
 	Actuators actuators;
-
+	void Initiation();
+	void Ready();
 	void setup();
 	void start(bool lidar);
 	void startDebug(bool lidar);
-	void ready();
 	void startSEMI(bool lidar);
 	void startSEMIOFFSET(bool lidar);
 	void stop();
 	void setPoints(Point2D *points, int len);
 	void startStratA(bool lidar);
 	void cookMeth(bool lidar);
+	void Homologuation(bool lidar);
 };

@@ -12,7 +12,7 @@ void Strategy::setup()
 
 void Strategy::init()
 {
-	if (digitalRead(REED_PIN) == 0)
+	if (digitalRead(INIT_PIN) == 0)
 	{
 		Serial.println("Starting Calibration");
 		movement.Calibrate();
@@ -23,7 +23,7 @@ void Strategy::init()
 	}
 }
 
-void Strategy::makeSelection()
+void Strategy::teamSelection()
 {
 	if (digitalRead(TEAM_PIN) == 0)
 	{
@@ -42,20 +42,17 @@ void Strategy::stop()
 	Serial.println("FULL STOP HAS BEEN COMPLETE");
 }
 
-bool Strategy::isReady()
+void Strategy::Ready()
 {
-	if (digitalRead(REED_PIN) == 0)
+	while (digitalRead(REED_PIN) == 0)
 	{
 		Serial.println("not ready");
-		return false;
 	}
 	Serial.println("ready");
-	return true;
 }
 
 void Strategy::start(bool lidar)
 {
-
 	while (currentInstruction < arrayLength)
 	{
 		movement.Execute(points[currentInstruction], lidar);
@@ -67,7 +64,7 @@ void Strategy::start(bool lidar)
 
 void Strategy::startDebug(bool lidar)
 {
-	delay(1200);
+	delay(1600);
 	Serial.println("Starting...");
 	while (currentInstruction < arrayLength)
 	{
@@ -93,7 +90,7 @@ void Strategy::startSEMI(bool lidar)
 		}
 		movement.ExecuteSEMI(points[currentInstruction], lidar);
 		// actuators.pickObject(0);
-		delay(1200);
+		delay(1600);
 		currentInstruction++;
 	}
 	movement.goHomeSEMI();
@@ -124,7 +121,7 @@ void Strategy::startSEMIOFFSET(bool lidar)
 		}
 		else
 		{
-			delay(1200);
+			delay(1600);
 		}
 		currentInstruction++;
 	}
@@ -141,11 +138,12 @@ void Strategy::setPoints(Point2D *p, int len)
 	arrayLength = len;
 }
 
-void Strategy::ready()
+void Strategy::Initiation()
 {
 	while (!movement.isCalibrated() || !movement.atHome())
 	{
 		init();
+		teamSelection();
 	}
 }
 
@@ -187,9 +185,9 @@ void Strategy::cookMeth(bool lidar)
 	// Points of interest
 	Point2D entryPoint = Point2D(0, 0);
 	Point2D zoneCenter = Point2D(500, 0);
-	Point2D delta0 = Point2D(PolarVec(0, 120).toVec2().A + zoneCenter.X, PolarVec(0, 120).toVec2().B + zoneCenter.Y);
-	Point2D delta1 = Point2D(PolarVec(90, 120).toVec2().A + zoneCenter.X, PolarVec(90, 120).toVec2().B + zoneCenter.Y);
-	Point2D delta2 = Point2D(PolarVec(-180, 120).toVec2().A + zoneCenter.X, PolarVec(-180, 120).toVec2().B + zoneCenter.Y);
+	Point2D delta0 = Point2D(PolarVec(0, 160).toVec2().A + zoneCenter.X, PolarVec(0, 160).toVec2().B + zoneCenter.Y);
+	Point2D delta1 = Point2D(PolarVec(90, 160).toVec2().A + zoneCenter.X, PolarVec(90, 160).toVec2().B + zoneCenter.Y);
+	Point2D delta2 = Point2D(PolarVec(-180, 160).toVec2().A + zoneCenter.X, PolarVec(-180, 160).toVec2().B + zoneCenter.Y);
 	// Dropping first brown part, IMPORTANT side A facing north !!!
 	movement.setCurrentPosition(entryPoint);
 	// ----------------------------------
@@ -298,4 +296,11 @@ void Strategy::cookMeth(bool lidar)
 	// return to center
 	movement.setSide(SIDE_BC);
 	movement.ExecuteSEMI(zoneCenter, lidar);
+}
+
+void Strategy::Homologuation(bool lidar)
+{
+	Initiation();
+	Ready();
+	cookMeth(lidar);
 }

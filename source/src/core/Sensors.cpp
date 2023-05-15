@@ -2,24 +2,24 @@
 
 void Sensors::setup()
 {
-	pinMode(SENSOR_A_PIN, INPUT);
-	pinMode(SENSOR_B_PIN, INPUT);
-	pinMode(SENSOR_C_PIN, INPUT);
+	pinMode(PIN_IFM1, INPUT);
+	pinMode(PIN_IFM2, INPUT);
+	pinMode(PIN_IFM3, INPUT);
 }
 
 bool Sensors::getSensor(int side)
 {
 	if (side == SIDE_A_ID)
 	{
-		return digitalRead(SENSOR_A_PIN);
+		return digitalRead(PIN_IFM1);
 	}
 	else if (side == SIDE_B_ID)
 	{
-		return digitalRead(SENSOR_B_PIN);
+		return digitalRead(PIN_IFM2);
 	}
 	else if (side == SIDE_C_ID)
 	{
-		return digitalRead(SENSOR_C_PIN);
+		return digitalRead(PIN_IFM3);
 	}
 	else
 	{

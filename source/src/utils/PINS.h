@@ -12,3 +12,6 @@ const int PIN_SDA = 21;
 const int PIN_NEOPIXEL = 15;
 const int PIN_SOFT_SERIAL_TX = 13;
 const int PIN_SOFT_SERIAL_RX = 12;
+const int PIN_IFM1 = 39;
+const int PIN_IFM2 = 36;
+const int PIN_IFM3 = 34;
