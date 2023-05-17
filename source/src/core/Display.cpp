@@ -13,6 +13,16 @@ void Display::setup()
 
 void Display::Show(String row0, String row1, String row2, String row3)
 {
+	lcd.clear();
+	lcd.setCursor(0, 0);
+	lcd.print(row0);
+	lcd.setCursor(0, 1);
+	lcd.print(row1);
+	lcd.setCursor(0, 2);
+	lcd.print(row2);
+	lcd.setCursor(0, 3);
+	lcd.print(row3);
+	lcd.display();
 }
 
 void Display::Test()

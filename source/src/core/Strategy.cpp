@@ -29,10 +29,12 @@ void Strategy::teamSelection()
 	if (digitalRead(TEAM_PIN) == 0)
 	{
 		movement.setTeam(0);
+		display.Show("Team", "selected", "   :   ", "  GREEN  ");
 	}
 	else
 	{
 		movement.setTeam(1);
+		display.Show("Team", "selected", "   :   ", "  BLUE  ");
 	}
 }
 

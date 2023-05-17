@@ -6,6 +6,7 @@
 #include "core/Lidar.h"
 #include "core/Actuators.h"
 #include "utils/PINS.h"
+#include "core/Display.h"
 #define HEIGHT 2000 // value in mm
 #define WIDTH 1500	// value in mm
 // const int PIN_IFM3 = 34;
@@ -31,6 +32,7 @@ private:
 public:
 	Movement movement;
 	Actuators actuators;
+	Display display;
 	void Initiation();
 	void Ready();
 	void setup();
