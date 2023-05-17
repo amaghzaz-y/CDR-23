@@ -14,4 +14,6 @@ private:
 public:
 	void setup();
 	bool getSensor(int side_id);
+	void testSensors();
+	
 };

@@ -7,6 +7,7 @@ void Strategy::setup()
 	movement.setup();
 	actuators.setup();
 	neopixel.setup();
+	sensors.setup();
 	pinMode(INIT_PIN, INPUT_PULLUP);
 	pinMode(TEAM_PIN, INPUT);
 	pinMode(REED_PIN, INPUT_PULLUP);
@@ -185,58 +186,98 @@ void Strategy::startStratA(bool *lidar)
 {
 	if (team == 0)
 	{
+
+		Point2D midPoint = Point2D(1500, 725);
+		Point2D zoneCenter0 = Point2D(1875, 225);
+		Point2D delta1 = Point2D(PolarVec(45, 200).toVec2().A + zoneCenter0.X, PolarVec(45, 200).toVec2().B + zoneCenter0.Y);
+		Point2D delta2 = Point2D(PolarVec(45, -200).toVec2().A + zoneCenter0.X, PolarVec(45, -200).toVec2().B + zoneCenter0.Y);
+		// try this if delta2 is fucked
+		// Point2D delta2 = Point2D(PolarVec(225, 200).toVec2().A + zoneCenter0.X, PolarVec(225, 200).toVec2().B + zoneCenter0.Y);
+
+		//***************************
+		// Picking up the first Tres
+		//***************************
 		actuators.releaseObject(SIDE_A_ID);
 		movement.ExecuteSEMIOFFSET(Point2D(575, 225), lidar);
 		actuators.delevateObject(SIDE_A_ID, 0);
 		actuators.pickObject(SIDE_A_ID);
-		actuators.elevateObject(SIDE_A, 1);
+		actuators.elevateObject(SIDE_A, 2);
 
 		movement.setSide(SIDE_B);
 		actuators.releaseObject(SIDE_B_ID);
 		movement.ExecuteSEMIOFFSET(Point2D(775, 225), lidar);
 		actuators.delevateObject(SIDE_B_ID, 0);
 		actuators.pickObject(SIDE_B_ID);
-		actuators.elevateObject(SIDE_B_ID, 1);
+		actuators.elevateObject(SIDE_B_ID, 2);
 
 		movement.setSide(SIDE_C);
 		actuators.releaseObject(SIDE_C_ID);
 		movement.ExecuteSEMIOFFSET(Point2D(1125, 725), lidar);
 		actuators.delevateObject(SIDE_C_ID, 0);
 		actuators.pickObject(SIDE_C_ID);
+		actuators.elevateObject(SIDE_C_ID, 2);
+
+		// put side C
+		movement.ExecuteSEMI(midPoint, lidar);
+		movement.ExecuteSEMI(delta1, lidar);
+		actuators.delevateObject(SIDE_C_ID, 0);
+		actuators.releaseObject(SIDE_C_ID);
 		actuators.elevateObject(SIDE_C_ID, 1);
 
-		movement.ExecuteSEMI(Point2D(1125, 1775), lidar);
-		actuators.delevateObject(SIDE_A_ID, 0);
+		// put side B
+		movement.setSide(SIDE_AB);
+		movement.ExecuteSEMI(delta2, lidar);
+		movement.setSide(SIDE_B);
+		movement.ExecuteSEMI(zoneCenter0, lidar);
 		actuators.delevateObject(SIDE_B_ID, 0);
-		actuators.delevateObject(SIDE_C_ID, 0);
-		actuators.releaseObject(SIDE_A_ID);
 		actuators.releaseObject(SIDE_B_ID);
-		actuators.releaseObject(SIDE_C_ID);
+		actuators.elevateObject(SIDE_B_ID, 1);
+
+		// put side A
+		movement.setSide(SIDE_CA);
+		movement.ExecuteSEMI(midPoint, lidar);
+		movement.setSide(SIDE_A);
+		movement.ExecuteSEMI(delta2, lidar);
+		actuators.delevateObject(SIDE_A_ID, 0);
+		actuators.releaseObject(SIDE_A_ID);
+		actuators.elevateObject(SIDE_A_ID, 1);
+		// return to midpoint
+		movement.setSide(SIDE_BC);
+		movement.ExecuteSEMI(midPoint, lidar);
+		//**************************
+		// GO CLOSEST HOME
+		//**************************
+		movement.setSide(SIDE_A);
+		movement.ExecuteSEMI(Point2D(2775, 725), lidar);
+		//**************************
+		// Picking up the 2nd Tres
+		//**************************
+
 		movement.FullStop();
 	}
 	else if (team == 1)
 	{
 		actuators.releaseObject(SIDE_A_ID);
-		movement.ExecuteSEMIOFFSET(Point2D(575, 225), lidar);
+		movement.ExecuteSEMIOFFSET(Point2D(575, 1775), lidar);
 		actuators.delevateObject(SIDE_A_ID, 0);
 		actuators.pickObject(SIDE_A_ID);
-		actuators.elevateObject(SIDE_A, 1);
+		actuators.elevateObject(SIDE_A, 2);
 
 		movement.setSide(SIDE_B);
 		actuators.releaseObject(SIDE_B_ID);
-		movement.ExecuteSEMIOFFSET(Point2D(775, 225), lidar);
+		movement.ExecuteSEMIOFFSET(Point2D(775, 1775), lidar);
 		actuators.delevateObject(SIDE_B_ID, 0);
 		actuators.pickObject(SIDE_B_ID);
-		actuators.elevateObject(SIDE_B_ID, 1);
+		actuators.elevateObject(SIDE_B_ID, 2);
 
 		movement.setSide(SIDE_C);
 		actuators.releaseObject(SIDE_C_ID);
-		movement.ExecuteSEMIOFFSET(Point2D(1125, 725), lidar);
+		movement.ExecuteSEMIOFFSET(Point2D(1125, 1275), lidar);
 		actuators.delevateObject(SIDE_C_ID, 0);
 		actuators.pickObject(SIDE_C_ID);
-		actuators.elevateObject(SIDE_C_ID, 1);
+		actuators.elevateObject(SIDE_C_ID, 2);
 
-		movement.ExecuteSEMI(Point2D(1125, 1775), lidar);
+		movement.ExecuteSEMI(Point2D(1875, 1775), lidar);
 		actuators.delevateObject(SIDE_A_ID, 0);
 		actuators.delevateObject(SIDE_B_ID, 0);
 		actuators.delevateObject(SIDE_C_ID, 0);

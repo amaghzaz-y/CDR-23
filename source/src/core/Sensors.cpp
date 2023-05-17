@@ -26,3 +26,12 @@ bool Sensors::getSensor(int side)
 		return false;
 	}
 }
+
+void Sensors::testSensors()
+{
+	Serial.print(getSensor(0));
+	Serial.print("   ");
+	Serial.print(getSensor(1));
+	Serial.print("   ");
+	Serial.println(getSensor(2));
+}

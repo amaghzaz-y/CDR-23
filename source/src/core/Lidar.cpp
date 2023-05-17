@@ -25,7 +25,7 @@ bool Lidar::inRadius(Vec2 point)
 {
 	float max_angle = angle + (radius / 2);
 	float min_angle = angle - (radius / 2);
-	if ((point.A >= min_angle) && (point.A <= max_angle) && (point.B <= maxRange))
+	if ((point.A > min_angle) && (point.B > 150) && (point.A < max_angle) && (point.B < maxRange))
 	{
 		return true;
 	}
@@ -58,6 +58,7 @@ Vec2 Lidar::scan()
 void Lidar::detect()
 {
 	Vec2 point = scan();
+
 	if (Lidar::inRadius(point))
 	{
 		opponentDetected = true;
@@ -84,10 +85,10 @@ bool Lidar::Task(Point2D currentPosition)
 {
 	setCurrentPoint(currentPosition);
 	detect();
-	if (hasDetected())
-	{
-		// Serial.println("###-DETECTED-###");
-	}
+	// if (hasDetected())
+	// {
+	// 	Serial.println("###-DETECTED-###");
+	// }
 	return hasDetected();
 }
 

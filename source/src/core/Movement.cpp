@@ -111,6 +111,10 @@ void Movement::stop()
 	// A2.stop();
 	// A3.stop();
 	delay(2500);
+	do
+	{
+		delay(500);
+	} while (*isDetected);
 	// Serial.print("STOP :: ");
 	// Serial.println(*isDetected);
 }

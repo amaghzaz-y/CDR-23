@@ -30,7 +30,7 @@ const float INITIAL_Y_GREEN = 251;	  // mm
 const float INITIAL_X_BLUE = 231.50; // value in mm
 const float INITIAL_Y_BLUE = 1749;	 // mm
 
-const float OFFSET_DISTANCE = 40.0; // mm
+const float OFFSET_DISTANCE = 50.0; // mm
 
 class Movement
 {

@@ -9,6 +9,7 @@
 #include "core/Display.h"
 #include "core/Actuators.h"
 #include "core/NeoPixel.h"
+#include "core/Sensors.h"
 
 #define HEIGHT 2000 // value in mm
 #define WIDTH 1500	// value in mm
@@ -39,6 +40,7 @@ public:
 	Actuators actuators;
 	Display display;
 	NeoPixel neopixel;
+	Sensors sensors;
 	void Initiation();
 	void Ready();
 	void setup();
