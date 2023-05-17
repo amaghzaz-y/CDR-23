@@ -3,7 +3,7 @@
 #include <types/PolarVec.h>
 #include <types/Point2D.h>
 #include <utils/PINS.h>
-#define LIDAR_MOTOR_SPEED 120
+#define LIDAR_MOTOR_SPEED 160
 #define X_RANGE_MAX 1500
 #define Y_RANGE_MAX 2000
 
@@ -17,7 +17,7 @@ public:
 	void setRadius(float _radius);
 	void setMaxRange(float _range);
 	void setCurrentPoint(Point2D _point);
-	void Task(Point2D currentPoint);
+	bool Task(Point2D currentPoint);
 	Vec2 scan();
 
 private:

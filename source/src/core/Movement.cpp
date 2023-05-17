@@ -8,14 +8,14 @@ Movement::Movement()
 	A2.setEnablePin(PIN_ENABLE);
 	A3 = AccelStepper(1, PIN_M3_STEP, PIN_M3_DIR);
 	A3.setEnablePin(PIN_ENABLE);
-	TEAM_A_HOME = Point2D(INITIAL_X, INITIAL_Y);
-	TEAM_B_HOME = Point2D(INITIAL_X, INITIAL_Y);
+	TEAM_A_HOME = Point2D(INITIAL_X_GREEN, INITIAL_Y_GREEN);
+	TEAM_B_HOME = Point2D(INITIAL_X_BLUE, INITIAL_Y_BLUE);
 	currentRotation = 0.0;
 	targetRotation = 0.0;
 	angleToDo = 0.0;
 	calibrated = false;
 	isHome = false;
-	isDetected = false;
+	// isDetected = *false;
 	team = 0;
 	currentSideAngle = SIDE_A;
 }
@@ -25,7 +25,6 @@ void Movement::setup()
 	A1.setAcceleration(ACCEL);
 	A2.setAcceleration(ACCEL);
 	A3.setAcceleration(ACCEL);
-
 	A1.setMaxSpeed(SPEED);
 	A2.setMaxSpeed(SPEED);
 	A3.setMaxSpeed(SPEED);
@@ -112,6 +111,8 @@ void Movement::stop()
 	// A2.stop();
 	// A3.stop();
 	delay(2500);
+	// Serial.print("STOP :: ");
+	// Serial.println(*isDetected);
 }
 
 void Movement::FullStop()
@@ -189,7 +190,7 @@ void Movement::doRotation()
 	rotateTo(angleToDo);
 	while (!HasArrived())
 	{
-		if (isDetected)
+		if (*isDetected)
 		{
 			stop();
 		}
@@ -215,7 +216,7 @@ void Movement::goToPoint()
 
 	while (!HasArrived())
 	{
-		if (isDetected)
+		if (*isDetected)
 		{
 			stop();
 		}
@@ -244,7 +245,7 @@ void Movement::goToPointRotate()
 	Serial.println(vec.getAngle());
 	while (!HasArrived())
 	{
-		if (isDetected)
+		if (*isDetected)
 		{
 			stop();
 		}
@@ -271,7 +272,7 @@ void Movement::goToPoinRotateOffset()
 
 	while (!HasArrived())
 	{
-		if (isDetected)
+		if (*isDetected)
 		{
 			stop();
 		}
@@ -318,9 +319,11 @@ void Movement::Calibrate()
 		runSync();
 		moveTo(PolarVec(SIDE_AB, 115).ToSteps());
 		runSync();
-		rotateTo(SIDE_C);
+		rotateTo(-30.0);
 		runSync();
 		moveTo(PolarVec(SIDE_BC, 200).ToSteps());
+		runSync();
+		moveTo(PolarVec(SIDE_A, 50).ToSteps());
 		runSync();
 		isHome = true;
 		calibrated = true;
@@ -334,21 +337,21 @@ bool Movement::isCalibrated()
 	return calibrated;
 }
 
-void Movement::Execute(Point2D point, bool lidar)
+void Movement::Execute(Point2D point, bool *lidar)
 {
 	isDetected = lidar;
 	setPoint(point);
 	goToPoint();
 }
 
-void Movement::ExecuteSEMI(Point2D point, bool lidar)
+void Movement::ExecuteSEMI(Point2D point, bool *lidar)
 {
 	isDetected = lidar;
 	setPoint(point);
 	goToPointRotate();
 }
 
-void Movement::ExecuteSEMIOFFSET(Point2D point, bool lidar)
+void Movement::ExecuteSEMIOFFSET(Point2D point, bool *lidar)
 {
 	isDetected = lidar;
 	setPoint(point);
@@ -368,4 +371,9 @@ void Movement::setCurrentPosition(Point2D point)
 Point2D Movement::getCurrentPoint()
 {
 	return currentPoint;
+}
+
+void Movement::lidarTest(bool *lidar)
+{
+	Serial.println(*lidar);
 }

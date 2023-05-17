@@ -7,11 +7,15 @@
 #include "core/Actuators.h"
 #include "utils/PINS.h"
 #include "core/Display.h"
+#include "core/Actuators.h"
+#include "core/NeoPixel.h"
+
 #define HEIGHT 2000 // value in mm
 #define WIDTH 1500	// value in mm
 // const int PIN_IFM3 = 34;
 // const int PIN_IFM2 = 36;
 // const int PIN_IFM2 = 39;
+
 const int PIN_RST_OLED = 19;
 const int PIN_L1 = 15;
 const int PIN_L2 = 18;
@@ -28,23 +32,25 @@ private:
 	int arrayLength;
 	void teamSelection();
 	void init();
+	int team;
 
 public:
 	Movement movement;
 	Actuators actuators;
 	Display display;
+	NeoPixel neopixel;
 	void Initiation();
 	void Ready();
 	void setup();
-	void start(bool lidar);
-	void startDebug(bool lidar);
-	void startSEMI(bool lidar);
-	void startSEMIOFFSET(bool lidar);
+	void start(bool *lidar);
+	void startDebug(bool *lidar);
+	void startSEMI(bool *lidar);
+	void startSEMIOFFSET(bool *lidar);
 	void stop();
 	void setPoints(Point2D *points, int len);
-	void startStratA(bool lidar);
-	void cookMeth(bool lidar);
-	void Homologuation(bool lidar);
+	void startStratA(bool *lidar);
+	void cookMeth(bool *lidar);
+	void Homologuation(bool *lidar);
 	Point2D getCurrentPoint();
 	void testINPUT();
 };

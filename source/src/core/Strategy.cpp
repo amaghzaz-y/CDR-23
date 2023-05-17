@@ -3,8 +3,10 @@
 void Strategy::setup()
 {
 	currentInstruction = 0;
+	display.setup();
 	movement.setup();
 	actuators.setup();
+	neopixel.setup();
 	pinMode(INIT_PIN, INPUT_PULLUP);
 	pinMode(TEAM_PIN, INPUT);
 	pinMode(REED_PIN, INPUT_PULLUP);
@@ -16,6 +18,7 @@ void Strategy::init()
 	if (digitalRead(INIT_PIN) == 0)
 	{
 		Serial.println("Starting Calibration");
+		display.Show("STARTING", "CALIBRATION", "", "");
 		movement.Calibrate();
 	}
 	else
@@ -26,15 +29,20 @@ void Strategy::init()
 
 void Strategy::teamSelection()
 {
+
 	if (digitalRead(TEAM_PIN) == 0)
 	{
 		movement.setTeam(0);
-		display.Show("Team", "selected", "   :   ", "  GREEN  ");
+		team = 0;
+		display.Show("TEAM", "GREEN", "", "");
+		neopixel.changeColor(1);
 	}
 	else
 	{
 		movement.setTeam(1);
-		display.Show("Team", "selected", "   :   ", "  BLUE  ");
+		team = 1;
+		display.Show("TEAM", "BLUE", "", "");
+		neopixel.changeColor(2);
 	}
 }
 
@@ -53,7 +61,9 @@ void Strategy::testINPUT()
 void Strategy::stop()
 {
 	Serial.println("FULL STOP IS INITIATED");
+	// display.Show("FULL", "STOP", "FULL", "STOP");
 	movement.FullStop();
+	neopixel.changeColor(3);
 	Serial.println("FULL STOP HAS BEEN COMPLETE");
 }
 
@@ -61,12 +71,21 @@ void Strategy::Ready()
 {
 	while (digitalRead(REED_PIN) == 1)
 	{
-		Serial.println("not ready");
+		delay(10);
+	};
+	while (digitalRead(REED_PIN) == 0)
+	{
+		delay(10);
+	};
+	if (digitalRead(REED_PIN) == 1)
+	{
+		Serial.println("GOOOOOO");
+		neopixel.changeColor(0);
 	}
-	Serial.println("ready");
+	// Serial.println("ready");
 }
 
-void Strategy::start(bool lidar)
+void Strategy::start(bool *lidar)
 {
 	while (currentInstruction < arrayLength)
 	{
@@ -77,9 +96,9 @@ void Strategy::start(bool lidar)
 	currentInstruction = 0;
 }
 
-void Strategy::startDebug(bool lidar)
+void Strategy::startDebug(bool *lidar)
 {
-	delay(1600);
+	delay(2000);
 	Serial.println("Starting...");
 	while (currentInstruction < arrayLength)
 	{
@@ -90,7 +109,7 @@ void Strategy::startDebug(bool lidar)
 	currentInstruction = 0;
 }
 
-void Strategy::startSEMI(bool lidar)
+void Strategy::startSEMI(bool *lidar)
 {
 
 	while (currentInstruction < arrayLength)
@@ -105,14 +124,14 @@ void Strategy::startSEMI(bool lidar)
 		}
 		movement.ExecuteSEMI(points[currentInstruction], lidar);
 		// actuators.pickObject(0);
-		delay(1600);
+		delay(2000);
 		currentInstruction++;
 	}
 	movement.goHomeSEMI();
 	currentInstruction = 0;
 }
 
-void Strategy::startSEMIOFFSET(bool lidar)
+void Strategy::startSEMIOFFSET(bool *lidar)
 {
 	while (currentInstruction < arrayLength)
 	{
@@ -136,7 +155,7 @@ void Strategy::startSEMIOFFSET(bool lidar)
 		}
 		else
 		{
-			delay(1600);
+			delay(2000);
 		}
 		currentInstruction++;
 	}
@@ -162,49 +181,82 @@ void Strategy::Initiation()
 	}
 }
 
-void Strategy::startStratA(bool lidar)
+void Strategy::startStratA(bool *lidar)
 {
-	actuators.foldAll();
-	actuators.delevateObject(SIDE_A_ID, 0);
-	actuators.releaseObject(SIDE_A_ID);
-	movement.ExecuteSEMIOFFSET(Point2D(575, 225), lidar);
-	actuators.pickObject(SIDE_A_ID);
-	actuators.elevateObject(SIDE_A, 1);
+	if (team == 0)
+	{
+		actuators.releaseObject(SIDE_A_ID);
+		movement.ExecuteSEMIOFFSET(Point2D(575, 225), lidar);
+		actuators.delevateObject(SIDE_A_ID, 0);
+		actuators.pickObject(SIDE_A_ID);
+		actuators.elevateObject(SIDE_A, 1);
 
-	movement.setSide(SIDE_B);
-	actuators.delevateObject(SIDE_B_ID, 0);
-	actuators.releaseObject(SIDE_B_ID);
-	movement.ExecuteSEMIOFFSET(Point2D(775, 225), lidar);
-	actuators.pickObject(SIDE_B_ID);
-	actuators.elevateObject(SIDE_B_ID, 1);
+		movement.setSide(SIDE_B);
+		actuators.releaseObject(SIDE_B_ID);
+		movement.ExecuteSEMIOFFSET(Point2D(775, 225), lidar);
+		actuators.delevateObject(SIDE_B_ID, 0);
+		actuators.pickObject(SIDE_B_ID);
+		actuators.elevateObject(SIDE_B_ID, 1);
 
-	movement.setSide(SIDE_C);
-	actuators.delevateObject(SIDE_C_ID, 0);
-	actuators.releaseObject(SIDE_C_ID);
-	movement.ExecuteSEMIOFFSET(Point2D(1125, 725), lidar);
-	actuators.pickObject(SIDE_C_ID);
-	actuators.elevateObject(SIDE_C_ID, 1);
+		movement.setSide(SIDE_C);
+		actuators.releaseObject(SIDE_C_ID);
+		movement.ExecuteSEMIOFFSET(Point2D(1125, 725), lidar);
+		actuators.delevateObject(SIDE_C_ID, 0);
+		actuators.pickObject(SIDE_C_ID);
+		actuators.elevateObject(SIDE_C_ID, 1);
 
-	movement.ExecuteSEMI(Point2D(1125, 1775), lidar);
-	actuators.delevateObject(SIDE_A_ID, 0);
-	actuators.delevateObject(SIDE_B_ID, 0);
-	actuators.delevateObject(SIDE_C_ID, 0);
-	actuators.releaseObject(SIDE_A_ID);
-	actuators.releaseObject(SIDE_B_ID);
-	actuators.releaseObject(SIDE_C_ID);
-	movement.FullStop();
+		movement.ExecuteSEMI(Point2D(1125, 1775), lidar);
+		actuators.delevateObject(SIDE_A_ID, 0);
+		actuators.delevateObject(SIDE_B_ID, 0);
+		actuators.delevateObject(SIDE_C_ID, 0);
+		actuators.releaseObject(SIDE_A_ID);
+		actuators.releaseObject(SIDE_B_ID);
+		actuators.releaseObject(SIDE_C_ID);
+		movement.FullStop();
+	}
+	else if (team == 1)
+	{
+		actuators.releaseObject(SIDE_A_ID);
+		movement.ExecuteSEMIOFFSET(Point2D(575, 225), lidar);
+		actuators.delevateObject(SIDE_A_ID, 0);
+		actuators.pickObject(SIDE_A_ID);
+		actuators.elevateObject(SIDE_A, 1);
+
+		movement.setSide(SIDE_B);
+		actuators.releaseObject(SIDE_B_ID);
+		movement.ExecuteSEMIOFFSET(Point2D(775, 225), lidar);
+		actuators.delevateObject(SIDE_B_ID, 0);
+		actuators.pickObject(SIDE_B_ID);
+		actuators.elevateObject(SIDE_B_ID, 1);
+
+		movement.setSide(SIDE_C);
+		actuators.releaseObject(SIDE_C_ID);
+		movement.ExecuteSEMIOFFSET(Point2D(1125, 725), lidar);
+		actuators.delevateObject(SIDE_C_ID, 0);
+		actuators.pickObject(SIDE_C_ID);
+		actuators.elevateObject(SIDE_C_ID, 1);
+
+		movement.ExecuteSEMI(Point2D(1125, 1775), lidar);
+		actuators.delevateObject(SIDE_A_ID, 0);
+		actuators.delevateObject(SIDE_B_ID, 0);
+		actuators.delevateObject(SIDE_C_ID, 0);
+		actuators.releaseObject(SIDE_A_ID);
+		actuators.releaseObject(SIDE_B_ID);
+		actuators.releaseObject(SIDE_C_ID);
+		movement.FullStop();
+	}
 }
 
-void Strategy::cookMeth(bool lidar)
+void Strategy::cookMeth(bool *lidar)
 {
 	// Points of interest
-	Point2D entryPoint = Point2D(0, 0);
-	Point2D zoneCenter = Point2D(500, 0);
-	Point2D delta0 = Point2D(PolarVec(0, 160).toVec2().A + zoneCenter.X, PolarVec(0, 160).toVec2().B + zoneCenter.Y);
-	Point2D delta1 = Point2D(PolarVec(90, 160).toVec2().A + zoneCenter.X, PolarVec(90, 160).toVec2().B + zoneCenter.Y);
-	Point2D delta2 = Point2D(PolarVec(-180, 160).toVec2().A + zoneCenter.X, PolarVec(-180, 160).toVec2().B + zoneCenter.Y);
+	// Point2D entryPoint = Point2D(0, 0);
+	Point2D zoneCenter = Point2D(500, 500);
+	Point2D delta0 = Point2D(PolarVec(0, 200).toVec2().A + zoneCenter.X, PolarVec(0, 200).toVec2().B + zoneCenter.Y);
+	Point2D delta1 = Point2D(PolarVec(90, 200).toVec2().A + zoneCenter.X, PolarVec(90, 200).toVec2().B + zoneCenter.Y);
+	Point2D delta2 = Point2D(PolarVec(-180, 200).toVec2().A + zoneCenter.X, PolarVec(-180, 200).toVec2().B + zoneCenter.Y);
 	// Dropping first brown part, IMPORTANT side A facing north !!!
-	movement.setCurrentPosition(entryPoint);
+	// movement.setCurrentPosition(entryPoint);
 	// ----------------------------------
 	// making the first cake @ delta0 //
 	// ----------------------------------
@@ -313,11 +365,12 @@ void Strategy::cookMeth(bool lidar)
 	movement.ExecuteSEMI(zoneCenter, lidar);
 }
 
-void Strategy::Homologuation(bool lidar)
+void Strategy::Homologuation(bool *lidar)
 {
 	Initiation();
 	Ready();
-	cookMeth(lidar);
+	actuators.normalize();
+	startStratA(lidar);
 }
 
 Point2D Strategy::getCurrentPoint()

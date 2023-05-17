@@ -21,11 +21,14 @@ const int SIDE_BC = -180;
 const int SIDE_C = -120;
 const int SIDE_CA = -60;
 
-const double SPEED = 5000.0;
-const double ACCEL = 4000.0;
+const double SPEED = 4000.0;
+const double ACCEL = 2000.0;
 
-const float INITIAL_X = 231.47; // value in mm
-const float INITIAL_Y = 250.73; // mm
+const float INITIAL_X_GREEN = 231.50; // value in mm
+const float INITIAL_Y_GREEN = 251;	  // mm
+
+const float INITIAL_X_BLUE = 231.50; // value in mm
+const float INITIAL_Y_BLUE = 1749;	 // mm
 
 const float OFFSET_DISTANCE = 40.0; // mm
 
@@ -43,7 +46,7 @@ private:
 	Point2D targetPoint;
 	bool calibrated;
 	bool isHome;
-	bool isDetected;
+	bool *isDetected;
 	int team;
 	float currentSideAngle;
 	void goToPoint();
@@ -71,13 +74,14 @@ public:
 	bool atHome();
 	void Calibrate();
 	// move to point with translation
-	void Execute(Point2D point, bool lidar);
+	void Execute(Point2D point, bool *lidar);
 	// move to point with rotation only
-	void ExecuteSEMI(Point2D point, bool lidar);
+	void ExecuteSEMI(Point2D point, bool *lidar);
 	// move to point with rotation and offset
-	void ExecuteSEMIOFFSET(Point2D point, bool lidar);
+	void ExecuteSEMIOFFSET(Point2D point, bool *lidar);
 	void goHome();
 	void goHomeSEMI();
 	void setCurrentPosition(Point2D point);
 	Point2D getCurrentPoint();
+	void lidarTest(bool *lidar);
 };

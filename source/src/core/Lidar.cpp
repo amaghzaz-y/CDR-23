@@ -25,7 +25,7 @@ bool Lidar::inRadius(Vec2 point)
 {
 	float max_angle = angle + (radius / 2);
 	float min_angle = angle - (radius / 2);
-	if ((point.A >= min_angle) && (point.A <= max_angle) && (point.B <= maxRange) && ((point.B) != 0.0f))
+	if ((point.A >= min_angle) && (point.A <= max_angle) && (point.B <= maxRange))
 	{
 		return true;
 	}
@@ -42,13 +42,17 @@ Vec2 Lidar::scan()
 	{
 		float a = lidar.getCurrentPoint().angle;
 		float d = lidar.getCurrentPoint().distance;
-		point = Vec2(a, d);
+		if (lidar.getCurrentPoint().quality < 10)
+		{
+			return Vec2(-1, -1);
+		}
+		return Vec2(a, d);
 	}
 	else
 	{
 		Lidar::reconnect();
 	}
-	return point;
+	return Vec2(-1, -1);
 }
 
 void Lidar::detect()
@@ -76,14 +80,15 @@ bool Lidar::isPointNull(Vec2 v)
 	return true;
 }
 
-void Lidar::Task(Point2D currentPosition)
+bool Lidar::Task(Point2D currentPosition)
 {
 	setCurrentPoint(currentPosition);
 	detect();
 	if (hasDetected())
 	{
-		Serial.println("###-DETECTED-###");
+		// Serial.println("###-DETECTED-###");
 	}
+	return hasDetected();
 }
 
 void Lidar::setAngle(float _angle)
