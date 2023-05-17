@@ -108,9 +108,9 @@ void Movement::runSync()
 
 void Movement::stop()
 {
-	A1.stop();
-	A2.stop();
-	A3.stop();
+	// A1.stop();
+	// A2.stop();
+	// A3.stop();
 	delay(2500);
 }
 

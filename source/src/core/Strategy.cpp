@@ -6,8 +6,9 @@ void Strategy::setup()
 	movement.setup();
 	actuators.setup();
 	pinMode(INIT_PIN, INPUT_PULLUP);
+	pinMode(TEAM_PIN, INPUT);
 	pinMode(REED_PIN, INPUT_PULLUP);
-	pinMode(TEAM_PIN, INPUT_PULLUP);
+	pinMode(PIN_L4, INPUT_PULLUP);
 }
 
 void Strategy::init()
@@ -35,6 +36,18 @@ void Strategy::teamSelection()
 	}
 }
 
+void Strategy::testINPUT()
+{
+	Serial.print("L1 : ");
+	Serial.print(digitalRead(PIN_L1));
+	Serial.print("   L2 : ");
+	Serial.print(digitalRead(PIN_L2));
+	Serial.print("   L3 : ");
+	Serial.print(digitalRead(PIN_L3));
+	Serial.print("   L4 : ");
+	Serial.println(digitalRead(PIN_L4));
+}
+
 void Strategy::stop()
 {
 	Serial.println("FULL STOP IS INITIATED");
@@ -44,7 +57,7 @@ void Strategy::stop()
 
 void Strategy::Ready()
 {
-	while (digitalRead(REED_PIN) == 0)
+	while (digitalRead(REED_PIN) == 1)
 	{
 		Serial.println("not ready");
 	}

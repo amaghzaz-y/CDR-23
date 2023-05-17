@@ -12,9 +12,8 @@
 // const int PIN_IFM2 = 36;
 // const int PIN_IFM2 = 39;
 const int PIN_RST_OLED = 19;
-const int PIN_L1 = 2;
+const int PIN_L1 = 15;
 const int PIN_L2 = 18;
-const int PIN_L4 = 23;
 const int PIN_L3 = 35;
 const int REED_PIN = PIN_L1;
 const int INIT_PIN = PIN_L2;
@@ -45,4 +44,5 @@ public:
 	void cookMeth(bool lidar);
 	void Homologuation(bool lidar);
 	Point2D getCurrentPoint();
+	void testINPUT();
 };
