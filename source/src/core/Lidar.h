@@ -16,8 +16,8 @@ public:
 	void setAngle(float _angle);
 	void setRadius(float _radius);
 	void setMaxRange(float _range);
-	void setCurrentPoint(Point2D _point);
-	bool Task(Point2D currentPoint);
+	void setCurrentPoint(Point2D *_point);
+	bool Task(Point2D *currentPoint);
 	Vec2 scan();
 
 private:
@@ -26,7 +26,7 @@ private:
 	float radius;
 	float maxRange;
 	bool opponentDetected;
-	Point2D currentPosition;
+	Point2D *currentPosition;
 	bool inRadius(Vec2 point);
 	bool inRange(Vec2 point);
 	void reconnect();

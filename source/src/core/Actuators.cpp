@@ -82,6 +82,15 @@ bool Actuators::isObjectPicked(int SIDE)
 	}
 }
 
+void Actuators::dropCherry()
+{
+	servoDriver.writeMicroseconds(SERVO_CHERRY_A, 1200);
+	delay(20);
+	servoDriver.writeMicroseconds(SERVO_CHERRY_B, 1200);
+	delay(20);
+	servoDriver.writeMicroseconds(SERVO_CHERRY_C, 1200);
+	delay(20);
+}
 void Actuators::setup()
 {
 	Serial.println();
@@ -89,11 +98,11 @@ void Actuators::setup()
 	servoDriver.begin();
 	servoDriver.setOscillatorFrequency(28000000);
 	servoDriver.setPWMFreq(SERVO_FREQ);
-	delay(100);
+	delay(30);
 	foldAll();
-	delay(100);
+	delay(30);
 	delevateAll();
-	delay(100);
+	delay(30);
 	Serial.println("Actuators :: setup done");
 }
 
@@ -381,10 +390,13 @@ void Actuators::initCook()
 
 void Actuators::normalize()
 {
-	delevateObject(SIDE_A_ID, 1);
-	delevateObject(SIDE_B_ID, 1);
-	delevateObject(SIDE_C_ID, 1);
+	delevateObject(SIDE_A_ID, 0);
+	delevateObject(SIDE_B_ID, 0);
+	delevateObject(SIDE_C_ID, 0);
 	releaseObject(SIDE_A_ID);
 	releaseObject(SIDE_B_ID);
 	releaseObject(SIDE_C_ID);
+	elevateObject(SIDE_A_ID, 2);
+	elevateObject(SIDE_B_ID, 2);
+	elevateObject(SIDE_C_ID, 2);
 }

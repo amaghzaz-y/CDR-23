@@ -15,6 +15,7 @@ Movement::Movement()
 	angleToDo = 0.0;
 	calibrated = false;
 	isHome = false;
+	currentPoint = TEAM_A_HOME;
 	// isDetected = *false;
 	team = 0;
 	currentSideAngle = SIDE_A;

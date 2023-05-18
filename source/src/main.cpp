@@ -8,6 +8,7 @@ Strategy strategy;
 Lidar lidar;
 
 bool lidarStatus = false;
+Point2D currentPoint = Point2D(0, 0);
 void FullStop()
 {
 	strategy.stop();
@@ -20,7 +21,8 @@ void LidarTask(void *pvParameters)
 {
 	for (;;)
 	{
-		lidarStatus = lidar.Task(strategy.getCurrentPoint());
+		currentPoint = strategy.getCurrentPoint();
+		lidarStatus = lidar.Task(&currentPoint);
 		ticker.update();
 	}
 }
@@ -29,7 +31,7 @@ void setup()
 {
 	Serial.begin(9600);
 	lidar.setup();
-	lidar.setMaxRange(320);
+	lidar.setMaxRange(300);
 	lidar.setRadius(360);
 	lidar.setAngle(180);
 	strategy.setup();
@@ -38,14 +40,12 @@ void setup()
 
 void loop()
 {
-	// strategy.Homologuation(&lidarStatus);
 	strategy.Initiation();
 	strategy.Ready();
 	ticker.start();
+	strategy.startStratB(&lidarStatus);
+	strategy.display.Show("SCORE", "12", "", "");
 	while (1)
-	{
-		strategy.sensors.testSensors();
-	}
-	strategy.startStratA(&lidarStatus);
-	// strategy.movement.lidarTest(&lidarStatus);
+		;
+	;
 }

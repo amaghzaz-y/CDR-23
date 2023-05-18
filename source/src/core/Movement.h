@@ -30,7 +30,7 @@ const float INITIAL_Y_GREEN = 251;	  // mm
 const float INITIAL_X_BLUE = 231.50; // value in mm
 const float INITIAL_Y_BLUE = 1749;	 // mm
 
-const float OFFSET_DISTANCE = 50.0; // mm
+const float OFFSET_DISTANCE = 35.0; // mm
 
 class Movement
 {
@@ -56,15 +56,17 @@ private:
 	void run();
 	void runSync();
 	void moveTo(Steps steps);
-	void doRotation();
 	void setPoint(Point2D point);
-	void setRotation(float angle);
+	void rotateTo(float angle);
+
 	void goToPointRotate();
 	void goToPoinRotateOffset();
+	void setRotation(float angle);
 
 public:
 	Movement();
-	void rotateTo(float angle);
+	void doRotation();
+
 	void setSide(float angle);
 	void setup();
 	bool HasArrived();

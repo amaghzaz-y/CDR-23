@@ -21,6 +21,10 @@ const int SERVO_SIDE_C_R = 5;
 const int SERVO_SIDE_A_U = 6;
 const int SERVO_SIDE_B_U = 7;
 const int SERVO_SIDE_C_U = 8;
+const int SERVO_CHERRY_A = 9;
+const int SERVO_CHERRY_B = 10;
+const int SERVO_CHERRY_C = 11;
+
 const int SIDE_A_ID = 0;
 const int SIDE_B_ID = 1;
 const int SIDE_C_ID = 2;
@@ -47,4 +51,5 @@ public:
 	void defoldAll();
 	void initCook();
 	void normalize();
+	void dropCherry();
 };

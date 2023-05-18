@@ -1,10 +1,9 @@
 #include <core/Lidar.h>
-
 void Lidar::setup()
 {
 	lidar.begin(Serial2);
 	opponentDetected = false;
-	currentPosition = Point2D(0, 0);
+	// currentPosition = &(Point2D(0, 0));
 }
 
 void Lidar::reconnect()
@@ -29,6 +28,7 @@ bool Lidar::inRadius(Vec2 point)
 	{
 		return true;
 	}
+
 	else
 	{
 		return false;
@@ -42,10 +42,12 @@ Vec2 Lidar::scan()
 	{
 		float a = lidar.getCurrentPoint().angle;
 		float d = lidar.getCurrentPoint().distance;
-		if (lidar.getCurrentPoint().quality < 10)
+
+		if (lidar.getCurrentPoint().quality < 14)
 		{
 			return Vec2(-1, -1);
 		}
+
 		return Vec2(a, d);
 	}
 	else
@@ -81,7 +83,7 @@ bool Lidar::isPointNull(Vec2 v)
 	return true;
 }
 
-bool Lidar::Task(Point2D currentPosition)
+bool Lidar::Task(Point2D *currentPosition)
 {
 	setCurrentPoint(currentPosition);
 	detect();
@@ -110,8 +112,8 @@ void Lidar::setMaxRange(float range)
 bool Lidar::inRange(Vec2 point)
 {
 	Vec2 vec = PolarVec(point.A, point.B).toVec2();
-	Point2D npoint = Point2D(vec.A + currentPosition.X, vec.B + currentPosition.Y);
-	if (npoint.Y > X_RANGE_MAX && npoint.Y < 0.0)
+	Point2D npoint = Point2D(vec.A + currentPosition->X, vec.B + currentPosition->Y);
+	if (npoint.X > X_RANGE_MAX && npoint.X < 0.0)
 	{
 		return false;
 	}
@@ -122,7 +124,7 @@ bool Lidar::inRange(Vec2 point)
 	return true;
 }
 
-void Lidar::setCurrentPoint(Point2D currentPoint)
+void Lidar::setCurrentPoint(Point2D *currentPoint)
 {
 	currentPosition = currentPoint;
 }
