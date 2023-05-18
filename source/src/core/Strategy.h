@@ -52,8 +52,10 @@ public:
 	void setPoints(Point2D *points, int len);
 	void startStratA(bool *lidar);
 	void startStratB(bool *lidar);
+	void startStratC(bool *lidar);
 	void cookMeth(bool *lidar);
 	void Homologuation(bool *lidar);
 	Point2D getCurrentPoint();
 	void testINPUT();
+	void dropAllCherries();
 };

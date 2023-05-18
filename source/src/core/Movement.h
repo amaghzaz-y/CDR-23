@@ -21,8 +21,10 @@ const int SIDE_BC = -180;
 const int SIDE_C = -120;
 const int SIDE_CA = -60;
 
-const double SPEED = 4000.0;
-const double ACCEL = 2000.0;
+const double SPEED = 4200.0;
+const double ACCEL = 6000.0;
+
+const double ACCEL_SUPER = 10000;
 
 const float INITIAL_X_GREEN = 231.50; // value in mm
 const float INITIAL_Y_GREEN = 251;	  // mm
@@ -53,20 +55,18 @@ private:
 	void stop();
 	Point2D TEAM_A_HOME;
 	Point2D TEAM_B_HOME;
+
+public:
+	Movement();
+	void doRotation();
 	void run();
 	void runSync();
 	void moveTo(Steps steps);
 	void setPoint(Point2D point);
 	void rotateTo(float angle);
-
 	void goToPointRotate();
 	void goToPoinRotateOffset();
 	void setRotation(float angle);
-
-public:
-	Movement();
-	void doRotation();
-
 	void setSide(float angle);
 	void setup();
 	bool HasArrived();

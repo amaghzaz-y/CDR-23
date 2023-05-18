@@ -192,7 +192,12 @@ void Movement::setRotation(float angle)
 // executes the absolute rotation
 void Movement::doRotation()
 {
+
 	rotateTo(angleToDo);
+	A1.setAcceleration(ACCEL_SUPER);
+	A2.setAcceleration(ACCEL_SUPER);
+	A3.setAcceleration(ACCEL_SUPER);
+
 	while (!HasArrived())
 	{
 		if (*isDetected)
@@ -202,6 +207,9 @@ void Movement::doRotation()
 		run();
 	}
 	currentRotation = targetRotation;
+	A1.setAcceleration(ACCEL);
+	A2.setAcceleration(ACCEL);
+	A3.setAcceleration(ACCEL);
 	Serial.print("current rotation : ");
 	Serial.println(currentRotation);
 }
@@ -311,12 +319,15 @@ void Movement::Calibrate()
 		runSync();
 		moveTo(PolarVec(SIDE_BC, 200).ToSteps());
 		runSync();
-		moveTo(PolarVec(SIDE_A, 50).ToSteps());
+		// was 50
+		moveTo(PolarVec(SIDE_A, 30).ToSteps());
 		runSync();
 		isHome = true;
 		calibrated = true;
 		currentPoint = TEAM_A_HOME;
-		delay(3000);
+		// cherries
+		rotateTo(SIDE_AB);
+		runSync();
 	}
 	else if (team == 1)
 	{
@@ -328,12 +339,17 @@ void Movement::Calibrate()
 		runSync();
 		moveTo(PolarVec(SIDE_BC, 200).ToSteps());
 		runSync();
-		moveTo(PolarVec(SIDE_A, 50).ToSteps());
+		// was 50
+		moveTo(PolarVec(SIDE_A, 30).ToSteps());
 		runSync();
 		isHome = true;
 		calibrated = true;
 		currentPoint = TEAM_B_HOME;
-		delay(3000);
+		// cherries
+		// cherries
+
+		rotateTo(SIDE_AB);
+		runSync();
 	}
 }
 

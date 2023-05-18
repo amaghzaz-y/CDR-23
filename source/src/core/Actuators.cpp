@@ -287,7 +287,7 @@ void Actuators::delevateObject(int SIDE, int LEVEL)
 	{
 		if (SIDE == SIDE_A_ID)
 		{
-			for (uint16_t microsec = US_LEVEL_1; microsec > US_LEVEL_0; microsec--)
+			for (uint16_t microsec = US_LEVEL_1; microsec > 480; microsec--)
 			{
 				servoDriver.writeMicroseconds(SERVO_SIDE_A_U, microsec);
 			}

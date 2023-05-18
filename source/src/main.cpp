@@ -31,7 +31,7 @@ void setup()
 {
 	Serial.begin(9600);
 	lidar.setup();
-	lidar.setMaxRange(300);
+	lidar.setMaxRange(300); // 300
 	lidar.setRadius(360);
 	lidar.setAngle(180);
 	strategy.setup();
@@ -43,8 +43,8 @@ void loop()
 	strategy.Initiation();
 	strategy.Ready();
 	ticker.start();
-	strategy.startStratB(&lidarStatus);
-	strategy.display.Show("SCORE", "12", "", "");
+	strategy.startStratC(&lidarStatus);
+	strategy.display.Show("SCORE", "30", "", "");
 	while (1)
 		;
 	;
