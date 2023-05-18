@@ -26,10 +26,10 @@ const double ACCEL = 6000.0;
 
 const double ACCEL_SUPER = 10000;
 
-const float INITIAL_X_GREEN = 231.50; // value in mm
+const float INITIAL_X_GREEN = 211.50; // value in mm
 const float INITIAL_Y_GREEN = 251;	  // mm
 
-const float INITIAL_X_BLUE = 231.50; // value in mm
+const float INITIAL_X_BLUE = 211.50; // value in mm
 const float INITIAL_Y_BLUE = 1749;	 // mm
 
 const float OFFSET_DISTANCE = 35.0; // mm
