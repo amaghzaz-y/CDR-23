@@ -828,7 +828,6 @@ void Strategy::startStratD(bool *lidar)
 		//***********************
 		movement.ExecuteSEMI(home1_GREEN, lidar);
 	}
-	actuators.funnyAction();
 }
 // void Strategy::cookMeth(bool *lidar)
 // {
