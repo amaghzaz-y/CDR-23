@@ -53,7 +53,9 @@ public:
 	void startStratA(bool *lidar);
 	void startStratB(bool *lidar);
 	void startStratC(bool *lidar);
+	void startStratD(bool *lidar);
 	void cookMeth(bool *lidar);
+	void afterCalibration(bool *lidar);
 	void Homologuation(bool *lidar);
 	Point2D getCurrentPoint();
 	void testINPUT();

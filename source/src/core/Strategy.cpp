@@ -609,6 +609,225 @@ void Strategy::startStratC(bool *lidar)
 		movement.ExecuteSEMI(home1_GREEN, lidar);
 	}
 }
+void Strategy::afterCalibration(bool *lidar)
+{
+	if (team == 0)
+	{
+		Point2D center = Point2D(225, 225);
+		movement.Execute(center, lidar);
+	}
+	if (team == 1)
+	{
+		Point2D center = Point2D(225, 1775);
+		movement.Execute(center, lidar);
+	}
+}
+void Strategy::startStratD(bool *lidar)
+{
+	// afterCalibration(lidar);
+	dropAllCherries();
+	Point2D zoneCenter0 = Point2D(2000, 1800);
+	Point2D home1 = Point2D(2900, 1200);
+	Point2D midPoint0 = Point2D(775, 1285);
+	Point2D alpha0 = Point2D(250, 1775);
+	Point2D alpha1 = Point2D(450, 1775);
+	Point2D delta0 = Point2D(2000, 1490);
+	Point2D delta1 = Point2D(2000, 1540);
+	Point2D delta2 = Point2D(2000, 1640);
+	Point2D pink0 = Point2D(575, 1775);
+	Point2D yellow0 = Point2D(775, 1775);
+	Point2D brown0 = Point2D(1125, 1275);
+	Point2D brown1 = Point2D(1875, 1275);
+
+	// for green
+	Point2D zoneCenter0_GREEN = Point2D(2000, 200);
+	Point2D home1_GREEN = Point2D(2900, 800);
+	Point2D midPoint0_GREEN = Point2D(775, 715);
+	Point2D alpha0_GREEN = Point2D(280, 225);
+	Point2D alpha1_GREEN = Point2D(450, 225);
+	Point2D delta0_GREEN = Point2D(2000, 510);
+	Point2D delta1_GREEN = Point2D(2000, 410);
+	Point2D delta2_GREEN = Point2D(2000, 310);
+	Point2D pink0_GREEN = Point2D(575, 225);
+	Point2D yellow0_GREEN = Point2D(775, 225);
+	Point2D brown0_GREEN = Point2D(1125, 725);
+	Point2D brown1_GREEN = Point2D(1875, 725);
+
+	// Point2D zoneCenter0 = Point2D(2000, 1740);
+	// Point2D home1 = Point2D(2900, 1200);
+	// Point2D midPoint0 = Point2D(775, 1285);
+	// Point2D delta0 = Point2D(2000, 1490);
+	// Point2D delta1 = Point2D(2000, 1540);
+	// Point2D delta2 = Point2D(2000, 1640);
+	// Point2D pink0 = Point2D(575, 1775);
+	// Point2D yellow0 = Point2D(775, 1775);
+	// Point2D brown0 = Point2D(1125, 1275);
+	// // for green
+	// Point2D zoneCenter0_GREEN = Point2D(2000, 260);
+	// Point2D home1_GREEN = Point2D(2900, 800);
+	// Point2D midPoint0_GREEN = Point2D(775, 715);
+	// Point2D delta0_GREEN = Point2D(2000, 510);
+	// Point2D delta1_GREEN = Point2D(2000, 460);
+	// Point2D delta2_GREEN = Point2D(2000, 360);
+	// Point2D pink0_GREEN = Point2D(575, 225);
+	// Point2D yellow0_GREEN = Point2D(775, 225);
+	// Point2D brown0_GREEN = Point2D(1125, 725);
+	if (team == 1)
+	{
+		//***************************
+		// Picking up the first Tres
+		//***************************
+		// picking pink with A
+		movement.setSide(SIDE_A);
+		movement.Execute(Point2D(225, 1775), lidar);
+		actuators.releaseObject(SIDE_A_ID);
+		movement.ExecuteSEMIOFFSET(pink0, lidar);
+		actuators.delevateObject(SIDE_A_ID, 0);
+		actuators.pickObject(SIDE_A_ID);
+		actuators.elevateObject(SIDE_A_ID, 3);
+
+		// drop pink0
+		movement.ExecuteSEMI(alpha0, lidar);
+		actuators.delevateObject(SIDE_A_ID, 0);
+		actuators.releaseObject(SIDE_A_ID);
+		actuators.elevateObject(SIDE_A_ID, 2);
+		// goint to alpha1
+		movement.setSide(SIDE_BC);
+		movement.ExecuteSEMI(alpha1, lidar);
+		// picking yellow with C
+		movement.setSide(SIDE_C);
+		actuators.releaseObject(SIDE_C_ID);
+		movement.ExecuteSEMIOFFSET(yellow0, lidar);
+		actuators.delevateObject(SIDE_C_ID, 0);
+		actuators.pickObject(SIDE_C_ID);
+		actuators.elevateObject(SIDE_C_ID, 3);
+		// translate to MidPoint 0
+		movement.Execute(midPoint0, lidar);
+		// picking brown with B
+		movement.setSide(SIDE_A);
+		actuators.delevateObject(SIDE_A_ID, 0);
+
+		actuators.releaseObject(SIDE_A_ID);
+		movement.ExecuteSEMIOFFSET(brown0, lidar);
+		actuators.delevateObject(SIDE_A_ID, 0);
+		actuators.pickObject(SIDE_A_ID);
+		actuators.elevateObject(SIDE_A_ID, 3);
+		// picking brown1 with A
+		movement.setSide(SIDE_B);
+		actuators.releaseObject(SIDE_B_ID);
+		movement.ExecuteSEMIOFFSET(brown1, lidar);
+		actuators.delevateObject(SIDE_B_ID, 0);
+		actuators.pickObject(SIDE_B_ID);
+		actuators.elevateObject(SIDE_B_ID, 3);
+		actuators.dropCherry();
+		// delay(100);
+		// go to delta0
+		movement.ExecuteSEMI(delta0, lidar);
+		// deposit pink and yellow at center
+		movement.setSide(SIDE_AB);
+		movement.ExecuteSEMI(zoneCenter0, lidar);
+
+		actuators.delevateObject(SIDE_A_ID, 0);
+		actuators.delevateObject(SIDE_B_ID, 0);
+		actuators.releaseObject(SIDE_A_ID);
+		actuators.releaseObject(SIDE_B_ID);
+		actuators.elevateObject(SIDE_A_ID, 3);
+		actuators.elevateObject(SIDE_B_ID, 3);
+		// deposit brown at delta1
+		movement.setSide(SIDE_C);
+		movement.ExecuteSEMI(delta0, lidar);
+		movement.ExecuteSEMI(delta1, lidar);
+		actuators.delevateObject(SIDE_C_ID, 0);
+		actuators.releaseObject(SIDE_C_ID);
+		actuators.elevateObject(SIDE_C_ID, 3);
+
+		movement.ExecuteSEMI(delta2, lidar);
+		// return to delta0
+		movement.setSide(SIDE_AB);
+		movement.ExecuteSEMI(delta0, lidar);
+		//**************************
+		// GO CLOSEST HOME
+		//***********************
+		movement.ExecuteSEMI(home1, lidar);
+	}
+	else if (team == 0)
+	{
+		//***************************
+		// Picking up the first Tres
+		//***************************
+		// picking pink with A
+		movement.setSide(SIDE_A);
+		movement.Execute(Point2D(225, 225), lidar);
+		actuators.releaseObject(SIDE_A_ID);
+		movement.ExecuteSEMIOFFSET(pink0_GREEN, lidar);
+		actuators.delevateObject(SIDE_A_ID, 0);
+		actuators.pickObject(SIDE_A_ID);
+		actuators.elevateObject(SIDE_A_ID, 3);
+
+		// drop pink0
+		movement.ExecuteSEMI(alpha0_GREEN, lidar);
+		actuators.delevateObject(SIDE_A_ID, 0);
+		actuators.releaseObject(SIDE_A_ID);
+		actuators.elevateObject(SIDE_A_ID, 2);
+		// goint to alpha1
+		movement.setSide(SIDE_BC);
+		movement.ExecuteSEMI(alpha1_GREEN, lidar);
+		// picking yellow with C
+		movement.setSide(SIDE_B);
+		actuators.releaseObject(SIDE_B_ID);
+		movement.ExecuteSEMIOFFSET(yellow0_GREEN, lidar);
+		actuators.delevateObject(SIDE_B_ID, 0);
+		actuators.pickObject(SIDE_B_ID);
+		actuators.elevateObject(SIDE_B_ID, 3);
+		// translate to MidPoint 0
+		movement.Execute(midPoint0_GREEN, lidar);
+		// picking brown with B
+		movement.setSide(SIDE_A);
+		actuators.delevateObject(SIDE_A_ID, 0);
+		actuators.releaseObject(SIDE_A_ID);
+		movement.ExecuteSEMIOFFSET(brown0_GREEN, lidar);
+		actuators.delevateObject(SIDE_A_ID, 0);
+		actuators.pickObject(SIDE_A_ID);
+		actuators.elevateObject(SIDE_A_ID, 3);
+		// picking brown1 with A
+		movement.setSide(SIDE_C);
+		actuators.releaseObject(SIDE_C_ID);
+		movement.ExecuteSEMIOFFSET(brown1_GREEN, lidar);
+		actuators.delevateObject(SIDE_C_ID, 0);
+		actuators.pickObject(SIDE_C_ID);
+		actuators.elevateObject(SIDE_C_ID, 3);
+		actuators.dropCherry();
+		// delay(100);
+		// go to delta0
+		movement.ExecuteSEMI(delta0_GREEN, lidar);
+		// deposit pink and yellow at center
+		movement.setSide(SIDE_AB);
+		movement.ExecuteSEMI(zoneCenter0_GREEN, lidar);
+
+		actuators.delevateObject(SIDE_A_ID, 0);
+		actuators.delevateObject(SIDE_B_ID, 0);
+		actuators.releaseObject(SIDE_A_ID);
+		actuators.releaseObject(SIDE_B_ID);
+		actuators.elevateObject(SIDE_A_ID, 3);
+		actuators.elevateObject(SIDE_B_ID, 3);
+		// deposit brown at delta1
+		movement.setSide(SIDE_C);
+		movement.ExecuteSEMI(delta0_GREEN, lidar);
+		movement.ExecuteSEMI(delta1_GREEN, lidar);
+		actuators.delevateObject(SIDE_C_ID, 0);
+		actuators.releaseObject(SIDE_C_ID);
+		actuators.elevateObject(SIDE_C_ID, 3);
+
+		movement.ExecuteSEMI(delta2_GREEN, lidar);
+		// return to delta0
+		movement.setSide(SIDE_AB);
+		movement.ExecuteSEMI(delta0_GREEN, lidar);
+		//**************************
+		// GO CLOSEST HOME
+		//***********************
+		movement.ExecuteSEMI(home1_GREEN, lidar);
+	}
+}
 // void Strategy::cookMeth(bool *lidar)
 // {
 // 	// Points of interest
