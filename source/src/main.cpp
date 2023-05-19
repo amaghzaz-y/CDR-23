@@ -44,8 +44,11 @@ void loop()
 	strategy.Ready();
 	ticker.start();
 	strategy.startStratD(&lidarStatus);
-	strategy.display.Show("SCORE", "30", "", "");
+	strategy.display.Show("SCORE", "45", "", "");
+	strategy.actuators.funnyAction();
 	while (1)
 		;
 	;
+	// strategy.actuators.dropCherryStream();
+	strategy.actuators.funnyAction();
 }

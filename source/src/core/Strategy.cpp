@@ -464,6 +464,8 @@ void Strategy::startStratB(bool *lidar)
 
 void Strategy::dropAllCherries()
 {
+	actuators.dropCherryStream();
+	delay(100);
 	movement.rotateTo(SIDE_CA);
 	movement.runSync();
 }
@@ -624,12 +626,11 @@ void Strategy::afterCalibration(bool *lidar)
 }
 void Strategy::startStratD(bool *lidar)
 {
-	// afterCalibration(lidar);
 	dropAllCherries();
 	Point2D zoneCenter0 = Point2D(2000, 1800);
 	Point2D home1 = Point2D(2900, 1200);
 	Point2D midPoint0 = Point2D(775, 1285);
-	Point2D alpha0 = Point2D(250, 1775);
+	Point2D alpha0 = Point2D(280, 1775);
 	Point2D alpha1 = Point2D(450, 1775);
 	Point2D delta0 = Point2D(2000, 1490);
 	Point2D delta1 = Point2D(2000, 1540);
@@ -679,7 +680,7 @@ void Strategy::startStratD(bool *lidar)
 		//***************************
 		// picking pink with A
 		movement.setSide(SIDE_A);
-		movement.Execute(Point2D(225, 1775), lidar);
+		// movement.Execute(Point2D(225, 1775), lidar);
 		actuators.releaseObject(SIDE_A_ID);
 		movement.ExecuteSEMIOFFSET(pink0, lidar);
 		actuators.delevateObject(SIDE_A_ID, 0);

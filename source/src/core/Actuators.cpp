@@ -281,6 +281,17 @@ void Actuators::elevateObject(int SIDE, int LEVEL)
 	}
 }
 
+void Actuators::funnyAction()
+{
+	// servoDriver.writeMicroseconds(SERVO_FUNNY_ACTION, 20000000000000000000000);
+	servoDriver.setPin(SERVO_FUNNY_ACTION, 4095);
+}
+
+void Actuators::dropCherryStream()
+{
+	servoDriver.writeMicroseconds(SERVO_CHERRY_DROP, 1900);
+}
+
 void Actuators::delevateObject(int SIDE, int LEVEL)
 {
 	if (LEVEL == 0)

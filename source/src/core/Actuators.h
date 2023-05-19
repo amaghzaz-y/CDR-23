@@ -24,6 +24,8 @@ const int SERVO_SIDE_C_U = 8;
 const int SERVO_CHERRY_A = 9;
 const int SERVO_CHERRY_B = 10;
 const int SERVO_CHERRY_C = 11;
+const int SERVO_CHERRY_DROP = 12;
+const int SERVO_FUNNY_ACTION = 13;
 
 const int SIDE_A_ID = 0;
 const int SIDE_B_ID = 1;
@@ -52,4 +54,6 @@ public:
 	void initCook();
 	void normalize();
 	void dropCherry();
+	void funnyAction();
+	void dropCherryStream();
 };
