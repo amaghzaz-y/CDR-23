@@ -35,10 +35,10 @@ void Actuators::releaseObject(int SIDE)
 {
 	if (SIDE == SIDE_A_ID)
 	{
-		for (uint16_t microsec = USMAX; microsec > USMIN; microsec--)
+		for (uint16_t microsec = (USMAX + 150); microsec > USMIN; microsec--)
 		{
 			servoDriver.writeMicroseconds(SERVO_SIDE_A_L, microsec);
-			servoDriver.writeMicroseconds(SERVO_SIDE_A_R, (USMAX - microsec) + 900);
+			servoDriver.writeMicroseconds(SERVO_SIDE_A_R, ((USMAX + 150) - microsec) + 720);
 		}
 		side_A_full = false;
 	}
@@ -211,7 +211,7 @@ void Actuators::elevateObject(int SIDE, int LEVEL)
 	{
 		if (SIDE == SIDE_A_ID)
 		{
-			for (uint16_t microsec = (US_LEVEL_0); microsec < (US_LEVEL_1 - 60); microsec++)
+			for (uint16_t microsec = (US_LEVEL_0); microsec < (US_LEVEL_1 + 150); microsec++)
 			{
 				servoDriver.writeMicroseconds(SERVO_SIDE_A_U, microsec);
 			}
@@ -235,7 +235,7 @@ void Actuators::elevateObject(int SIDE, int LEVEL)
 	{
 		if (SIDE == SIDE_A_ID)
 		{
-			for (uint16_t microsec = (US_LEVEL_1 - 60); microsec < (US_LEVEL_2 - 40); microsec++)
+			for (uint16_t microsec = (US_LEVEL_1 + 150); microsec < (US_LEVEL_2 + 250); microsec++)
 			{
 				servoDriver.writeMicroseconds(SERVO_SIDE_A_U, microsec);
 			}
@@ -259,7 +259,7 @@ void Actuators::elevateObject(int SIDE, int LEVEL)
 	{
 		if (SIDE == SIDE_A_ID)
 		{
-			for (uint16_t microsec = (US_LEVEL_2 - 40); microsec < (US_LEVEL_3 - 25); microsec++)
+			for (uint16_t microsec = (US_LEVEL_2 + 250); microsec < (US_LEVEL_3 + 300); microsec++)
 			{
 				servoDriver.writeMicroseconds(SERVO_SIDE_A_U, microsec);
 			}

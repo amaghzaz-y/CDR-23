@@ -680,7 +680,7 @@ void Strategy::startStratD(bool *lidar)
 		//***************************
 		// picking pink with A
 		movement.setSide(SIDE_A);
-		// movement.Execute(Point2D(225, 1775), lidar);
+		movement.Execute(Point2D(225, 1800), lidar); // 1775
 		actuators.releaseObject(SIDE_A_ID);
 		movement.ExecuteSEMIOFFSET(pink0, lidar);
 		actuators.delevateObject(SIDE_A_ID, 0);
