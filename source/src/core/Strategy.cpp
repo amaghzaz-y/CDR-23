@@ -465,7 +465,7 @@ void Strategy::startStratB(bool *lidar)
 void Strategy::dropAllCherries()
 {
 	actuators.dropCherryStream();
-	delay(100);
+	delay(2000);
 	movement.rotateTo(SIDE_CA);
 	movement.runSync();
 }
@@ -828,6 +828,7 @@ void Strategy::startStratD(bool *lidar)
 		//***********************
 		movement.ExecuteSEMI(home1_GREEN, lidar);
 	}
+	actuators.funnyAction();
 }
 // void Strategy::cookMeth(bool *lidar)
 // {

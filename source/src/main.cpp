@@ -31,7 +31,7 @@ void setup()
 {
 	Serial.begin(9600);
 	lidar.setup();
-	lidar.setMaxRange(300); // 300
+	lidar.setMaxRange(320); // 300
 	lidar.setRadius(360);
 	lidar.setAngle(180);
 	strategy.setup();
@@ -49,6 +49,4 @@ void loop()
 	while (1)
 		;
 	;
-	// strategy.actuators.dropCherryStream();
-	strategy.actuators.funnyAction();
 }
