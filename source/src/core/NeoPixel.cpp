@@ -23,8 +23,8 @@ void NeoPixel::changeColor(int color)
 		for (int i = 0; i < NUM_LEDS; i++)
 		{
 			leds[i] = CRGB::Red;
-			FastLED.show();
 		}
+		FastLED.show();
 	}
 	if (color == 1)
 	{

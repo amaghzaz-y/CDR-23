@@ -35,7 +35,7 @@ void Actuators::releaseObject(int SIDE)
 {
 	if (SIDE == SIDE_A_ID)
 	{
-		for (uint16_t microsec = (USMAX + 150); microsec > USMIN; microsec--)
+		for (uint16_t microsec = (USMAX + 150); microsec > 1300; microsec--)
 		{
 			servoDriver.writeMicroseconds(SERVO_SIDE_A_L, microsec);
 			servoDriver.writeMicroseconds(SERVO_SIDE_A_R, ((USMAX + 150) - microsec) + 720);
@@ -44,7 +44,7 @@ void Actuators::releaseObject(int SIDE)
 	}
 	if (SIDE == SIDE_B_ID)
 	{
-		for (uint16_t microsec = (USMAX + 150); microsec > USMIN; microsec--)
+		for (uint16_t microsec = (USMAX + 150); microsec > 1300; microsec--)
 		{
 			servoDriver.writeMicroseconds(SERVO_SIDE_B_L, microsec);
 			servoDriver.writeMicroseconds(SERVO_SIDE_B_R, ((USMAX + 150) - microsec) + 720);
@@ -53,7 +53,7 @@ void Actuators::releaseObject(int SIDE)
 	}
 	if (SIDE == SIDE_C_ID)
 	{
-		for (uint16_t microsec = (USMAX + 150); microsec > USMIN; microsec--)
+		for (uint16_t microsec = (USMAX + 150); microsec > 1300; microsec--)
 		{
 			servoDriver.writeMicroseconds(SERVO_SIDE_C_L, microsec);
 			servoDriver.writeMicroseconds(SERVO_SIDE_C_R, ((USMAX + 150) - microsec) + 720);
