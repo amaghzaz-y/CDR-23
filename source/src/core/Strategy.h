@@ -53,6 +53,9 @@ public:
 	void startStratB(bool *lidar);
 	void startStratC(bool *lidar);
 	void startStratD(bool *lidar);
+	// demo for normal strategy
+	void Demo2(bool *lidar);
+	void Demo1(bool *lidar);
 	void cookMeth(bool *lidar);
 	void afterCalibration(bool *lidar);
 	void Homologuation(bool *lidar);

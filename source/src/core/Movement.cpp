@@ -326,8 +326,8 @@ void Movement::Calibrate()
 		calibrated = true;
 		currentPoint = TEAM_A_HOME;
 		// cherries
-		rotateTo(SIDE_AB);
-		runSync();
+		// rotateTo(SIDE_AB);
+		// runSync();
 	}
 	else if (team == 1)
 	{
@@ -348,8 +348,8 @@ void Movement::Calibrate()
 		// cherries
 		// cherries
 
-		rotateTo(SIDE_AB);
-		runSync();
+		// rotateTo(SIDE_AB);
+		// runSync();
 	}
 }
 
