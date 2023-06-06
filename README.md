@@ -1,5 +1,5 @@
 # CDR-23 Robot
-This repository is for a robot being built at UniMakers Club for the EurobotOpen 2023 competition that will be held on May 23.
+This repository is for a robot being built at UniMakers Club for the EurobotOpen 2023 competition that was held on May 23.
 
 EurobotOpen is an amateur robotics competition open to young people, and the common objectives are to allow young people to be the actors of their learning and to put into practice their knowledge, skills, and attitudes by participating in a fun and friendly event.
 The technical challenge is to build an autonomous robot as well as an optional secondary autonomous robot.

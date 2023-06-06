@@ -839,9 +839,9 @@ void Strategy::Demo1(bool *lidar)
 	Point2D alpha0 = Point2D(280, 1775);
 	Point2D alpha1 = Point2D(450, 1775);
 	// increase X of deltas to increase offset
-	Point2D delta0 = Point2D(1125, 510);
-	Point2D delta1 = Point2D(1125, 410);
-	Point2D delta2 = Point2D(1125, 310);
+	Point2D delta0 = Point2D(1200, 510); // 1125
+	Point2D delta1 = Point2D(1200, 410);
+	Point2D delta2 = Point2D(1200, 310);
 
 	Point2D pink0 = Point2D(575, 1775);
 	Point2D yellow0 = Point2D(775, 1775);
@@ -853,9 +853,9 @@ void Strategy::Demo1(bool *lidar)
 	Point2D home1_GREEN = Point2D(225, 225);
 	Point2D alpha0_GREEN = Point2D(280, 225);
 	Point2D alpha1_GREEN = Point2D(450, 225);
-	Point2D delta0_GREEN = Point2D(1125, 1490);
-	Point2D delta1_GREEN = Point2D(1125, 1590);
-	Point2D delta2_GREEN = Point2D(1125, 1690);
+	Point2D delta0_GREEN = Point2D(1200, 1490);
+	Point2D delta1_GREEN = Point2D(1200, 1590);
+	Point2D delta2_GREEN = Point2D(1200, 1690);
 	Point2D pink0_GREEN = Point2D(575, 225);
 	Point2D yellow0_GREEN = Point2D(775, 225);
 	Point2D brown0_GREEN = Point2D(1125, 725);

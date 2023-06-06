@@ -84,11 +84,11 @@ bool Actuators::isObjectPicked(int SIDE)
 
 void Actuators::dropCherry()
 {
-	servoDriver.writeMicroseconds(SERVO_CHERRY_A, 1200);
+	servoDriver.writeMicroseconds(SERVO_CHERRY_A, 2400);
 	delay(20);
-	servoDriver.writeMicroseconds(SERVO_CHERRY_B, 1200);
+	servoDriver.writeMicroseconds(SERVO_CHERRY_B, 2400);
 	delay(20);
-	servoDriver.writeMicroseconds(SERVO_CHERRY_C, 1200);
+	servoDriver.writeMicroseconds(SERVO_CHERRY_C, 2400);
 	delay(20);
 }
 void Actuators::setup()
